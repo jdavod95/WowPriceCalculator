@@ -23,28 +23,41 @@ public class ResourceDaoImplTests {
     private ResourceDaoImpl underTest;
 
     @Test
-    public void testThatCreateAuthorGeneratesCorrectSQL() {
-        Resource resource = TestDataUtil.createTestResource();
+    public void testThatCreateResourceGeneratesCorrectSQL() {
+        Resource resource = TestDataUtil.createTestResourceA();
 
         underTest.create(resource);
 
-        verify(jdbcTemplate)
-                .update(
-                        eq("INSERT INTO resource (id, name, on_stock) VALUES (?, ?, ?)"),
-                        eq(1L), eq("Dracothyst"), eq(0)
-                );
+        verify(jdbcTemplate).update(eq("INSERT INTO resource (id, name, on_stock) VALUES (?, ?, ?)"), eq(1L), eq("Dracothyst"), eq(0));
     }
 
     @Test
     public void testThatFindOneGeneratesCorrectSQL() {
         underTest.findOne(1L);
 
-        verify(jdbcTemplate)
-                .query(
-                        eq("SELECT id, name, on_stock FROM resource WHERE id = ? LIMIT 1"),
-                        ArgumentMatchers.<ResourceDaoImpl.ResourceRowMapper>any(),
-                        eq(1L)
-                );
+        verify(jdbcTemplate).query(eq("SELECT id, name, on_stock FROM resource WHERE id = ? LIMIT 1"), ArgumentMatchers.<ResourceDaoImpl.ResourceRowMapper>any(), eq(1L));
+    }
+
+    @Test
+    public void testThatFindManyGeneratesCorrectSQL() {
+        underTest.find();
+        verify(jdbcTemplate).query(
+                eq("SELECT id, name, on_stock FROM resource"),
+                ArgumentMatchers.<ResourceDaoImpl.ResourceRowMapper>any());
+    }
+
+    @Test
+    public void testThatUpdateGeneratesCorrectSQL(){
+        Resource resource = TestDataUtil.createTestResourceA();
+        underTest.update(resource, 2);
+
+        verify(jdbcTemplate).update(
+                "UPDATE resource SET id = ?, name = ?, on_stock = ? WHERE id = ?",
+                1L,
+                "Dracothyst",
+                2,
+                1L
+        );
     }
 
 }

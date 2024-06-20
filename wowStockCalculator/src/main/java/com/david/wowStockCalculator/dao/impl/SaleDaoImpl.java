@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,6 +39,24 @@ public class SaleDaoImpl implements SaleDao {
                 new SaleDaoImpl.SaleRowMapper(), saleId);
 
         return results.stream().findFirst();
+    }
+
+    @Override
+    public List<Sale> find() {
+        return jdbcTemplate.query("SELECT id, date, resource_id, amount, cost FROM sale",
+                new SaleDaoImpl.SaleRowMapper());
+    }
+
+    @Override
+    public void update(Sale sale, int cost) {
+        jdbcTemplate.update("UPDATE sale SET id = ?, date = ?, resource_id = ?, amount = ?, cost = ? WHERE id = ?",
+                sale.getId(),
+                sale.getDate(),
+                sale.getResourceId(),
+                sale.getAmount(),
+                cost,
+                sale.getId()
+            );
     }
 
     public static class SaleRowMapper implements RowMapper<Sale> {

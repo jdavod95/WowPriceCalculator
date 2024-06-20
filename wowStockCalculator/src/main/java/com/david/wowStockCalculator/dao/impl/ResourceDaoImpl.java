@@ -33,10 +33,26 @@ public class ResourceDaoImpl implements ResourceDao {
     @Override
     public Optional<Resource> findOne(long resourceId) {
         List<Resource> results = jdbcTemplate.query(
-                "SELECT id, name, on_stock FROM resource WHERE id = ? LIMIT 1",
-                    new ResourceRowMapper(), resourceId);
+            "SELECT id, name, on_stock FROM resource WHERE id = ? LIMIT 1",
+                new ResourceRowMapper(), resourceId);
 
         return results.stream().findFirst();
+    }
+
+    @Override
+    public List<Resource> find() {
+        return jdbcTemplate.query(
+                "SELECT id, name, on_stock FROM resource",
+                new ResourceRowMapper());
+    }
+
+    @Override
+    public void update(Resource resource, int onStock) {
+        jdbcTemplate.update("UPDATE resource SET id = ?, name = ?, on_stock = ? WHERE id = ?",
+            resource.getId(),
+            resource.getName(),
+            onStock,
+            resource.getId());
     }
 
     public static class ResourceRowMapper implements RowMapper<Resource> {

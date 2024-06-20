@@ -1,7 +1,10 @@
 package com.david.wowStockCalculator.dao.impl;
 
 import com.david.wowStockCalculator.TestDataUtil;
+import com.david.wowStockCalculator.dao.ResourceDao;
+import com.david.wowStockCalculator.domain.Resource;
 import com.david.wowStockCalculator.domain.Sale;
+import org.assertj.core.util.DateUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
@@ -25,16 +28,27 @@ public class SaleDaoImplTests {
     private SaleDaoImpl underTest;
 
     @Test
-    public void testThatCreateAuthorGeneratesCorrectSQL(){
-        Date now = new Date();
-        Sale sale = TestDataUtil.createTestSale(now);
+    public void testThatCreateSaleGeneratesCorrectSQL(){
+        Date now = DateUtil.truncateTime(DateUtil.now());
+        Sale sale = Sale.builder()
+                .id(1L)
+                .date(now)
+                .resourceId(1L)
+                .amount(1)
+                .cost(1)
+                .build();
+        //TestDataUtil.createTestSaleA(now);
 
         underTest.create(sale);
 
         verify(jdbcTemplate)
                 .update(
-                        eq("INSERT INTO sale (id, date, resource_id, amount, cost) VALUES(?, ?, ?, ?, ?)"),
-                        eq(1L), eq(now), eq(1L), eq(1), eq(1)
+                        eq("INSERT INTO sale (id, date, resource_id, amount, cost) VALUES (?, ?, ?, ?, ?)"),
+                        eq(1L),
+                        eq(now),
+                        eq(1L),
+                        eq(1),
+                        eq(1)
                 );
     }
 
@@ -48,5 +62,21 @@ public class SaleDaoImplTests {
                         ArgumentMatchers.<SaleDaoImpl.SaleRowMapper>any(),
                         eq(1L)
                 );
+    }
+
+    @Test
+    public void testThatUpdateGeneratesCorrectSQL(){
+        Sale sale = TestDataUtil.createTestSaleA();
+        underTest.update(sale, 10);
+
+        verify(jdbcTemplate).update(
+                "UPDATE sale SET id = ?, date = ?, resource_id = ?, amount = ?, cost = ? WHERE id = ?",
+                sale.getId(),
+                sale.getDate(),
+                sale.getResourceId(),
+                sale.getAmount(),
+                10,
+                sale.getId()
+        );
     }
 }
