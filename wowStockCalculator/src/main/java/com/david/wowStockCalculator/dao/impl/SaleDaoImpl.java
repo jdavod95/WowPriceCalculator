@@ -59,6 +59,12 @@ public class SaleDaoImpl implements SaleDao {
             );
     }
 
+    @Override
+    public void delete(Long id) {
+        jdbcTemplate.update("DELETE FROM sale WHERE id = ?",
+                id);
+    }
+
     public static class SaleRowMapper implements RowMapper<Sale> {
 
         @Override

@@ -62,4 +62,15 @@ public class ResourceDaoImplIntegrationTests {
         Assertions.assertThat(result).isPresent();
         Assertions.assertThat(result.get()).isEqualTo(resourceA);
     }
+
+    @Test
+    public void testThatResourceCanBeDeleted(){
+        Resource resourceA = TestDataUtil.createTestResourceA();
+        underTest.create(resourceA);
+
+        underTest.delete(resourceA.getId());
+
+        Optional<Resource> result = underTest.findOne(resourceA.getId());
+        Assertions.assertThat(result).isEmpty();
+    }
 }

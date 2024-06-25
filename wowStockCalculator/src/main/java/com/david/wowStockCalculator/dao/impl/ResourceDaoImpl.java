@@ -55,6 +55,12 @@ public class ResourceDaoImpl implements ResourceDao {
             resource.getId());
     }
 
+    @Override
+    public void delete(Long id) {
+        jdbcTemplate.update("DELETE FROM resource WHERE id = ?",
+                id);
+    }
+
     public static class ResourceRowMapper implements RowMapper<Resource> {
 
         @Override

@@ -15,4 +15,6 @@ public interface SaleDao {
     List<Sale> find();
 
     void update(Sale sale, int cost);
+
+    void delete(Long id);
 }

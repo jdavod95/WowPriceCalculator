@@ -79,4 +79,15 @@ public class SaleDaoImplTests {
                 sale.getId()
         );
     }
+
+    @Test
+    public void testThatDeleteGeneratesCorrectSQL(){
+        Sale sale = TestDataUtil.createTestSaleA();
+        underTest.delete(sale.getId());
+
+        verify(jdbcTemplate).update(
+                "DELETE FROM sale WHERE id = ?",
+                sale.getId()
+        );
+    }
 }

@@ -60,4 +60,15 @@ public class ResourceDaoImplTests {
         );
     }
 
+    @Test
+    public void testThatDeleteGeneratesCorrectSQL(){
+        Resource resource = TestDataUtil.createTestResourceA();
+        underTest.delete(resource.getId());
+
+        verify(jdbcTemplate).update(
+            "DELETE FROM resource WHERE id = ?",
+                resource.getId()
+        );
+    }
+
 }

@@ -14,4 +14,6 @@ public interface ResourceDao {
     List<Resource> find();
 
     void update(Resource resource, int onStock);
+
+    void delete(Long id);
 }

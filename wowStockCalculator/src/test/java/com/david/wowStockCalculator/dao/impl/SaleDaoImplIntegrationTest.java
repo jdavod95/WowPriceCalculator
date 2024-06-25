@@ -5,7 +5,6 @@ import com.david.wowStockCalculator.dao.ResourceDao;
 import com.david.wowStockCalculator.domain.Resource;
 import com.david.wowStockCalculator.domain.Sale;
 import org.assertj.core.api.Assertions;
-import org.assertj.core.util.DateUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,5 +83,20 @@ public class SaleDaoImplIntegrationTest {
 
         Assertions.assertThat(result).isPresent();
         Assertions.assertThat(result.get()).isEqualTo(sale);
+    }
+
+    @Test
+    public void testThatSaleCanBeDeleted(){
+        Resource resourceA = TestDataUtil.createTestResourceA();
+        resourceDao.create(resourceA);
+
+        Sale sale = TestDataUtil.createTestSaleA();
+        sale.setResourceId(resourceA.getId());
+        underTest.create(sale);
+
+        underTest.delete(sale.getId());
+
+        Assertions.assertThat(underTest.findOne(sale.getId())).isEmpty();
+        Assertions.assertThat(resourceDao.findOne(resourceA.getId())).isPresent();
     }
 }
