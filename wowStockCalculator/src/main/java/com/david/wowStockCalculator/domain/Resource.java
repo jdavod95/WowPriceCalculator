@@ -1,16 +1,18 @@
 package com.david.wowStockCalculator.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Entity
+@Table(name = "resource")
 public class Resource {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "resource_id_seq")
     private Long id;
 
     private String name;
@@ -18,4 +20,3 @@ public class Resource {
     private Integer onStock;
 
 }
-

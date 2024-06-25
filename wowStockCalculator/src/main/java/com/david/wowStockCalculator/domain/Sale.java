@@ -1,10 +1,9 @@
 package com.david.wowStockCalculator.domain;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -12,13 +11,20 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Entity
+@Table(name = "sale")
 public class Sale {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sale_id_seq")
     private Long id;
 
-    private Date date;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "resource_id")
+    private Resource resource;
 
-    private Long resourceId;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private String date;
 
     private Integer amount;
 

@@ -1,4 +1,4 @@
-package com.david.wowStockCalculator.dao.impl;
+package com.david.wowStockCalculator.repositories;
 
 import com.david.wowStockCalculator.TestDataUtil;
 import com.david.wowStockCalculator.domain.Resource;
@@ -10,26 +10,25 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class ResourceDaoImplIntegrationTests {
+public class ResourceRepositoryIntegrationTests {
 
-    private ResourceDaoImpl underTest;
+    private ResourceRepository underTest;
 
     @Autowired
-    public ResourceDaoImplIntegrationTests(ResourceDaoImpl underTest) {
+    public ResourceRepositoryIntegrationTests(ResourceRepository underTest) {
         this.underTest = underTest;
     }
 
     @Test
     public void testThatResourceCanBeCreatedAndRecalled(){
         Resource resource = TestDataUtil.createTestResourceA();
-        underTest.create(resource);
-        Optional<Resource> result = underTest.findOne(resource.getId());
+        underTest.save(resource);
+        Optional<Resource> result = underTest.findById(resource.getId());
         Assertions.assertThat(result).isPresent();
         Assertions.assertThat(result.get()).isEqualTo(resource);
     }
@@ -39,10 +38,10 @@ public class ResourceDaoImplIntegrationTests {
         Resource resourceA = TestDataUtil.createTestResourceA();
         Resource resourceB = TestDataUtil.createTestResourceB();
 
-        underTest.create(resourceA);
-        underTest.create(resourceB);
+        underTest.save(resourceA);
+        underTest.save(resourceB);
 
-        List<Resource> result = underTest.find();
+        Iterable<Resource> result = underTest.findAll();
 
         Assertions.assertThat(result)
                 .hasSize(2)
@@ -53,11 +52,11 @@ public class ResourceDaoImplIntegrationTests {
     @Test
     public void testThatResourceCanBeUpdated(){
         Resource resourceA = TestDataUtil.createTestResourceA();
-        underTest.create(resourceA);
+        underTest.save(resourceA);
 
         resourceA.setOnStock(2);
-        underTest.update(resourceA, 2);
-        Optional<Resource> result = underTest.findOne(resourceA.getId());
+        underTest.save(resourceA);
+        Optional<Resource> result = underTest.findById(resourceA.getId());
 
         Assertions.assertThat(result).isPresent();
         Assertions.assertThat(result.get()).isEqualTo(resourceA);
@@ -66,11 +65,11 @@ public class ResourceDaoImplIntegrationTests {
     @Test
     public void testThatResourceCanBeDeleted(){
         Resource resourceA = TestDataUtil.createTestResourceA();
-        underTest.create(resourceA);
+        underTest.save(resourceA);
 
-        underTest.delete(resourceA.getId());
+        underTest.delete(resourceA);
 
-        Optional<Resource> result = underTest.findOne(resourceA.getId());
+        Optional<Resource> result = underTest.findById(resourceA.getId());
         Assertions.assertThat(result).isEmpty();
     }
 }
