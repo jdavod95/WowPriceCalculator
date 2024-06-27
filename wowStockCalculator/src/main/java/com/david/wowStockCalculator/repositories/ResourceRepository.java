@@ -1,6 +1,6 @@
 package com.david.wowStockCalculator.repositories;
 
-import com.david.wowStockCalculator.domain.Resource;
+import com.david.wowStockCalculator.domain.entities.Resource;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

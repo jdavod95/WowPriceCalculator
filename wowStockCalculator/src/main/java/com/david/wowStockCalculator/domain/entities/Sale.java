@@ -1,6 +1,7 @@
-package com.david.wowStockCalculator.domain;
+package com.david.wowStockCalculator.domain.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -11,6 +12,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Builder
 @Entity
 @Table(name = "sale")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Sale {
 
     @Id
@@ -21,6 +23,7 @@ public class Sale {
     @JoinColumn(name = "resource_id")
     private Resource resource;
 
+    //@JsonProperty("timeOfSale")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private String date;
 

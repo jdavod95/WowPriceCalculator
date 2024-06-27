@@ -1,16 +1,11 @@
 package com.david.wowStockCalculator;
 
-import com.david.wowStockCalculator.domain.Resource;
-import com.david.wowStockCalculator.domain.Sale;
-import org.assertj.core.util.DateUtil;
+import com.david.wowStockCalculator.domain.entities.Resource;
+import com.david.wowStockCalculator.domain.entities.Sale;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Date;
 
 public final class TestDataUtil {
 

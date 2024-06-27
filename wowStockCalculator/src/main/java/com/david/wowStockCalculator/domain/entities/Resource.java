@@ -1,4 +1,4 @@
-package com.david.wowStockCalculator.domain;
+package com.david.wowStockCalculator.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -18,5 +18,6 @@ public class Resource {
     private String name;
 
     private Integer onStock;
+
 
 }

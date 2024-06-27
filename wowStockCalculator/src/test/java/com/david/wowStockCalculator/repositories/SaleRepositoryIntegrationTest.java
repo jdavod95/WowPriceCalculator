@@ -1,8 +1,8 @@
 package com.david.wowStockCalculator.repositories;
 
 import com.david.wowStockCalculator.TestDataUtil;
-import com.david.wowStockCalculator.domain.Resource;
-import com.david.wowStockCalculator.domain.Sale;
+import com.david.wowStockCalculator.domain.entities.Resource;
+import com.david.wowStockCalculator.domain.entities.Sale;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
