@@ -61,8 +61,11 @@ public final class TestDataUtil {
                 .build();
     }
 
-    private static String getNow() {
+    public static String getNow() {
         return LocalDate.now().format(DateTimeFormatter.ISO_DATE);
     }
 
+    public static String getYesterday() {
+        return LocalDate.now().minusDays(1).format(DateTimeFormatter.ISO_DATE);
+    }
 }

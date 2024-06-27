@@ -76,7 +76,6 @@ public class SaleRepositoryIntegrationTest {
     @Test
     public void testThatSaleCanBeDeleted(){
         Resource resourceA = TestDataUtil.createTestResourceA();
-
         Sale sale = TestDataUtil.createTestSaleA(resourceA);
 
         underTest.save(sale);
@@ -84,5 +83,18 @@ public class SaleRepositoryIntegrationTest {
 
         Assertions.assertThat(underTest.findById(sale.getId())).isEmpty();
         Assertions.assertThat(resources.findById(resourceA.getId())).isPresent();
+    }
+
+    @Test
+    public void testThatSaleDateAfter(){
+        Resource resourceA = TestDataUtil.createTestResourceA();
+        Sale saleA = TestDataUtil.createTestSaleA(resourceA);
+        Sale saleB = TestDataUtil.createTestSaleB(resourceA);
+
+        underTest.save(saleA);
+        underTest.save(saleB);
+
+        Iterable<Sale> result = underTest.findSalesAfterYesterday(TestDataUtil.getYesterday());
+        Assertions.assertThat(result).containsExactly(saleA, saleB);
     }
 }
