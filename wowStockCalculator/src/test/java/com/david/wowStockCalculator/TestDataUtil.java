@@ -21,7 +21,7 @@ public final class TestDataUtil {
         return Resource.builder()
                 .id(1L)
                 .name("Dracothyst")
-                .onStock(0)
+                .onStock(1)
                 .build();
     }
 
@@ -29,6 +29,14 @@ public final class TestDataUtil {
         return Resource.builder()
                 .id(2L)
                 .name("Zaralek Glowspore")
+                .onStock(300)
+                .build();
+    }
+
+    public static Resource createTestResourceC() {
+        return Resource.builder()
+                .id(3L)
+                .name("Sliken Gemdust")
                 .onStock(0)
                 .build();
     }
@@ -56,4 +64,5 @@ public final class TestDataUtil {
     private static String getNow() {
         return LocalDate.now().format(DateTimeFormatter.ISO_DATE);
     }
+
 }
