@@ -2,6 +2,8 @@ package com.david.wowStockCalculator.controllers;
 
 import com.david.wowStockCalculator.TestDataUtil;
 import com.david.wowStockCalculator.domain.entities.Resource;
+import com.david.wowStockCalculator.domain.entities.Sale;
+import com.david.wowStockCalculator.services.ResourceService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,15 +24,15 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 public class ResourceControllerIntegrationTest {
 
     private MockMvc mockMvc;
-
     private ObjectMapper objectMapper;
+    private ResourceService resourceService;
 
     @Autowired
-    public ResourceControllerIntegrationTest(MockMvc mockMvc, ObjectMapper objectMapper) {
+    public ResourceControllerIntegrationTest(MockMvc mockMvc, ObjectMapper objectMapper, ResourceService resourceService) {
         this.mockMvc = mockMvc;
         this.objectMapper = objectMapper;
+        this.resourceService = resourceService;
     }
-
 
     @Test
     public void testThatCreateResourceSuccessfullyReturnsHttp201Created() throws Exception {
@@ -49,7 +51,7 @@ public class ResourceControllerIntegrationTest {
 
     @Test
     public void testThatCreateResourceSuccessfullyReturnsHttpSavedResource() throws Exception {
-        Resource resource =TestDataUtil.createTestResourceA();
+        Resource resource = TestDataUtil.createTestResourceA();
         resource.setId(null);
         String resourceJson = objectMapper.writeValueAsString(resource);
 
@@ -57,6 +59,70 @@ public class ResourceControllerIntegrationTest {
                 MockMvcRequestBuilders.post("/resources")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(resourceJson)
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.id").isNumber()
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.name").value(resource.getName())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.onStock").value(resource.getOnStock())
+        );
+    }
+
+    @Test
+    public void testThatListResourceReturnsHttp200() throws Exception {
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/resources")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isOk()
+        );
+    }
+
+    @Test
+    public void testThatListResourceReturnsListOfResources() throws Exception {
+        Resource resource = TestDataUtil.createTestResourceA();
+        resourceService.createResource(resource);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/resources")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].id").isNumber()
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].name").value(resource.getName())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].onStock").value(resource.getOnStock())
+        );
+    }
+
+    @Test
+    public void testThatGetResourceReturnsCorrectResponseCodes() throws Exception {
+        Resource resource = TestDataUtil.createTestResourceA();
+        resourceService.createResource(resource);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/resources/" + resource.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isOk()
+        );
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/resources/99")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isNotFound()
+        );
+    }
+
+    @Test
+    public void testThatGetResourceReturnsResource() throws Exception {
+        Resource resource = TestDataUtil.createTestResourceA();
+        resourceService.createResource(resource);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/resources/" + resource.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.id").isNumber()
         ).andExpect(

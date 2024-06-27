@@ -3,6 +3,10 @@ package com.david.wowStockCalculator.controllers;
 import com.david.wowStockCalculator.TestDataUtil;
 import com.david.wowStockCalculator.domain.dto.ResourceDto;
 import com.david.wowStockCalculator.domain.dto.SaleDto;
+import com.david.wowStockCalculator.domain.entities.Resource;
+import com.david.wowStockCalculator.domain.entities.Sale;
+import com.david.wowStockCalculator.services.ResourceService;
+import com.david.wowStockCalculator.services.SaleService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -10,6 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -25,11 +30,15 @@ public class SaleControllerIntegrationTests {
 
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
+    private ResourceService resourceService;
+    private SaleService saleService;
 
     @Autowired
-    public SaleControllerIntegrationTests(MockMvc mockMvc, ObjectMapper objectMapper) {
+    public SaleControllerIntegrationTests(MockMvc mockMvc, ObjectMapper objectMapper, ResourceService resourceService, SaleService saleService) {
         this.mockMvc = mockMvc;
         this.objectMapper = objectMapper;
+        this.resourceService = resourceService;
+        this.saleService = saleService;
     }
 
     @Test
@@ -75,6 +84,79 @@ public class SaleControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$.id").value(saleDto.getId())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.amount").value(saleDto.getAmount())
+        );
+    }
+
+    @Test
+    public void testThatListSaleReturnsHttp200() throws Exception {
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/sales")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isOk()
+        );
+    }
+
+    @Test
+    public void testThatListSaleReturnsListOfSales() throws Exception {
+        Resource resource = TestDataUtil.createTestResourceA();
+        resourceService.createResource(resource);
+
+        Sale sale = TestDataUtil.createTestSaleA(resource);
+        saleService.createSale(resource.getId(), sale);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/sales")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].id").isNumber()
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].date").value(sale.getDate())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].resource.id").isNumber()
+        );
+    }
+
+    @Test
+    public void testThatGetSaleReturnsCorrectResponseCodes() throws Exception {
+        Resource resource = TestDataUtil.createTestResourceA();
+        resourceService.createResource(resource);
+
+        Sale sale = TestDataUtil.createTestSaleA(resource);
+        saleService.createSale(resource.getId(), sale);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/sales/" + sale.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isOk()
+        );
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/sales/99")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isNotFound()
+        );
+    }
+
+    @Test
+    public void testThatGetSaleReturnsSale() throws Exception {
+        Resource resource = TestDataUtil.createTestResourceA();
+        resourceService.createResource(resource);
+
+        Sale sale = TestDataUtil.createTestSaleA(resource);
+        saleService.createSale(resource.getId(), sale);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/sales/" + sale.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.id").isNumber()
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.date").value(sale.getDate())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.resource.id").isNumber()
         );
     }
 }
