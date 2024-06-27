@@ -5,7 +5,8 @@ import com.david.wowStockCalculator.domain.dto.ResourceDto;
 import com.david.wowStockCalculator.mappers.Mapper;
 import com.david.wowStockCalculator.services.ResourceService;
 import lombok.extern.java.Log;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,11 +33,11 @@ public class ResourceController {
     }
 */
     @PostMapping(path = "/resources")
-    public ResourceDto createResource(@RequestBody final ResourceDto resource){
+    public ResponseEntity<ResourceDto> createResource(@RequestBody final ResourceDto resource){
         Resource resourceEntity = resourceMapper.mapFrom(resource);
         Resource savedResource = resourceService.createResource(resourceEntity);
 
-        return resourceMapper.mapTo(savedResource);
+        return new ResponseEntity<>(resourceMapper.mapTo(savedResource), HttpStatus.CREATED);
     }
 
 

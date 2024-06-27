@@ -1,5 +1,7 @@
 package com.david.wowStockCalculator;
 
+import com.david.wowStockCalculator.domain.dto.ResourceDto;
+import com.david.wowStockCalculator.domain.dto.SaleDto;
 import com.david.wowStockCalculator.domain.entities.Resource;
 import com.david.wowStockCalculator.domain.entities.Sale;
 
@@ -53,6 +55,24 @@ public final class TestDataUtil {
                 .resource(resource)
                 .amount(300)
                 .cost(2)
+                .build();
+    }
+
+    public static SaleDto createTestSaleDtoA(final ResourceDto resourceDto) {
+        return SaleDto.builder()
+                .id(1L)
+                .date(getNow())
+                .resource(resourceDto)
+                .amount(1)
+                .cost(1)
+                .build();
+    }
+
+    public static ResourceDto createTestResourceDtoA() {
+        return ResourceDto.builder()
+                .id(1L)
+                .name("Dracothyst")
+                .onStock(1)
                 .build();
     }
 

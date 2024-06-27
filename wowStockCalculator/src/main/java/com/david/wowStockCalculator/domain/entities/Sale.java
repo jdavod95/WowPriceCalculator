@@ -4,6 +4,8 @@ package com.david.wowStockCalculator.domain.entities;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Data
@@ -23,8 +25,8 @@ public class Sale {
     @JoinColumn(name = "resource_id")
     private Resource resource;
 
-    //@JsonProperty("timeOfSale")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @CreatedDate
     private String date;
 
     private Integer amount;

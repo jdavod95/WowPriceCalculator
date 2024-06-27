@@ -19,5 +19,7 @@ public class Resource {
 
     private Integer onStock;
 
-
+    public void addToStock(Integer amount){
+        onStock += amount;
+    };
 }
