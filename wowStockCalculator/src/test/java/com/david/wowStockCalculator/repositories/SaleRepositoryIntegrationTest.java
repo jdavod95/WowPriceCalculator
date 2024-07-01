@@ -29,7 +29,7 @@ public class SaleRepositoryIntegrationTest {
     }
 
     @Test
-    public void testThatSaleCanBeCratedAndRecalled() {
+    public void testThatSaleCanBeCreatedAndRecalled() {
         Resource resourceA = TestDataUtil.createTestResourceA();
 
         Sale sale = TestDataUtil.createTestSaleA(resourceA);

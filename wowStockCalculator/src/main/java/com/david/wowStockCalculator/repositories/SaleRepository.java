@@ -12,4 +12,7 @@ public interface SaleRepository extends CrudRepository<Sale, Long>,
 
     @Query("SELECT a FROM Sale a WHERE a.date > ?1")
     Iterable<Sale> findSalesAfterYesterday(String yesterday);
+
+    @Query("SELECT a FROM Sale a WHERE a.resource.id = ?1")
+    Iterable<Sale> findAllByResourceId(Long resourceId);
 }

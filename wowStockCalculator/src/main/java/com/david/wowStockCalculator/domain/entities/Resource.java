@@ -2,6 +2,7 @@ package com.david.wowStockCalculator.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,9 +21,6 @@ public class Resource {
     private String name;
 
     private Integer onStock;
-
-    @OneToMany(mappedBy = "resource", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Sale> sales;
 
     public void addToStock(Integer amount){
         onStock += amount;

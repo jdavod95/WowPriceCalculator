@@ -47,7 +47,7 @@ public class SaleControllerIntegrationTests {
         ResourceDto resourceDto = TestDataUtil.createTestResourceDtoA();
 
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/resources")
+                MockMvcRequestBuilders.put("/resources")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(resourceDto))
         ).andExpect(
@@ -69,7 +69,7 @@ public class SaleControllerIntegrationTests {
         ResourceDto resourceDto = TestDataUtil.createTestResourceDtoA();
 
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/resources")
+                MockMvcRequestBuilders.put("/resources")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(resourceDto))
         ).andExpect(
@@ -109,11 +109,11 @@ public class SaleControllerIntegrationTests {
                 MockMvcRequestBuilders.get("/sales")
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$[0].id").isNumber()
+                MockMvcResultMatchers.jsonPath("$.content[0].id").isNumber()
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$[0].date").value(sale.getDate())
+                MockMvcResultMatchers.jsonPath("$.content[0].date").value(sale.getDate())
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$[0].resource.id").isNumber()
+                MockMvcResultMatchers.jsonPath("$.content[0].resource.id").isNumber()
         );
     }
 

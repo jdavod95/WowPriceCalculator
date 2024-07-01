@@ -5,6 +5,7 @@ import com.david.wowStockCalculator.domain.dto.ResourceDto;
 import com.david.wowStockCalculator.domain.entities.Resource;
 import com.david.wowStockCalculator.domain.entities.Sale;
 import com.david.wowStockCalculator.services.ResourceService;
+import com.david.wowStockCalculator.services.SaleService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,12 +28,14 @@ public class ResourceControllerIntegrationTest {
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
     private ResourceService resourceService;
+    private SaleService saleService;
 
     @Autowired
-    public ResourceControllerIntegrationTest(MockMvc mockMvc, ObjectMapper objectMapper, ResourceService resourceService) {
+    public ResourceControllerIntegrationTest(MockMvc mockMvc, ObjectMapper objectMapper, ResourceService resourceService, SaleService saleService) {
         this.mockMvc = mockMvc;
         this.objectMapper = objectMapper;
         this.resourceService = resourceService;
+        this.saleService = saleService;
     }
 
     @Test
@@ -42,7 +45,7 @@ public class ResourceControllerIntegrationTest {
         String resourceJson = objectMapper.writeValueAsString(resource);
 
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/resources")
+                MockMvcRequestBuilders.put("/resources")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(resourceJson)
         ).andExpect(
@@ -57,7 +60,7 @@ public class ResourceControllerIntegrationTest {
         String resourceJson = objectMapper.writeValueAsString(resource);
 
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/resources")
+                MockMvcRequestBuilders.put("/resources")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(resourceJson)
         ).andExpect(
@@ -165,6 +168,9 @@ public class ResourceControllerIntegrationTest {
         Resource resource = TestDataUtil.createTestResourceA();
         resourceService.createResource(resource);
 
+        Sale sale = TestDataUtil.createTestSaleA();
+        saleService.createSale(resource.getId(), sale);
+
         mockMvc.perform(
                 MockMvcRequestBuilders.delete("/resources/99")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -180,10 +186,11 @@ public class ResourceControllerIntegrationTest {
         );
 
         mockMvc.perform(
-                MockMvcRequestBuilders.delete("/resources/" + resource.getId())
+                MockMvcRequestBuilders.get("/resources/" + resource.getId())
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
                 MockMvcResultMatchers.status().isNotFound()
         );
+
     }
 }

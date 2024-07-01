@@ -1,6 +1,8 @@
 package com.david.wowStockCalculator.services;
 
 import com.david.wowStockCalculator.domain.entities.Resource;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;

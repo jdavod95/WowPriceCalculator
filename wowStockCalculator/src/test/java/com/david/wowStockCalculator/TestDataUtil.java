@@ -38,6 +38,10 @@ public final class TestDataUtil {
                 .build();
     }
 
+    public static Sale createTestSaleA() {
+        return createTestSaleA(null);
+    }
+
     public static Sale createTestSaleA(final Resource resource) {
         return Sale.builder()
                 .id(1L)
@@ -47,6 +51,7 @@ public final class TestDataUtil {
                 .cost(1)
                 .build();
     }
+
 
     public static Sale createTestSaleB(final Resource resource) {
         return Sale.builder()
