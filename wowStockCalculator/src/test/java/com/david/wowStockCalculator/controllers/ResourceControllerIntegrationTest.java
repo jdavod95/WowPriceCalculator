@@ -1,6 +1,7 @@
 package com.david.wowStockCalculator.controllers;
 
 import com.david.wowStockCalculator.TestDataUtil;
+import com.david.wowStockCalculator.domain.dto.ResourceDto;
 import com.david.wowStockCalculator.domain.entities.Resource;
 import com.david.wowStockCalculator.domain.entities.Sale;
 import com.david.wowStockCalculator.services.ResourceService;
@@ -129,6 +130,60 @@ public class ResourceControllerIntegrationTest {
                 MockMvcResultMatchers.jsonPath("$.name").value(resource.getName())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.onStock").value(resource.getOnStock())
+        );
+    }
+
+    @Test
+    public void testThatPartialUpdateExistingResourceReturnsCorrectResource() throws Exception {
+        Resource resource = TestDataUtil.createTestResourceA();
+        resourceService.createResource(resource);
+
+        resource.setName("Writhebark");
+        String resourceJson = objectMapper.writeValueAsString(resource);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.patch("/resources/99")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(resourceJson)
+        ).andExpect(
+                MockMvcResultMatchers.status().isNotFound()
+        );
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.patch("/resources/" + resource.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(resourceJson)
+        ).andExpect(
+                MockMvcResultMatchers.status().isOk()
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.name").value(resource.getName())
+        );
+    }
+
+    @Test
+    public void testThatDeleteResourceDeletesResource() throws Exception {
+        Resource resource = TestDataUtil.createTestResourceA();
+        resourceService.createResource(resource);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.delete("/resources/99")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isNotFound()
+        );
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.delete("/resources/" + resource.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isNoContent()
+        );
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.delete("/resources/" + resource.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isNotFound()
         );
     }
 }

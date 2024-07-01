@@ -5,6 +5,9 @@ import com.david.wowStockCalculator.domain.entities.Sale;
 import com.david.wowStockCalculator.repositories.ResourceRepository;
 import com.david.wowStockCalculator.repositories.SaleRepository;
 import com.david.wowStockCalculator.services.SaleService;
+import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -15,15 +18,11 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
+@AllArgsConstructor
 public class SaleServiceImpl implements SaleService {
 
     private SaleRepository saleRepository;
     private ResourceRepository resourceRepository;
-
-    public SaleServiceImpl(SaleRepository saleRepository, ResourceRepository resourceRepository) {
-        this.saleRepository = saleRepository;
-        this.resourceRepository = resourceRepository;
-    }
 
     public static String getNow() {
         return LocalDate.now().format(DateTimeFormatter.ISO_DATE);
@@ -49,7 +48,22 @@ public class SaleServiceImpl implements SaleService {
     }
 
     @Override
+    public Page<Sale> findAll(Pageable pageable) {
+        return saleRepository.findAll(pageable);
+    }
+
+    @Override
     public Optional<Sale> findById(Long saleId) {
         return saleRepository.findById(saleId);
+    }
+
+    @Override
+    public boolean isExists(Long id) {
+        return saleRepository.existsById(id);
+    }
+
+    @Override
+    public void delete(Long id) {
+        saleRepository.delete(saleRepository.findById(id).get());
     }
 }

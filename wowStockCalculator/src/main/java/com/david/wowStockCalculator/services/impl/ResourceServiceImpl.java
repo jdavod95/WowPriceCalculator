@@ -35,5 +35,26 @@ public class ResourceServiceImpl implements ResourceService {
         return resourceRepository.findById(resourceId);
     }
 
+    @Override
+    public boolean isExists(Long id) {
+        return resourceRepository.existsById(id);
+    }
+
+    @Override
+    public Resource partialUpdate(Long id, Resource resourceEntity) {
+        resourceEntity.setId(id);
+
+        return resourceRepository.findById(id).map(existingResource -> {
+            Optional.ofNullable(resourceEntity.getName()).ifPresent(existingResource::setName);
+            Optional.ofNullable(resourceEntity.getOnStock()).ifPresent(existingResource::setOnStock);
+            return resourceRepository.save(existingResource);
+        }).orElseThrow(() -> new RuntimeException("Resource does not exists"));
+    }
+
+    @Override
+    public void delete(Long id) {
+        resourceRepository.delete(resourceRepository.findById(id).get());
+    }
+
 
 }

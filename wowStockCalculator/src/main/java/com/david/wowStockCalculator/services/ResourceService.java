@@ -12,4 +12,10 @@ public interface ResourceService {
     List<Resource> findAll();
 
     Optional<Resource> findById(Long resourceId);
+
+    boolean isExists(Long id);
+
+    Resource partialUpdate(Long id, Resource resourceEntity);
+
+    void delete(Long id);
 }

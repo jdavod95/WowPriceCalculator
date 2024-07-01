@@ -159,4 +159,41 @@ public class SaleControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$.resource.id").isNumber()
         );
     }
+
+    @Test
+    public void testThatDeleteSaleDeletesSaleCorrectly() throws Exception {
+        Resource resource = TestDataUtil.createTestResourceA();
+        resourceService.createResource(resource);
+
+        Sale sale = TestDataUtil.createTestSaleA(resource);
+        saleService.createSale(resource.getId(), sale);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.delete("/sales/99")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isNotFound()
+        );
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.delete("/sales/" + sale.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isNoContent()
+        );
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.delete("/sales/" + sale.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isNotFound()
+        );
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/resources/" + resource.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isOk()
+        );
+    }
 }
