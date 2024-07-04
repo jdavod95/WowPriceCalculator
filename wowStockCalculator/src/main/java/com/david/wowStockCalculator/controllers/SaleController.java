@@ -33,10 +33,17 @@ public class SaleController {
     private SaleService saleService;
     private ResourceService resourceService;
 
-    @GetMapping(path = "/sales")
+    @GetMapping(path = "/salesPaged")
     public Page<SaleDto> listSales(Pageable pageable){
         Page<Sale> sales = saleService.findAll(pageable);
         return sales.map(saleMapper::mapTo);
+    }
+
+    @GetMapping(path = "/sales")
+    public List<SaleDto> listSales(){
+        return saleService.findAll().stream()
+            .map(saleMapper::mapTo)
+            .collect(Collectors.toList());
     }
 
     @GetMapping(path = "/sales/{sale_id}")
