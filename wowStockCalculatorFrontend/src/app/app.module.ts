@@ -10,6 +10,7 @@ import { SalesComponent } from './components/sales/sales.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SaleFormComponent } from './components/sale-form/sale-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MaterialsModule } from './materials.module';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     SaleFormComponent
   ],
   imports: [
+    MaterialsModule,
     BrowserModule,
     ReactiveFormsModule,
     HttpClientModule,

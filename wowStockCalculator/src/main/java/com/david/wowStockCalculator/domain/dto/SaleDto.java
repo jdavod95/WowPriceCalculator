@@ -20,4 +20,6 @@ public class SaleDto {
     private Integer amount;
 
     private Integer cost;
+
+    private Boolean isSold;
 }
