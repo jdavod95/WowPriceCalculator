@@ -68,10 +68,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "wowStockCalculatorFrontend:build:production"
+              "buildTarget": "wowStockCalculatorFrontend:build:production"
             },
             "development": {
-              "browserTarget": "wowStockCalculatorFrontend:build:development"
+              "buildTarget": "wowStockCalculatorFrontend:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -79,7 +79,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "wowStockCalculatorFrontend:build"
+            "buildTarget": "wowStockCalculatorFrontend:build"
           }
         },
         "test": {
