@@ -1,15 +1,15 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Sale } from '../domain/sale';
 import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SaleService {
   private apiServerUrl = environment.apiBaseUrl;
-
+  
   constructor(private http: HttpClient) { }
 
   public getSales(): Observable<Sale[]> {
