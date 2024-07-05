@@ -1,0 +1,22 @@
+<h3>New sale:</h3>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <label for="resources">Resource: </label>
+  <select formControlName="resources" id="resources">
+    <option *ngFor="let resource of resources; let i = index" [value]="resources[i].id">
+      {{resources[i].name}}
+    </option>
+  </select>
+  <br>
+  <label for="amount">Amount: </label>
+  <input formControlName="amount" type="number" />
+  <br>
+  <label for="cost">Cost: </label>
+  <input formControlName="cost" type="number" />
+  <br>
+  <label for="isSold">Is Sold: </label>
+  <input formControlName="isSold" type="checkbox" checked="true" />
+  <button>submit</button>
+</form>
+
+<app-sales>

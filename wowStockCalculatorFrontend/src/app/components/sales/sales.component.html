@@ -1,0 +1,7 @@
+<h3>Sales:</h3>
+<div *ngFor="let sale of sales">
+    <div>[{{sale.resource?.id}}] [{{sale.resource?.name}}]: {{ sale.amount }} pieces for {{ sale.cost }}g,
+        at {{ sale.date }}
+    </div>
+
+</div>
