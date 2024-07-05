@@ -20,7 +20,8 @@ export class SaleFormComponent implements OnInit {
   public resources: Resource[] = [];
   public newSaleControl = new FormControl('');
   @ViewChild(SalesComponent) salesComponent!: SalesComponent;
-
+  public isSold: boolean = false;
+  
   constructor(
     private saleService: SaleService,
     private resourceService: ResourceService,

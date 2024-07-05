@@ -11,7 +11,7 @@ import { SaleService } from 'src/app/services/sale.service';
 export class SalesComponent implements OnInit {
 
   public sales: Sale[] = [];
-
+  public displayedColumns: string[] = ['resource', 'amount', 'cost', 'date']
   constructor(private saleService: SaleService) { }
 
   ngOnInit(): void {
