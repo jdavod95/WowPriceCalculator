@@ -1,0 +1,13 @@
+<div class="container">
+    <h3 class="text-primary">New resource:</h3>
+        <form class="form-group" [formGroup]="form" (ngSubmit)="submit()" >
+            <mat-form-field appearance="fill">
+                <mat-label class="form-group"  >Name</mat-label>
+                <input matInput formControlName="name">
+            </mat-form-field>
+            <br>
+            <button>submit</button>
+        </form>
+        <button class="btn btn-success">Click Me</button>
+</div>
+    <app-resources>

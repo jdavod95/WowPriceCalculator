@@ -1,5 +1,5 @@
 export interface Resource {
-    id: number;
+    id?: number;
     name: string;
     onStock: number;
 }

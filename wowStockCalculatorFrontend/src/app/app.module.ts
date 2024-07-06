@@ -11,15 +11,19 @@ import { SaleFormComponent } from './components/sale-form/sale-form.component';
 import { provideHttpClient, withFetch} from '@angular/common/http'
 import { MaterialsModule } from './materials.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ResourceFormComponent } from './components/resource-form/resource-form.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 @NgModule({
   declarations: [
     AppComponent,
     ResourcesComponent,
+    ResourceFormComponent,
     SalesComponent,
     SaleFormComponent
   ],
   imports: [
+    BrowserAnimationsModule,
     MaterialsModule,
     BrowserModule,
     AppRoutingModule,

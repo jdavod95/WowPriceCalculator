@@ -1,7 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, FormControl, ValidatorFn, ReactiveFormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Resource } from 'src/app/domain/resource';
 import { Sale } from 'src/app/domain/sale';
 import { ResourceService } from 'src/app/services/resource.service';
@@ -15,10 +14,8 @@ import { SalesComponent } from '../sales/sales.component';
 })
 export class SaleFormComponent implements OnInit {
 
-
   public form: FormGroup;
   public resources: Resource[] = [];
-  public newSaleControl = new FormControl('');
   @ViewChild(SalesComponent) salesComponent!: SalesComponent;
   public isSold: boolean = false;
   
@@ -59,7 +56,6 @@ export class SaleFormComponent implements OnInit {
     this.saleService.addSale(sale, Number(this.form.controls['resources'].value))
       .subscribe((response: Sale) => {
         this.salesComponent.ngOnInit();
-      }
-      );
+    });
   }
 }
