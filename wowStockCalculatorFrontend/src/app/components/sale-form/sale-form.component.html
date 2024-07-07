@@ -1,22 +1,29 @@
-<h3>New sale:</h3>
-
 <form [formGroup]="form" (ngSubmit)="submit()">
-  <label for="resources">Resource: </label>
-  <select formControlName="resources" id="resources">
-    <option *ngFor="let resource of resources; let i = index" [value]="resources[i].id">
-      {{resources[i].name}}
-    </option>
-  </select>
-  <br>
-  <label for="amount">Amount: </label>
-  <input formControlName="amount" type="number" />
-  <br>
-  <label for="cost">Cost: </label>
-  <input formControlName="cost" type="number" />
-  <br>
-  <label for="isSold">Is Sold: </label>
-  <mat-checkbox formControlName="isSold" [(ngModel)]="isSold"/>
-  <button>submit</button>
-</form>
+  <div class="d-flex flex-column">
 
-<app-sales>
+    <div class="d-flex flex-row">
+      <div class="d-flex flex-column">
+        <mat-form-field>
+          <mat-label for="amount">Amount</mat-label>
+          <input matInput formControlName="amount" type="number" />
+        </mat-form-field>
+      </div>
+        
+      <div class="d-flex flex-column">
+        <mat-form-field>
+          <mat-label for="cost">Cost</mat-label>
+          <input matInput formControlName="cost" type="number" />
+        </mat-form-field>
+      </div>
+        
+      <div class="d-flex flex-column">
+        <mat-label for="isSold">isSold</mat-label>
+        <mat-checkbox formControlName="isSold"/>
+      </div>
+    </div>
+    
+    <div class="d-flex flex-row">
+      <button [disabled]="!isResourceSelected()" class="btn btn-success">Create</button>
+    </div>
+  </div>
+</form>

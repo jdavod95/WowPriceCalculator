@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { SaleFormComponent } from './components/sale-form/sale-form.component';
-import { ResourceFormComponent } from './components/resource-form/resource-form.component';
+import { StatisticsComponent } from './components/statistics/statistics.component';
+import { ResourcesComponent } from './components/resources/resources.component';
+import { SalesComponent } from './components/sales/sales.component';
 
 const routes: Routes = [
-  { path: '', component: SaleFormComponent },
-  { path: 'resources', component: ResourceFormComponent },
-  { path: 'sales', component: SaleFormComponent },
+  { path: '', component: StatisticsComponent },
+  { path: 'resources', component: ResourcesComponent },
+  { path: 'sales', component: SalesComponent },
+  { path: 'statistics', component: StatisticsComponent },
 ]
 
 @NgModule({

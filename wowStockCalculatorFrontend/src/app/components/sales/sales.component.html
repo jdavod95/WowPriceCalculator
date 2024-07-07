@@ -1,25 +1,28 @@
-<h3>Sales:</h3>
-<table mat-table [dataSource]="sales" class="mat-elevation-z8">
+<h5>Sales:</h5>
+
+<app-sale-form (saleCreated)="onSaleCreated()"/>
+
+<table mat-table [dataSource]="sales" >
     <ng-container matColumnDef="resource">
         <th mat-header-cell *matHeaderCellDef> Resource </th>
         <td mat-cell *matCellDef="let sale"> [{{sale.resource?.name}}] </td>
     </ng-container>
-
+    
     <ng-container matColumnDef="amount">
         <th mat-header-cell *matHeaderCellDef> Amount </th>
         <td mat-cell *matCellDef="let sale"> {{ sale.isSold ? '- ' : '' }}{{sale.amount}} </td>
     </ng-container>
-
+    
     <ng-container matColumnDef="cost">
         <th mat-header-cell *matHeaderCellDef> Cost </th>
         <td mat-cell *matCellDef="let sale"> {{sale.cost}} g </td>
     </ng-container>
-    
+
     <ng-container matColumnDef="date">
         <th mat-header-cell *matHeaderCellDef> Cost </th>
         <td mat-cell *matCellDef="let sale"> {{sale.date}} </td>
     </ng-container>
-
+    
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>

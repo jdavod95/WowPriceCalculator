@@ -1,13 +1,10 @@
 <div class="container">
-    <h3 class="text-primary">New resource:</h3>
-        <form class="form-group" [formGroup]="form" (ngSubmit)="submit()" >
-            <mat-form-field appearance="fill">
-                <mat-label class="form-group"  >Name</mat-label>
-                <input matInput formControlName="name">
-            </mat-form-field>
-            <br>
-            <button>submit</button>
+        <form [formGroup]="form" (ngSubmit)="submit()" >
+            <div class="form-group">
+                <mat-label for="name">Name</mat-label>
+                <input id="name" class="form-control input-sm" matInput formControlName="name">
+                <br>
+            </div>
+            <button class="btn btn-success">Create</button>
         </form>
-        <button class="btn btn-success">Click Me</button>
 </div>
-    <app-resources>

@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Resource } from 'src/app/domain/resource';
 import { ResourceService } from 'src/app/services/resource.service';
 
@@ -11,6 +11,10 @@ import { ResourceService } from 'src/app/services/resource.service';
 export class ResourcesComponent implements OnInit {
 
   public resources: Resource[] = [];
+  public displayedColumns: string[] = ['name', 'onStock']
+  
+  @Output()
+  public resourceSelected = new EventEmitter<Resource>()
 
   constructor(private resourceService: ResourceService) { }
 
@@ -29,4 +33,7 @@ export class ResourcesComponent implements OnInit {
     );
   }
 
+  selectRow(datasource: Resource[], index: number) {
+    this.resourceSelected.emit(datasource[index]);
+  }
 }
