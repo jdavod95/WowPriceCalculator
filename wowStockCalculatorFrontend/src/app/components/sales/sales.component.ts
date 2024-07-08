@@ -3,6 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Sale } from 'src/app/domain/sale';
 import { SaleService } from 'src/app/services/sale.service';
 import { SaleFormComponent } from '../sale-form/sale-form.component';
+import { Resource } from 'src/app/domain/resource';
 
 @Component({
   selector: 'app-sales',
@@ -15,13 +16,13 @@ export class SalesComponent implements OnInit {
   public displayedColumns: string[] = ['resource', 'amount', 'cost', 'date']
   @ViewChild(SaleFormComponent) saleFormComponent!: SaleFormComponent;
   
-  private resourceId: number | undefined;
+  public selectedResource: Resource | undefined;
 
   constructor(private saleService: SaleService) { }
 
   ngOnInit(): void {
-    if(this.resourceId != null) {
-      this.getSalesByResourceId(this.resourceId);
+    if(this.selectedResource != null) {
+      this.getSalesByResourceId(this.selectedResource.id!);
     } else {
       this.getSales();
     }
@@ -54,9 +55,9 @@ export class SalesComponent implements OnInit {
     );
   }
 
-  public setSelectedResourceId(resourceId: number) {
-    this.resourceId = resourceId;
-    this.saleFormComponent.selectedResourceId = resourceId;
+  public setSelectedResource(resource: Resource) {
+    this.selectedResource = resource;
+    this.saleFormComponent.selectedResourceId = resource?.id!;
     this.ngOnInit();
   }
 }

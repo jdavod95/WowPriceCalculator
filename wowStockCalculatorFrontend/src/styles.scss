@@ -1,4 +1,5 @@
 @use '@angular/material' as mat;
+@import '~material-icons/iconfont/material-icons.css';
 @import "~@angular/material/prebuilt-themes/azure-blue.css";
 @include mat.core();
 
@@ -16,11 +17,33 @@ $theme: mat.define-theme((
   )
 ));
 
-
 .title-label {
     text-align: center;
 }
 
-form {
-   // background-color: rgb(191, 178, 204);
+.flex-column {
+  border-radius: 8px;
 }
+
+.form-container {
+  padding: 5px;
+}
+
+.component-container {
+  background-color: rgb(243, 243, 243);
+  margin: 3px 3px 3px 0px;
+  padding: 4px;
+}
+
+.form-container mat-form-field {
+    padding: 5px;
+}
+
+table {
+  border-color: var(--bs-secondary-border-subtle) !important;
+  border-style: solid !important;
+  border-width: 1px !important;
+  border-left: 0px !important;
+  border-top: 0px !important;
+}
+

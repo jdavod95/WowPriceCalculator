@@ -14,6 +14,8 @@ import { ResourceFormComponent } from './components/resource-form/resource-form.
 import { ResourcesComponent } from './components/resources/resources.component';
 import { SaleFormComponent } from './components/sale-form/sale-form.component';
 import { SalesComponent } from './components/sales/sales.component';
+import { ResourceNamePipe } from './pipes/resource-name.pipe';
+import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
 
 @NgModule({
   declarations: [
@@ -22,14 +24,16 @@ import { SalesComponent } from './components/sales/sales.component';
     ResourceFormComponent,
     ResourcesComponent,
     SaleFormComponent,
-    SalesComponent
+    SalesComponent,
+    ConfirmModalComponent
   ],
   imports: [
     BrowserAnimationsModule,
     MaterialsModule,
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ResourceNamePipe
   ],
   providers: [
     provideHttpClient(withFetch()),

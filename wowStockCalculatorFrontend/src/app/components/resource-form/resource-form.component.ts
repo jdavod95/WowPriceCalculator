@@ -1,8 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Resource } from 'src/app/domain/resource';
 import { ResourceService } from 'src/app/services/resource.service';
-import { ResourcesComponent } from '../resources/resources.component';
 
 @Component({
   selector: 'app-resource-form',
@@ -12,8 +11,10 @@ import { ResourcesComponent } from '../resources/resources.component';
 export class ResourceFormComponent implements OnInit {
   
   public form: FormGroup;
-  @ViewChild(ResourcesComponent) resourcesComponent!: ResourcesComponent;
 
+  @Output()
+  public resourceCreated = new EventEmitter<void>()
+  
   constructor(
     private resourceService: ResourceService,
     private formBuilder: FormBuilder
@@ -33,7 +34,7 @@ export class ResourceFormComponent implements OnInit {
     };
     this.resourceService.addResource(resource)
       .subscribe((response: Resource) => {
-        this.resourcesComponent.ngOnInit();
+        this.resourceCreated.emit();
     });
   }
 }

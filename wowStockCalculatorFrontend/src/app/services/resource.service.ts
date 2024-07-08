@@ -28,7 +28,7 @@ export class ResourceService {
     return this.http.patch<Resource>(`${this.apiServerUrl}/resources/${resource.id}`, resource);
   }
 
-  public deleteResources(resourceId: number): Observable<any> {
+  public deleteResource(resourceId: number): Observable<any> {
     return this.http.delete<void>(`${this.apiServerUrl}/resources/${resourceId}`);
   }
 }

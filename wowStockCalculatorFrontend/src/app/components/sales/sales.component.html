@@ -1,11 +1,11 @@
-<h5 class="title-label">Sales:</h5>
+<h5 class="title-label">Sales: {{ this.selectedResource?.name | resourceName }}</h5>
 
 <app-sale-form (saleCreated)="onSaleCreated()"/>
 
 <table mat-table [dataSource]="sales" >
     <ng-container matColumnDef="resource">
         <th mat-header-cell *matHeaderCellDef> Resource </th>
-        <td mat-cell *matCellDef="let sale"> [{{sale.resource?.name}}] </td>
+        <td mat-cell *matCellDef="let sale"> {{sale.resource?.name | resourceName }} </td>
     </ng-container>
     
     <ng-container matColumnDef="amount">

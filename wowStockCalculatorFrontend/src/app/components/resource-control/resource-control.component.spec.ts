@@ -19,5 +19,4 @@ describe('ResourceControlComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
 });

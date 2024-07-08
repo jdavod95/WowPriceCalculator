@@ -1,11 +1,13 @@
-<div class="container">
-        <form [formGroup]="form" (ngSubmit)="submit()" >
-            <div class="form-group">
+<div class="form-container">
+    <form [formGroup]="form" (ngSubmit)="submit()" >
+        <div class="d-flex flex-row form-group">
+            <div class="d-flex flex-column form-group">
                 <mat-form-field appearance="outline">
                     <mat-label for="name">Name</mat-label>
-                    <input id="name" class="form-control input-sm" matInput formControlName="name">
+                    <input id="name" matInput formControlName="name">
                 </mat-form-field>
             </div>
-            <button class="btn btn-success">Create</button>
-        </form>
+        </div>
+        <button class="btn btn-success">Create</button>
+    </form>
 </div>

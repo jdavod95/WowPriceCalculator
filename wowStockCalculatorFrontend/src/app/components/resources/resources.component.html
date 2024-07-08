@@ -1,17 +1,27 @@
 <h5 class="title-label">Resources:</h5>
-<app-resource-form/>
+<app-resource-form (resourceCreated)="onResourceCreated()"/>
 
 <table mat-table [dataSource]="resources" >
     <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef> Resource </th>
-        <td mat-cell *matCellDef="let resource"> [{{resource.name}}] </td>
+        <td mat-cell *matCellDef="let resource"> {{ resource.name | resourceName }} </td>
     </ng-container>
 
     <ng-container matColumnDef="onStock">
         <th mat-header-cell *matHeaderCellDef> onStock </th>
         <td mat-cell *matCellDef="let resource"> {{resource.onStock}} </td>
+    </ng-container>    
+    
+    <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let resource"> 
+            <button mat-icon-button (click)="deleteResource(resource)">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; let i = index; columns: displayedColumns;" (click)="selectRow(resources, i)"></tr>
+    <tr mat-row *matRowDef="let row; let i = index; columns: displayedColumns;" 
+        (click)="selectRow(resources, i)"></tr>
 </table>

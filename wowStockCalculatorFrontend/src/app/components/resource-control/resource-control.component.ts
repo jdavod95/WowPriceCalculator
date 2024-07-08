@@ -11,7 +11,7 @@ export class ResourceControlComponent implements OnInit {
   @ViewChild(SalesComponent) salesComponent!: SalesComponent;
   
   public onResourceSelected(resource: Resource) {
-    this.salesComponent.setSelectedResourceId(resource?.id!);
+    this.salesComponent.setSelectedResource(resource);
   }
 
   ngOnInit(): void {
