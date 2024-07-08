@@ -1,7 +1,8 @@
-<h2 mat-dialog-title>Basic Modal</h2>
+<h2 mat-dialog-title>{{this.modalTitle}}</h2>
 <mat-dialog-content>
-  <p>This is a basic modal dialog using Angular Material.</p>
+  <p>{{this.modalMessage}}</p>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button (click)="close()">Close</button>
+  <button mat-button (click)="ok()">OK</button>
+  <button mat-button (click)="cancel()">Cancel</button>
 </mat-dialog-actions>

@@ -3,6 +3,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Resource } from 'src/app/domain/resource';
 import { ModalService } from 'src/app/services/modal.service';
 import { ResourceService } from 'src/app/services/resource.service';
+import { ResourceNamePipe } from 'src/app/pipes/resource-name.pipe';
 
 @Component({
   selector: 'app-resources',
@@ -10,7 +11,6 @@ import { ResourceService } from 'src/app/services/resource.service';
   styleUrls: ['./resources.component.scss']
 })
 export class ResourcesComponent implements OnInit {
-
 
   public resources: Resource[] = [];
   public displayedColumns: string[] = ['name', 'onStock', 'delete']
@@ -21,7 +21,8 @@ export class ResourcesComponent implements OnInit {
 
   constructor(
     private resourceService: ResourceService,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private resourceNamePipe: ResourceNamePipe
   ) {}
 
   ngOnInit(): void {
@@ -43,12 +44,20 @@ export class ResourcesComponent implements OnInit {
     );
   }
 
-  deleteResource(resource: Resource) {
-    this.modalService.openModal();
-    // this.resourceService.deleteResource(resource.id!).subscribe(    )
+  public deleteResource(resource: Resource) {
+    this.modalService.confirmationModal(
+      this.resourceNamePipe.transform(resource.name),
+      "Are you sure you want to DELETE this resource? All associated sales will be deleted aswell!",
+      () => {
+        this.resourceService.deleteResource(resource.id!).subscribe((response: any) => {
+          this.ngOnInit();
+          this.resourceSelected.emit(undefined);
+        })
+      }
+    );
   }
 
-  selectRow(datasource: Resource[], index: number) {
+  public selectRow(datasource: Resource[], index: number) {
     if(this.selectedResource == datasource[index]) {
       this.selectedResource = undefined;
     } else {

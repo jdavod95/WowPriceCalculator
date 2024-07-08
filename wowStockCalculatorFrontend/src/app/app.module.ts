@@ -28,14 +28,15 @@ import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.
     ConfirmModalComponent
   ],
   imports: [
+    ResourceNamePipe,
     BrowserAnimationsModule,
     MaterialsModule,
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule,
-    ResourceNamePipe
+    ReactiveFormsModule
   ],
   providers: [
+    ResourceNamePipe,
     provideHttpClient(withFetch()),
     ResourceService,
     SaleService

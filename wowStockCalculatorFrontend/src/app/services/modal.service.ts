@@ -8,10 +8,17 @@ import { ConfirmModalComponent } from '../components/confirm-modal/confirm-modal
 export class ModalService {
   constructor(private dialog: MatDialog) {}
 
-  openModal(): void {
-    this.dialog.open(ConfirmModalComponent, {
+  confirmationModal(title?: string, message?: string, onOk?: () => void ): void {
+    let dialog = this.dialog.open(ConfirmModalComponent, {
       width: '300px'
     });
+    dialog.componentInstance.modalTitle = title;
+    dialog.componentInstance.modalMessage = message;
+    dialog.afterClosed().subscribe(isOk => {
+      if(isOk && onOk != null){
+        onOk();
+      }
+    })
   }
 
   closeModal(): void {

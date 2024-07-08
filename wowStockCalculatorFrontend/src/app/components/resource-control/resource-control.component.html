@@ -3,6 +3,6 @@
         <app-resources (resourceSelected)="onResourceSelected($event)"/>
     </div>
     <div class="d-flex flex-column component-container">
-        <app-sales/>
+        <app-sales (saleDeleted)="onSaleDeleted()"/>
     </div>
 </div>

@@ -8,9 +8,16 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class ConfirmModalComponent {
   
+  public modalTitle: string | undefined;
+  public modalMessage: string | undefined;
+  
   constructor(public dialogRef: MatDialogRef<ConfirmModalComponent>) {}
   
-  close(): void {
+  ok(): void {
+    this.dialogRef.close(true);
+  }
+
+  cancel(): void {
     this.dialogRef.close();
   }
 }

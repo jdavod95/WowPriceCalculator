@@ -24,4 +24,8 @@ export class SaleService {
     return this.http.post<Sale>(`${this.apiServerUrl}/sales/${resourceId}`, sale);
   }
 
+  public deleteSale(saleId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiServerUrl}/sales/${saleId}`);
+  }
+
 }
