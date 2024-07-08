@@ -1,10 +1,19 @@
 <div class="backdrop">
-    <div class="router-body">
+    <div class="page-body">
         <h3 class="title-label"> {{ this.appTitle }} </h3>
-        <!--
-            <a routerLink="/resources">Resources</a><br>
-            <a routerLink="/sales">Sales</a><br>
-            -->
+        <div class="component-container custom-navbar">
+            <div class="d-flex flex-row">
+                <div class="d-flex flex-column">
+                    <button class="btn btn-secondary" routerLink="/resourcesControl">Resources control</button>
+                </div>
+                <div class="d-flex flex-column">
+                    <button class="btn btn-secondary" routerLink="/resources">Resources</button>
+                </div>
+                <div class="d-flex flex-column">
+                    <button class="btn btn-secondary" routerLink="/sales">Sales</button>
+                </div>
+            </div>
+        </div>
         <router-outlet></router-outlet>
     </div>
 </div>

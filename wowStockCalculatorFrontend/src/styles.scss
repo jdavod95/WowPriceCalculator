@@ -21,18 +21,15 @@ $theme: mat.define-theme((
     text-align: center;
 }
 
-.flex-column {
-  border-radius: 8px;
-}
-
 .form-container {
   padding: 5px;
 }
 
 .component-container {
   background-color: rgb(243, 243, 243);
-  margin: 3px 3px 3px 0px;
   padding: 4px;
+  border-radius: 8px;
+  margin-top: 5px;
 }
 
 .form-container mat-form-field {
