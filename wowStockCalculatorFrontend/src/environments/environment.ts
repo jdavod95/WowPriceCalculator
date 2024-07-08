@@ -3,6 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
+  appTitle: "Wow Calculator",
   production: false,
   apiBaseUrl: 'http://localhost:8080'
 };

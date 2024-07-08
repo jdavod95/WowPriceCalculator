@@ -1,9 +1,10 @@
 <div class="container">
         <form [formGroup]="form" (ngSubmit)="submit()" >
             <div class="form-group">
-                <mat-label for="name">Name</mat-label>
-                <input id="name" class="form-control input-sm" matInput formControlName="name">
-                <br>
+                <mat-form-field appearance="outline">
+                    <mat-label for="name">Name</mat-label>
+                    <input id="name" class="form-control input-sm" matInput formControlName="name">
+                </mat-form-field>
             </div>
             <button class="btn btn-success">Create</button>
         </form>

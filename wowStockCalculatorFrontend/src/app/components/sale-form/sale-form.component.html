@@ -1,18 +1,19 @@
+<div class="container">
 <form [formGroup]="form" (ngSubmit)="submit()">
-  <div class="d-flex flex-column">
+  <div class="d-flex flex-column form-group">
 
     <div class="d-flex flex-row">
       <div class="d-flex flex-column">
         <mat-form-field>
           <mat-label for="amount">Amount</mat-label>
-          <input matInput formControlName="amount" type="number" />
+          <input matInput formControlName="amount" type="number" class="form-control input-sm"/>
         </mat-form-field>
       </div>
         
       <div class="d-flex flex-column">
         <mat-form-field>
           <mat-label for="cost">Cost</mat-label>
-          <input matInput formControlName="cost" type="number" />
+          <input matInput formControlName="cost" type="number" class="form-control input-sm"/>
         </mat-form-field>
       </div>
         
@@ -27,3 +28,4 @@
     </div>
   </div>
 </form>
+</div>

@@ -1,0 +1,12 @@
+.backdrop {
+    background-color: #e4ffff;
+    padding-bottom: 20px;
+}
+
+.router-body {
+    background-color: var(--bs-white);
+    margin: auto;
+    width: fit-content;
+    min-height: 100vh;
+}
+

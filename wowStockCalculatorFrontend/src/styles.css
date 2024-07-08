@@ -1,1 +1,8 @@
-/* You can add global styles to this file, and also import other style files */
+
+.title-label {
+    text-align: center;
+}
+
+form {
+    background-color: rgb(191, 178, 204);
+}
