@@ -7,7 +7,7 @@ import { ResourcesComponent } from '../resources/resources.component';
 @Component({
   selector: 'app-resource-form',
   templateUrl: './resource-form.component.html',
-  styleUrl: './resource-form.component.css'
+  styleUrl: './resource-form.component.scss'
 })
 export class ResourceFormComponent implements OnInit {
   

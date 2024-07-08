@@ -5,7 +5,7 @@ import { Resource } from 'src/app/domain/resource';
 @Component({
   selector: 'app-resource-control',
   templateUrl: './resource-control.component.html',
-  styleUrl: './resource-control.component.css'
+  styleUrl: './resource-control.component.scss'
 })
 export class ResourceControlComponent implements OnInit {
   @ViewChild(SalesComponent) salesComponent!: SalesComponent;

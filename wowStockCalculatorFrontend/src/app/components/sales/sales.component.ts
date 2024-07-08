@@ -7,7 +7,7 @@ import { SaleFormComponent } from '../sale-form/sale-form.component';
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
-  styleUrls: ['./sales.component.css']
+  styleUrls: ['./sales.component.scss']
 })
 export class SalesComponent implements OnInit {
 

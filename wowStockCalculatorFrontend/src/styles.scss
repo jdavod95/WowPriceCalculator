@@ -1,0 +1,26 @@
+@use '@angular/material' as mat;
+@import "~@angular/material/prebuilt-themes/azure-blue.css";
+@include mat.core();
+
+$theme: mat.define-theme((
+  color: (
+    theme-type: dark,
+    primary: mat.$violet-palette,
+  ),
+  typography: (
+    brand-family: 'Comic Sans',
+    bold-weight: 900
+  ),
+  density: (
+    scale: -1
+  )
+));
+
+
+.title-label {
+    text-align: center;
+}
+
+form {
+   // background-color: rgb(191, 178, 204);
+}
