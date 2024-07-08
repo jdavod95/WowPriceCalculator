@@ -12,6 +12,7 @@ export class ResourcesComponent implements OnInit {
 
   public resources: Resource[] = [];
   public displayedColumns: string[] = ['name', 'onStock']
+  private selectedResource: Resource | undefined;
   
   @Output()
   public resourceSelected = new EventEmitter<Resource>()
@@ -34,6 +35,11 @@ export class ResourcesComponent implements OnInit {
   }
 
   selectRow(datasource: Resource[], index: number) {
-    this.resourceSelected.emit(datasource[index]);
+    if(this.selectedResource == datasource[index]) {
+      this.selectedResource = undefined;
+    } else {
+      this.selectedResource = datasource[index];
+    }
+    this.resourceSelected.emit(this.selectedResource);
   }
 }

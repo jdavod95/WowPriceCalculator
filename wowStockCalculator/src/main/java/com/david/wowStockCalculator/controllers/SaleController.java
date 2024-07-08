@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @RestController
 @Log
@@ -42,21 +43,17 @@ public class SaleController {
     @GetMapping(path = "/sales")
     public List<SaleDto> listSales(){
         return saleService.findAll().stream()
-            .map(saleMapper::mapTo)
-            .collect(Collectors.toList());
+                .map(saleMapper::mapTo)
+                .collect(Collectors.toList());
     }
 
-    @GetMapping(path = "/sales/{sale_id}")
-    public ResponseEntity<SaleDto> getSale(
-            @PathVariable("sale_id") Long saleId
+    @GetMapping(path = "/sales/{resource_id}")
+    public List<SaleDto> listSalesByResourceId(
+            @PathVariable("resource_id") Long resourceId
     ){
-        Optional<Sale> foundSale = saleService.findById(saleId);
-
-        return foundSale.map(
-                sale -> new ResponseEntity<>(saleMapper.mapTo(sale), HttpStatus.OK)
-        ).orElse(
-                new ResponseEntity<>(HttpStatus.NOT_FOUND)
-        );
+        return StreamSupport.stream(saleService.findAllByResourceId(resourceId).spliterator(), false)
+                .map(saleMapper::mapTo)
+                .collect(Collectors.toList());
     }
 
     @PostMapping(path = "/sales/{resource_id}")

@@ -15,6 +15,10 @@ export class SaleService {
   public getSales(): Observable<Sale[]> {
     return this.http.get<Sale[]>(`${this.apiServerUrl}/sales`);
   }
+  
+  public getSalesByresourceId(resourceId: number): Observable<Sale[]> {
+    return this.http.get<Sale[]>(`${this.apiServerUrl}/sales/${resourceId}`);
+  }
 
   public addSale(sale: Sale, resourceId: number): Observable<Sale> {
     return this.http.post<Sale>(`${this.apiServerUrl}/sales/${resourceId}`, sale);

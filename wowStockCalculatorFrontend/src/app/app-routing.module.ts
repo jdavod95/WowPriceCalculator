@@ -1,14 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { StatisticsComponent } from './components/statistics/statistics.component';
+import { ResourceControlComponent } from './components/resource-control/resource-control.component';
 import { ResourcesComponent } from './components/resources/resources.component';
 import { SalesComponent } from './components/sales/sales.component';
 
 const routes: Routes = [
-  { path: '', component: StatisticsComponent },
+  { path: '', component: ResourceControlComponent },
   { path: 'resources', component: ResourcesComponent },
   { path: 'sales', component: SalesComponent },
-  { path: 'statistics', component: StatisticsComponent },
 ]
 
 @NgModule({

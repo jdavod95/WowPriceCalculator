@@ -20,4 +20,6 @@ public interface SaleService {
     boolean isExists(Long id);
 
     void delete(Long id);
+
+    Iterable<Sale> findAllByResourceId(Long resourceId);
 }

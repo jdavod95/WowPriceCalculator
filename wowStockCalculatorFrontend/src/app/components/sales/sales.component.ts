@@ -15,10 +15,17 @@ export class SalesComponent implements OnInit {
   public displayedColumns: string[] = ['resource', 'amount', 'cost', 'date']
   @ViewChild(SaleFormComponent) saleFormComponent!: SaleFormComponent;
   
+  private resourceId: number | undefined;
+
   constructor(private saleService: SaleService) { }
 
   ngOnInit(): void {
-    this.getSales();
+    if(this.resourceId != null) {
+      this.getSalesByResourceId(this.resourceId);
+    } else {
+      this.getSales();
+    }
+
   }
 
   public onSaleCreated() {
@@ -34,9 +41,22 @@ export class SalesComponent implements OnInit {
         alert(error.message);
       }
     );
+  }  
+
+  public getSalesByResourceId(resourceId: number): void {
+    this.saleService.getSalesByresourceId(resourceId).subscribe(
+      (response: Sale[]) => {
+        this.sales = response;
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
   }
 
   public setSelectedResourceId(resourceId: number) {
+    this.resourceId = resourceId;
     this.saleFormComponent.selectedResourceId = resourceId;
+    this.ngOnInit();
   }
 }

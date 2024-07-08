@@ -3,15 +3,15 @@ import { SalesComponent } from '../sales/sales.component';
 import { Resource } from 'src/app/domain/resource';
 
 @Component({
-  selector: 'app-statistics',
-  templateUrl: './statistics.component.html',
-  styleUrl: './statistics.component.css'
+  selector: 'app-resource-control',
+  templateUrl: './resource-control.component.html',
+  styleUrl: './resource-control.component.css'
 })
-export class StatisticsComponent implements OnInit {
+export class ResourceControlComponent implements OnInit {
   @ViewChild(SalesComponent) salesComponent!: SalesComponent;
   
   public onResourceSelected(resource: Resource) {
-    this.salesComponent.setSelectedResourceId(resource.id!);
+    this.salesComponent.setSelectedResourceId(resource?.id!);
   }
 
   ngOnInit(): void {
