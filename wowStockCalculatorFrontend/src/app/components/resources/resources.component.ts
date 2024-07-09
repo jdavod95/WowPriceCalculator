@@ -16,6 +16,8 @@ export class ResourcesComponent implements OnInit {
   public displayedColumns: string[] = ['name', 'onStock', 'delete']
   private selectedResource: Resource | undefined;
   
+  //TODO: balance header ,Sale Timestamps, Table sorting/search, deployment
+
   @Output()
   public resourceSelected = new EventEmitter<Resource>()
 

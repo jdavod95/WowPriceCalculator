@@ -19,7 +19,7 @@ export class SalesComponent implements OnInit {
   @ViewChild(SaleFormComponent) saleFormComponent!: SaleFormComponent;
   
   @Output()
-  public saleDeleted = new EventEmitter<any>()
+  public salesChange = new EventEmitter<any>()
   public selectedResource: Resource | undefined;
 
   constructor(
@@ -38,16 +38,19 @@ export class SalesComponent implements OnInit {
   }
 
   public onSaleCreated() {
+    this.salesChange.emit();
     this.ngOnInit();
   }
 
   public deleteSale(sale: Sale) {
     this.modalService.confirmationModal(
-      this.resourceNamePipe.transform(sale.resource!.name) + ", " + sale.amount + " pieces, " + sale.cost + "g",
+      this.resourceNamePipe.transform(sale.resource!.name) + ", " 
+        + sale.amount + " pieces, " 
+        + sale.cost + "g",
       "Are you sure you want to DELETE this sale?",
       () => {
         this.saleService.deleteSale(sale.id!).subscribe((response: any) => {
-          this.saleDeleted.emit();
+          this.salesChange.emit();
           this.ngOnInit();
         })
       }

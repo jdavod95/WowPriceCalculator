@@ -1,0 +1,29 @@
+.flex-group {
+    background-color: var(--mat-table-background-color);
+    padding: 4px 8px 4px 8px;
+    border-radius: 8px;
+    gap: 20px;
+    min-width: 180px;
+}
+
+.flex-row {
+    gap: 10px;
+}
+
+.expenses {
+    font-weight: 500;
+    color: red;
+}
+
+.income {
+    font-weight: 500;
+    color: green;
+}
+
+.balance {
+    font-weight: 500;
+}
+
+.row-header {
+    font-weight: 500;
+}

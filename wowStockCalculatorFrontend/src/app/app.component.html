@@ -1,25 +1,7 @@
 <div class="backdrop">
     <div class="page-body">
         <h3 class="title-label"> {{ this.appTitle }} </h3>
-        <div class="component-container custom-navbar">
-            <div class="d-flex flex-row">
-                <div class="d-flex flex-column">
-                    <button class="btn btn-secondary" routerLink="/resources">Resources</button>
-                </div>
-                <div class="d-flex flex-column">
-                    <button disabled=true class="btn btn-secondary">Recipes</button>
-                </div>
-                <div class="d-flex flex-column">
-                    <button disabled=true class="btn btn-secondary">Summaries</button>
-                </div>
-                <div class="d-flex flex-column">
-                    <button disabled=true class="btn btn-secondary">Carfters</button>
-                </div>
-                <div class="d-flex flex-column">
-                    <button disabled=true class="btn btn-secondary">Calculation</button>
-                </div>
-            </div>
-        </div>
+        <app-navbar/>
         <router-outlet></router-outlet>
     </div>
 </div>

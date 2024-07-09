@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  
   constructor() { }
 
   public appTitle = environment.appTitle;

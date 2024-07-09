@@ -16,6 +16,9 @@ import { SaleFormComponent } from './components/sale-form/sale-form.component';
 import { SalesComponent } from './components/sales/sales.component';
 import { ResourceNamePipe } from './pipes/resource-name.pipe';
 import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
+import { CurrencyPostfixPipe } from './pipes/currency-postfix.pipe';
+import { BalanceComponent } from './components/balance/balance.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -25,9 +28,12 @@ import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.
     ResourcesComponent,
     SaleFormComponent,
     SalesComponent,
-    ConfirmModalComponent
+    ConfirmModalComponent,
+    BalanceComponent,
+    NavbarComponent
   ],
   imports: [
+    CurrencyPostfixPipe,
     ResourceNamePipe,
     BrowserAnimationsModule,
     MaterialsModule,
@@ -36,6 +42,7 @@ import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.
     ReactiveFormsModule
   ],
   providers: [
+    CurrencyPostfixPipe,
     ResourceNamePipe,
     provideHttpClient(withFetch()),
     ResourceService,
