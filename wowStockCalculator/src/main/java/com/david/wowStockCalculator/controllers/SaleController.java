@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @RestController
 @Log
@@ -33,23 +34,32 @@ public class SaleController {
     private SaleService saleService;
     private ResourceService resourceService;
 
-    @GetMapping(path = "/sales")
+    @GetMapping(path = "/salesPaged")
     public Page<SaleDto> listSales(Pageable pageable){
         Page<Sale> sales = saleService.findAll(pageable);
         return sales.map(saleMapper::mapTo);
     }
 
-    @GetMapping(path = "/sales/{sale_id}")
-    public ResponseEntity<SaleDto> getSale(
-            @PathVariable("sale_id") Long saleId
-    ){
-        Optional<Sale> foundSale = saleService.findById(saleId);
+    @GetMapping(path = "/sales")
+    public List<SaleDto> listSales(){
+        return saleService.findAll().stream()
+                .map(saleMapper::mapTo)
+                .collect(Collectors.toList());
+    }
 
-        return foundSale.map(
-                sale -> new ResponseEntity<>(saleMapper.mapTo(sale), HttpStatus.OK)
-        ).orElse(
-                new ResponseEntity<>(HttpStatus.NOT_FOUND)
-        );
+    @GetMapping(path = "/sales/{resource_id}")
+    public ResponseEntity<List<SaleDto>> listSalesByResourceId(
+            @PathVariable("resource_id") Long resourceId
+    ){
+        List<SaleDto> sales = StreamSupport.stream(saleService.findAllByResourceId(resourceId).spliterator(), false)
+                .map(saleMapper::mapTo)
+                .collect(Collectors.toList());
+
+        HttpStatus status = sales.isEmpty()
+                ? HttpStatus.NOT_FOUND
+                : HttpStatus.OK;
+
+        return new ResponseEntity<>(sales, status);
     }
 
     @PostMapping(path = "/sales/{resource_id}")

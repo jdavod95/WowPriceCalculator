@@ -1,0 +1,27 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="d-flex flex-column">
+
+    <div class="d-flex flex-row">
+      <div class="d-flex flex-column">
+          <input placeholder="Amount" class="form-control" formControlName="amount" type="number"/>
+      </div>
+      <div class="d-flex flex-column">
+          <input placeholder="Cost" class="form-control" formControlName="cost" type="number"/>
+      </div>
+      <div class="d-flex flex-column justify-content-start ">
+        <div class="d-flex align-items-center form-check">
+          <input class="form-check-input checkbox-md" type="checkbox" formControlName="isSold" id="isSold"/>
+          <label class="form-check-label" for="isSold">
+            Is it being sold?
+          </label>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="d-flex flex-row">
+      <button *ngIf="isResourceSelected()" class="btn btn-success form-submit">Create</button>
+      <button disabled=true *ngIf="!isResourceSelected()" class="btn btn-secondary form-submit">Select Resource</button>
+    </div>
+  </div>
+</form>

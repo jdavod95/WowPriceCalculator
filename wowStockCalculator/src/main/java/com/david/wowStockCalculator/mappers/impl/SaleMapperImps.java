@@ -7,11 +7,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SaleMapper implements Mapper<Sale, SaleDto> {
+public class SaleMapperImps implements Mapper<Sale, SaleDto> {
 
     private ModelMapper modelMapper;
 
-    public SaleMapper(ModelMapper modelMapper) {
+    public SaleMapperImps(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }
 

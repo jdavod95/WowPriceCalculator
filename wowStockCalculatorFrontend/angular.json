@@ -2,6 +2,11 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "projects",
+  "schematics": {
+    "@schematics/angular:component": {
+      "style": "scss"
+    }
+  },
   "projects": {
     "wowStockCalculatorFrontend": {
       "projectType": "application",
@@ -27,7 +32,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/styles.scss"
             ],
             "scripts": []
           },
@@ -68,10 +74,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "wowStockCalculatorFrontend:build:production"
+              "buildTarget": "wowStockCalculatorFrontend:build:production"
             },
             "development": {
-              "browserTarget": "wowStockCalculatorFrontend:build:development"
+              "buildTarget": "wowStockCalculatorFrontend:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -79,7 +85,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "wowStockCalculatorFrontend:build"
+            "buildTarget": "wowStockCalculatorFrontend:build"
           }
         },
         "test": {
@@ -94,13 +100,12 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.scss"
             ],
             "scripts": []
           }
         }
       }
     }
-  },
-  "defaultProject": "wowStockCalculatorFrontend"
+  }
 }

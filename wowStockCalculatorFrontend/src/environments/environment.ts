@@ -3,7 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  appTitle: "WoW Price Calculator",
+  production: false,
+  apiBaseUrl: 'http://localhost:8080',
+  currency: "g",
+  dateFormat: "yyyy.MM.dd."
 };
 
 /*

@@ -1,0 +1,61 @@
+@use '@angular/material' as mat;
+@import '~material-icons/iconfont/material-icons.css';
+@import "~@angular/material/prebuilt-themes/azure-blue.css";
+@include mat.core();
+
+$theme: mat.define-theme((
+  color: (
+    theme-type: dark,
+    primary: mat.$violet-palette,
+  ),
+  typography: (
+    brand-family: 'Comic Sans',
+    bold-weight: 900
+  ),
+  density: (
+    scale: -1
+  )
+));
+
+.title-label {
+    text-align: center;
+}
+
+.component-container {
+  background-color: rgb(237, 237, 237);
+  padding: 4px;
+  border-radius: 8px;
+  margin-top: 5px;
+}
+
+
+table {
+  border-color: var(--bs-secondary-border-subtle) !important;
+  border-style: solid !important;
+  border-width: 1px !important;
+  border-left: 0px !important;
+  border-top: 0px !important;
+}
+
+.table-header {
+  font-weight: 500 !important;
+}
+
+.form-submit {
+  margin-top: 5px;
+  width: 100%;
+}
+
+.form-separator {
+  margin-bottom: 20px;;
+}
+
+.form-control:focus {
+  border-color: var(--bs-btn-border-color) !important;
+  box-shadow: none !important;
+}
+
+.search-bar {
+  margin-bottom: 5px;
+  width: 50% !important;
+}

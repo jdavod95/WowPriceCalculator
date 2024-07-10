@@ -10,7 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +25,7 @@ public class SaleServiceImpl implements SaleService {
     private ResourceRepository resourceRepository;
 
     public static String getNow() {
-        return LocalDate.now().format(DateTimeFormatter.ISO_DATE);
+        return LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME);
     }
 
     @Override
@@ -64,6 +64,17 @@ public class SaleServiceImpl implements SaleService {
 
     @Override
     public void delete(Long id) {
-        saleRepository.delete(saleRepository.findById(id).get());
+        Sale sale = saleRepository.findById(id).get();
+
+        Resource resource = sale.getResource();
+        resource.addToStock(sale.getAmount() * -1);
+        resourceRepository.save(resource);
+
+        saleRepository.delete(sale);
+    }
+
+    @Override
+    public Iterable<Sale> findAllByResourceId(Long resourceId) {
+        return saleRepository.findAllByResourceId(resourceId);
     }
 }
