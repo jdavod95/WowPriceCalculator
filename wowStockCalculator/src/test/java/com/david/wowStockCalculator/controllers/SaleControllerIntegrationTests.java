@@ -98,7 +98,7 @@ public class SaleControllerIntegrationTests {
     }
 
     @Test
-    public void testThatListSaleReturnsListOfSales() throws Exception {
+    public void testThatListSalePagedReturnsListOfSales() throws Exception {
         Resource resource = TestDataUtil.createTestResourceA();
         resourceService.createResource(resource);
 
@@ -106,7 +106,7 @@ public class SaleControllerIntegrationTests {
         saleService.createSale(resource.getId(), sale);
 
         mockMvc.perform(
-                MockMvcRequestBuilders.get("/sales")
+                MockMvcRequestBuilders.get("/salesPaged")
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.content[0].id").isNumber()
@@ -118,7 +118,7 @@ public class SaleControllerIntegrationTests {
     }
 
     @Test
-    public void testThatGetSaleReturnsCorrectResponseCodes() throws Exception {
+    public void testThatGetSaleByResourceIdReturnsCorrectResponseCodes() throws Exception {
         Resource resource = TestDataUtil.createTestResourceA();
         resourceService.createResource(resource);
 
@@ -126,7 +126,7 @@ public class SaleControllerIntegrationTests {
         saleService.createSale(resource.getId(), sale);
 
         mockMvc.perform(
-                MockMvcRequestBuilders.get("/sales/" + sale.getId())
+                MockMvcRequestBuilders.get("/sales/" + sale.getResource().getId())
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
                 MockMvcResultMatchers.status().isOk()
@@ -141,7 +141,7 @@ public class SaleControllerIntegrationTests {
     }
 
     @Test
-    public void testThatGetSaleReturnsSale() throws Exception {
+    public void testThatGetSalesByResourceIdReturnsSale() throws Exception {
         Resource resource = TestDataUtil.createTestResourceA();
         resourceService.createResource(resource);
 
@@ -149,14 +149,14 @@ public class SaleControllerIntegrationTests {
         saleService.createSale(resource.getId(), sale);
 
         mockMvc.perform(
-                MockMvcRequestBuilders.get("/sales/" + sale.getId())
+                MockMvcRequestBuilders.get("/sales/" + sale.getResource().getId())
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.id").isNumber()
+                MockMvcResultMatchers.jsonPath("$[0].id").isNumber()
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.date").value(sale.getDate())
+                MockMvcResultMatchers.jsonPath("$[0].date").value(sale.getDate())
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.resource.id").isNumber()
+                MockMvcResultMatchers.jsonPath("$[0].resource.id").isNumber()
         );
     }
 

@@ -6,7 +6,7 @@ import com.david.wowStockCalculator.domain.entities.Resource;
 import com.david.wowStockCalculator.domain.entities.Sale;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public final class TestDataUtil {
@@ -82,10 +82,10 @@ public final class TestDataUtil {
     }
 
     public static String getNow() {
-        return LocalDate.now().format(DateTimeFormatter.ISO_DATE);
+        return LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME);
     }
 
     public static String getYesterday() {
-        return LocalDate.now().minusDays(1).format(DateTimeFormatter.ISO_DATE);
+        return LocalDateTime.now().minusDays(1).format(DateTimeFormatter.ISO_DATE_TIME);
     }
 }

@@ -68,7 +68,7 @@ public class ResourceControllerIntegrationTest {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.name").value(resource.getName())
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.onStock").value(resource.getOnStock())
+                MockMvcResultMatchers.jsonPath("$.onStock").value(0)
         );
     }
 

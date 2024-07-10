@@ -6,7 +6,8 @@ export const environment = {
   appTitle: "WoW Price Calculator",
   production: false,
   apiBaseUrl: 'http://localhost:8080',
-  currency: "g"
+  currency: "g",
+  dateFormat: "yyyy.MM.dd."
 };
 
 /*

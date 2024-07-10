@@ -34,9 +34,6 @@ export class BalanceComponent implements OnInit{
   }
 
   public calculateBalance() {
-    this.expenses = 0;
-    this.income = 0;
-    
     if(this.isGeneralBalance) {
       this.saleService.getSales().subscribe((sales: Sale[]) => {
         this.setBalanceValues(sales);
@@ -45,16 +42,24 @@ export class BalanceComponent implements OnInit{
       this.saleService.getSalesByresourceId(this.selectedResource.id!).subscribe((sales: Sale[]) => {
         this.setBalanceValues(sales);
       });
-    } 
+    } else {
+      this.setBalanceValues([]);
+    }
   }
 
   private setBalanceValues(sales: Sale[]) {
+    let expenses = 0;
+    let income = 0;
+
     sales.forEach(sale => {
       if (sale.isSold) {
-        this.income! += sale.cost;
+        income! += sale.cost;
       } else {
-        this.expenses! += sale.cost;
+        expenses! += sale.cost;
       }
     })
+
+    this.expenses = expenses;
+    this.income = income;
   }
 }

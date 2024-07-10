@@ -19,6 +19,8 @@ import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.
 import { CurrencyPostfixPipe } from './pipes/currency-postfix.pipe';
 import { BalanceComponent } from './components/balance/balance.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { DatePipe } from '@angular/common';
+import { DateTruncatePipe } from './pipes/date-truncate.pipe';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     NavbarComponent
   ],
   imports: [
+    DatePipe,
+    DateTruncatePipe,
     CurrencyPostfixPipe,
     ResourceNamePipe,
     BrowserAnimationsModule,
@@ -42,6 +46,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     ReactiveFormsModule
   ],
   providers: [
+    DatePipe,
+    DateTruncatePipe,
     CurrencyPostfixPipe,
     ResourceNamePipe,
     provideHttpClient(withFetch()),

@@ -24,7 +24,7 @@ public class Sale {
     @JoinColumn(name = "resource_id")
     private Resource resource;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @CreatedDate
     private String date;
 

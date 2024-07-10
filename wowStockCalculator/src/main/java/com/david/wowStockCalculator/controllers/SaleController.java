@@ -48,12 +48,18 @@ public class SaleController {
     }
 
     @GetMapping(path = "/sales/{resource_id}")
-    public List<SaleDto> listSalesByResourceId(
+    public ResponseEntity<List<SaleDto>> listSalesByResourceId(
             @PathVariable("resource_id") Long resourceId
     ){
-        return StreamSupport.stream(saleService.findAllByResourceId(resourceId).spliterator(), false)
+        List<SaleDto> sales = StreamSupport.stream(saleService.findAllByResourceId(resourceId).spliterator(), false)
                 .map(saleMapper::mapTo)
                 .collect(Collectors.toList());
+
+        HttpStatus status = sales.isEmpty()
+                ? HttpStatus.NOT_FOUND
+                : HttpStatus.OK;
+
+        return new ResponseEntity<>(sales, status);
     }
 
     @PostMapping(path = "/sales/{resource_id}")
