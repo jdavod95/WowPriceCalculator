@@ -2,9 +2,6 @@ package com.david.wowStockCalculator.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Data
 @AllArgsConstructor

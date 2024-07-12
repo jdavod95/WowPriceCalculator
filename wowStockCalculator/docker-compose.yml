@@ -1,11 +1,22 @@
-version: '3.1'
-
+version: "3.8"
 services:
-
   db:
     image: postgres
-    ports:
-      - "5432:5432"
+    deploy:
+      mode: global
     restart: always
     environment:
+      POSTGRES_DB: wowStockCalcPostgres
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    volumes:
+      - "C:/docker-db-volume:/var/lib/postgresql/data"
+  app:
+    image: david/wowstockcalc:latest
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: admin
+      depends_on:
+        "db"
