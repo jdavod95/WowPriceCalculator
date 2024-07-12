@@ -12,11 +12,30 @@ services:
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
     volumes:
       - "C:/docker-db-volume:/var/lib/postgresql/data"
-  app:
+    ports:
+      - "5433:5432"
+    expose:
+      - 5433
+
+  api:
     image: david/wowstockcalc:latest
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/postgres
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/wowstockcalc
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: admin
-      depends_on:
-        "db"
+    depends_on:
+      - "db"
+    command: >
+      --ws-external
+      --rpc-external
+      --rpc-cors all
+    ports:
+      - "8081:8080"
+    expose:
+      - 8081
+  ui:
+    build: ./../wowStockCalculatorFrontend
+    ports:
+      - "80:80"
+    expose:
+      - 80
