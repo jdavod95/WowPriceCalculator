@@ -14,7 +14,6 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ['./resources.component.scss']
 })
 export class ResourcesComponent implements OnInit {
-  //TODO: deployment, field validation, sale pagination
   
   private selectedResource: Resource | undefined;
   

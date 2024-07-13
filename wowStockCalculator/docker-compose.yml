@@ -36,6 +36,6 @@ services:
   ui:
     build: ./../wowStockCalculatorFrontend
     ports:
-      - "80:80"
+      - "81:80"
     expose:
-      - 80
+      - 81

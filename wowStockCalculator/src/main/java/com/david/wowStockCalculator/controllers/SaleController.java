@@ -55,11 +55,7 @@ public class SaleController {
                 .map(saleMapper::mapTo)
                 .collect(Collectors.toList());
 
-        HttpStatus status = sales.isEmpty()
-                ? HttpStatus.NOT_FOUND
-                : HttpStatus.OK;
-
-        return new ResponseEntity<>(sales, status);
+        return new ResponseEntity<>(sales, HttpStatus.OK);
     }
 
     @PostMapping(path = "/sales/{resource_id}")
