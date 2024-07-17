@@ -7,6 +7,8 @@ import { ResourceNamePipe } from 'src/app/pipes/resource-name.pipe';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { SaleService } from 'src/app/services/sale.service';
+import { Sale } from 'src/app/domain/sale';
 
 @Component({
   selector: 'app-resources',
@@ -28,6 +30,7 @@ export class ResourcesComponent implements OnInit {
 
   constructor(
     private resourceService: ResourceService,
+    private saleService: SaleService,
     private modalService: ModalService,
     private resourceNamePipe: ResourceNamePipe
   ) {}
@@ -55,16 +58,29 @@ export class ResourcesComponent implements OnInit {
   }
 
   public deleteResource(resource: Resource) {
-    this.modalService.confirmationModal(
-      this.resourceNamePipe.transform(resource.name),
-      "Are you sure you want to DELETE this resource? All associated sales will be deleted aswell!",
-      () => {
-        this.resourceService.deleteResource(resource.id!).subscribe((response: any) => {
+    if(resource == null) {
+      return;
+    }
+
+    let deleteResource = () => {
+        this.resourceService.deleteResource(resource.id!).subscribe(() => {
           this.ngOnInit();
           this.resourceSelected.emit(undefined);
         })
+    }
+
+    this.saleService.getFirstSaleByResourceId(resource.id!).subscribe((response: any) => {
+      if(response.content.length == 0){
+        deleteResource();
+      } else {
+        this.modalService.confirmationModal(
+          this.resourceNamePipe.transform(resource.name),
+          "Are you sure you want to DELETE this resource? All associated sales will be deleted aswell!",
+          deleteResource
+        );
       }
-    );
+    });
+
   }
 
   applyFilter(event: Event) {

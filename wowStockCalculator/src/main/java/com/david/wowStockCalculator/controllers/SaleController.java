@@ -8,7 +8,9 @@ import com.david.wowStockCalculator.services.SaleService;
 import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,9 +20,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -35,8 +39,19 @@ public class SaleController {
     private ResourceService resourceService;
 
     @GetMapping(path = "/salesPaged")
-    public Page<SaleDto> listSales(Pageable pageable){
-        Page<Sale> sales = saleService.findAll(pageable);
+    public Page<SaleDto> listSalesPage(
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "20") int size){
+        Page<Sale> sales = saleService.findAll(PageRequest.of(page, size));
+        return sales.map(saleMapper::mapTo);
+    }
+
+    @GetMapping(path = "/salesPaged/{resource_id}")
+    public Page<SaleDto> listSalesPageByResourceId(
+            @PathVariable("resource_id") Long resourceId,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "20") int size){
+        Page<Sale> sales = saleService.findAllByResourceId(resourceId, PageRequest.of(page, size));
         return sales.map(saleMapper::mapTo);
     }
 

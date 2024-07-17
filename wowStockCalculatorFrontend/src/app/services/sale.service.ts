@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class SaleService {
+
   private apiServerUrl = environment.apiBaseUrl;
   
   constructor(private http: HttpClient) { }
@@ -28,4 +29,7 @@ export class SaleService {
     return this.http.delete<void>(`${this.apiServerUrl}/sales/${saleId}`);
   }
 
+  public getFirstSaleByResourceId(resourceId: number): Observable<Sale> {
+    return this.http.get<Sale>(`${this.apiServerUrl}/salesPaged/${resourceId}?size=1`);
+  }
 }

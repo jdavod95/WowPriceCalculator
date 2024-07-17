@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "resource")
+@Table(name = "resource", uniqueConstraints = { @UniqueConstraint(columnNames = { "name", "quality" }) })
 public class Resource {
 
     @Id
@@ -16,6 +16,8 @@ public class Resource {
     private Long id;
 
     private String name;
+
+    private Quality quality;
 
     private Integer onStock;
 

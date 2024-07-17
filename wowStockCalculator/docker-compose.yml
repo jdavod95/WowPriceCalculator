@@ -20,7 +20,7 @@ services:
   api:
     image: david/wowstockcalc:latest
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/wowstockcalc
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/postgres
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: admin
     depends_on:

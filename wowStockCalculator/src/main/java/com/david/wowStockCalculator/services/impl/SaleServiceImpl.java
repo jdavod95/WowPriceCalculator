@@ -77,4 +77,9 @@ public class SaleServiceImpl implements SaleService {
     public Iterable<Sale> findAllByResourceId(Long resourceId) {
         return saleRepository.findAllByResourceId(resourceId);
     }
+
+    @Override
+    public Page<Sale> findAllByResourceId(Long resourceId, Pageable pageable) {
+        return saleRepository.findAllByResourceId(resourceId, pageable);
+    }
 }

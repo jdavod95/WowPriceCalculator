@@ -12,6 +12,7 @@ export class AppComponent {
   // table width fix, filter by resource from sales
   // pagination, https policy, 
   // addresses to env variables or parameters
+  // users & auth
   
   constructor() { }
 

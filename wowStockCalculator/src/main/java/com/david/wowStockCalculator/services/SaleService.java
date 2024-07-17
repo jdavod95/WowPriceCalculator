@@ -22,4 +22,6 @@ public interface SaleService {
     void delete(Long id);
 
     Iterable<Sale> findAllByResourceId(Long resourceId);
+
+    Page<Sale> findAllByResourceId(Long resourceId, Pageable pageable);
 }

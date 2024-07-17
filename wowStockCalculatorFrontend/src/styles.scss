@@ -59,3 +59,8 @@ table {
   margin-bottom: 5px;
   width: 50% !important;
 }
+
+.invalid-input {
+  border: 1px solid red;
+  color: red;
+}

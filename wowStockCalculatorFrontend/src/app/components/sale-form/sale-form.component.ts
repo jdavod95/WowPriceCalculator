@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Sale } from 'src/app/domain/sale';
 import { SaleService } from 'src/app/services/sale.service';
 
@@ -15,14 +15,15 @@ export class SaleFormComponent implements OnInit {
   
   @Output()
   public saleCreated = new EventEmitter<void>()
+  public submitted: boolean = false;
 
   constructor(
     private saleService: SaleService,
     private formBuilder: FormBuilder) {
     this.form = this.formBuilder.group({
       resources: [''],
-      amount: Number,
-      cost: Number,
+      amount: ['', [Validators.required, Validators.min(1)]],
+      cost: ['', [Validators.required, Validators.min(0)]],
       isSold: [false]
     });
   }
@@ -30,16 +31,33 @@ export class SaleFormComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  submit() {
+  get amountField() {
+    return this.form.controls['amount'];
+  }
+
+  get costField() {
+    return this.form.controls['cost'];
+  }
+
+  public submit() {
+    this.submitted = true;
+    if(this.form.invalid) {
+      return;
+    }
+
     let sale: Sale = {
       amount: this.form.controls['amount'].value,
       cost: this.form.controls['cost'].value,
       isSold: this.form.controls['isSold'].value,
     };
+
     this.saleService.addSale(sale, this.selectedResourceId)
       .subscribe((response: Sale) => {
         this.saleCreated.emit();
     });
+    
+    this.form.reset();
+    this.submitted = false;
   }
 
   isResourceSelected(): boolean {
