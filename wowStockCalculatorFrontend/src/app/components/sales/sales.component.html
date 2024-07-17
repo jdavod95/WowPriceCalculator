@@ -8,7 +8,9 @@
     <table mat-table [dataSource]="salesDataSource" matSort matSortActive="date" matSortDirection="desc" >
         <ng-container matColumnDef="resource" style="flex: 0.65">
             <th mat-header-cell *matHeaderCellDef > Resource </th>
-            <td mat-cell *matCellDef="let sale"> {{sale.resource?.name | resourceName }} </td>
+            <td mat-cell *matCellDef="let sale" [class.clickable-cell]="selectedResource == null" 
+                (click)="onClickResource(sale.resource)"> 
+                    {{sale.resource?.name | resourceName }} </td>
         </ng-container>
         
         <ng-container matColumnDef="amount">
@@ -36,7 +38,6 @@
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index; " 
-            (click)="selectRow(salesDataSource.filteredData, i)"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 </div>

@@ -93,10 +93,8 @@ export class SalesComponent implements OnInit {
     this.ngOnInit();
   }
 
-  public selectRow(datasource: Sale[], index: number) {
-    let orderedDatasource = this.salesDataSource._orderData(datasource);
-    
-    this.setSelectedResource(orderedDatasource[index].resource!);
+  public onClickResource(resource: Resource) {
+    this.setSelectedResource(resource);
     this.resourceSelected.emit(this.selectedResource);
   }
 }

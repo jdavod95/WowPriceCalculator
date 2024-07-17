@@ -15,6 +15,7 @@ import { SaleService } from 'src/app/services/sale.service';
   styleUrls: ['./resources.component.scss']
 })
 export class ResourcesComponent implements OnInit {
+
   
   public selectedResource: Resource | undefined;
   
@@ -87,13 +88,11 @@ export class ResourcesComponent implements OnInit {
     this.resourcesDataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  public selectRow(datasource: Resource[], index: number) {
-    let orderedDatasource = this.resourcesDataSource._orderData(datasource);
-
-    if(this.selectedResource?.id == orderedDatasource[index].id) {
+  public onClickResource(resource: Resource) {
+    if(this.selectedResource?.id == resource.id) {
       this.selectedResource = undefined;
     } else {
-      this.selectedResource = orderedDatasource[index];
+      this.selectedResource = resource;
     }
 
     this.resourceSelected.emit(this.selectedResource);
