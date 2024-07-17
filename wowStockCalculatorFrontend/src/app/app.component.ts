@@ -8,10 +8,10 @@ import { environment } from 'src/environments/environment';
 })
 export class AppComponent {
 
-  //TODO: field validation, resource constraints, 
-  // table width fix, filter by resource from sales
+  //TODO: 
+  // resource constraints, 
   // pagination, https policy, 
-  // addresses to env variables or parameters
+  // ip addresses to env variables or parameters
   // users & auth
   
   constructor() { }

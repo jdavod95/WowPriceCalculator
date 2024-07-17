@@ -21,6 +21,7 @@ import { BalanceComponent } from './components/balance/balance.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { DatePipe } from '@angular/common';
 import { DateTruncatePipe } from './pipes/date-truncate.pipe';
+import { PositiveIntegerDirective } from './directives/positive-integer.directive';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { DateTruncatePipe } from './pipes/date-truncate.pipe';
     SalesComponent,
     ConfirmModalComponent,
     BalanceComponent,
-    NavbarComponent
+    NavbarComponent,
+    PositiveIntegerDirective
   ],
   imports: [
     DatePipe,

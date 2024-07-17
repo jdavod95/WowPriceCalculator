@@ -1,4 +1,4 @@
-<div class="d-flex- flex-row flex-group">
+<div id="resourceColumn" class="d-flex flex-row flex-group">
     <div class="d-flex flex-column row-header" *ngIf="isGeneralBalance"> Every Sale</div>
     <div class="d-flex flex-column row-header" *ngIf="!isGeneralBalance">
         {{ this.selectedResource == null ? "Selected Resource" : this.selectedResource.name | resourceName }}

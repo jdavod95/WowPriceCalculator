@@ -8,7 +8,6 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { SaleService } from 'src/app/services/sale.service';
-import { Sale } from 'src/app/domain/sale';
 
 @Component({
   selector: 'app-resources',
@@ -17,7 +16,7 @@ import { Sale } from 'src/app/domain/sale';
 })
 export class ResourcesComponent implements OnInit {
   
-  private selectedResource: Resource | undefined;
+  public selectedResource: Resource | undefined;
   
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
@@ -83,7 +82,7 @@ export class ResourcesComponent implements OnInit {
 
   }
 
-  applyFilter(event: Event) {
+  public applyFilter(event: Event) {
     let filterValue = (event.target as HTMLInputElement).value;
     this.resourcesDataSource.filter = filterValue.trim().toLowerCase();
   }
@@ -91,11 +90,12 @@ export class ResourcesComponent implements OnInit {
   public selectRow(datasource: Resource[], index: number) {
     let orderedDatasource = this.resourcesDataSource._orderData(datasource);
 
-    if(this.selectedResource == orderedDatasource[index]) {
+    if(this.selectedResource?.id == orderedDatasource[index].id) {
       this.selectedResource = undefined;
     } else {
       this.selectedResource = orderedDatasource[index];
     }
+
     this.resourceSelected.emit(this.selectedResource);
   }
 }

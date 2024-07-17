@@ -12,7 +12,8 @@ export class SaleFormComponent implements OnInit {
 
   public form: FormGroup;
   public selectedResourceId!: number;
-  
+  public pattern : string="^[1-9]+[0-9]*$"
+
   @Output()
   public saleCreated = new EventEmitter<void>()
   public submitted: boolean = false;
@@ -46,8 +47,8 @@ export class SaleFormComponent implements OnInit {
     }
 
     let sale: Sale = {
-      amount: this.form.controls['amount'].value,
-      cost: this.form.controls['cost'].value,
+      amount: parseInt(this.form.controls['amount'].value),
+      cost: parseInt(this.form.controls['cost'].value),
       isSold: this.form.controls['isSold'].value,
     };
 

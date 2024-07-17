@@ -24,6 +24,7 @@ export class ResourceControlComponent implements OnInit {
     this.resourceBalance.selectedResource = resource;
     this.resourceBalance.calculateBalance();
     this.salesComponent.setSelectedResource(resource);
+    this.resourcesComponent.selectedResource = resource;
   }
   
   public onSalesChange() {

@@ -18,8 +18,11 @@ export class SalesComponent implements OnInit {
   
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
   @ViewChild(SaleFormComponent) saleFormComponent!: SaleFormComponent;
+
   @Output()
   public salesChange = new EventEmitter<any>()
+  @Output()
+  public resourceSelected = new EventEmitter<Resource>()
 
   public selectedResource: Resource | undefined;
   public displayedColumns: string[] = ['resource', 'amount', 'cost', 'date', 'delete']
@@ -88,5 +91,12 @@ export class SalesComponent implements OnInit {
     this.selectedResource = resource;
     this.saleFormComponent.selectedResourceId = resource?.id!;
     this.ngOnInit();
+  }
+
+  public selectRow(datasource: Sale[], index: number) {
+    let orderedDatasource = this.salesDataSource._orderData(datasource);
+    
+    this.setSelectedResource(orderedDatasource[index].resource!);
+    this.resourceSelected.emit(this.selectedResource);
   }
 }

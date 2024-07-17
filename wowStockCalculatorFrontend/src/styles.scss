@@ -64,3 +64,9 @@ table {
   border: 1px solid red;
   color: red;
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
