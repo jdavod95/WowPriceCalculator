@@ -23,20 +23,17 @@ public class SaleServiceImpl implements SaleService {
 
     private SaleRepository saleRepository;
     private ResourceRepository resourceRepository;
-
-    public static String getNow() {
-        return LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME);
-    }
+    private DateServiceImpl dateService;
 
     @Override
     public Sale createSale(Long resourceId, Sale sale) {
         Resource resource = resourceRepository.findById(resourceId).orElseThrow();
 
-        resource.addToStock(sale.getAmount());
+        resource.addToStock(sale.getAmount(), sale.getIsSold());
         resourceRepository.save(resource);
 
         sale.setResource(resource);
-        sale.setDate(getNow());
+        sale.setDate(dateService.getNow());
 
         return saleRepository.save(sale);
     }
@@ -67,7 +64,7 @@ public class SaleServiceImpl implements SaleService {
         Sale sale = saleRepository.findById(id).get();
 
         Resource resource = sale.getResource();
-        resource.addToStock(sale.getAmount() * -1);
+        resource.addToStock(sale.getAmount(), !sale.getIsSold());
         resourceRepository.save(resource);
 
         saleRepository.delete(sale);

@@ -12,7 +12,12 @@
                 (click)="onClickResource(resource)"> 
                     {{ resource.name | resourceName }} </td>
         </ng-container>
-        
+
+        <ng-container matColumnDef="quality">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-header"> Quality </th>
+            <td mat-cell *matCellDef="let resource"> {{ resource.quality }} </td>
+        </ng-container>   
+
         <ng-container matColumnDef="onStock">
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-header"> Stock </th>
             <td mat-cell *matCellDef="let resource"> {{ resource.onStock }} </td>

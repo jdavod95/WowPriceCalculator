@@ -1,5 +1,6 @@
 package com.david.wowStockCalculator.controllers;
 
+import com.david.wowStockCalculator.domain.entities.Quality;
 import com.david.wowStockCalculator.domain.entities.Resource;
 import com.david.wowStockCalculator.domain.dto.ResourceDto;
 import com.david.wowStockCalculator.mappers.Mapper;
@@ -8,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -51,6 +53,14 @@ public class ResourceController {
     @PutMapping(path = "/resources")
     public ResponseEntity<ResourceDto> createResource(@RequestBody final ResourceDto resource){
         Resource resourceEntity = resourceMapper.mapFrom(resource);
+        Optional<Resource> existingResource = resourceService.find(
+                resourceEntity.getName(),
+                Optional.ofNullable(resourceEntity.getQuality()).orElse(Quality.NONE));
+
+        if(existingResource.isPresent()) {
+            return new ResponseEntity<>(resourceMapper.mapTo(existingResource.get()), HttpStatus.OK);
+        }
+
         Resource savedResource = resourceService.createResource(resourceEntity);
 
         return new ResponseEntity<>(resourceMapper.mapTo(savedResource), HttpStatus.CREATED);

@@ -1,9 +1,25 @@
 <form [formGroup]="form" (ngSubmit)="submit()" >
     <div class="d-flex flex-column">
         <div class="d-flex flex-row">
-            <input id="name" type="text" class="form-control" formControlName="name"
-                [class.invalid-input]="submitted && nameField.invalid"
-                [placeholder]="submitted && nameField.invalid ? 'Name required' : 'Name' ">
+            <div class="d-flex flex-column">
+                <input id="name" type="text" class="form-control" formControlName="name"
+                    [class.invalid-input]="resourceExists || (submitted && nameField.invalid)"
+                    [placeholder]="
+                        resourceExists 
+                        ? 'Resource already exists!'  
+                        : (submitted && nameField.invalid 
+                            ? 'Name required' 
+                            : 'Name')">
+                        
+            </div>
+            <div class="d-flex flex-column">
+                <select class="form-control" formControlName="quality" placeholder="Quality">
+                    <option value="" disabled selected>Quality</option>
+                    <option *ngFor="let q of qualities"> 
+                        {{ q }}
+                    </option>
+                </select>
+            </div>
         </div>
         <div class="d-flex flex-row">
             <button type="submit" class="btn btn-success form-submit">Create</button>

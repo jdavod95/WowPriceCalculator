@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Resource } from 'src/app/domain/resource';
 import { environment } from 'src/environments/environment';
@@ -20,8 +20,8 @@ export class ResourceService {
     return this.http.get<Resource>(`${this.apiServerUrl}/resources/${resourceId}`);
   }
 
-  public addResource(resource: Resource): Observable<Resource> {
-    return this.http.put<Resource>(`${this.apiServerUrl}/resources`, resource);
+  public addResource(resource: Resource): Observable<HttpResponse<any>> {
+    return this.http.put<HttpResponse<any>>(`${this.apiServerUrl}/resources`, resource, {observe: 'response'});
   }
 
   public updateResource(resource: Resource): Observable<Resource> {

@@ -6,5 +6,5 @@ public enum Quality {
     TWO,
     THREE,
     FOUR,
-    FIVE
+    FIVE;
 }

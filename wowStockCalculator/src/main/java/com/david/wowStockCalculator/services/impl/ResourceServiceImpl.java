@@ -1,5 +1,6 @@
 package com.david.wowStockCalculator.services.impl;
 
+import com.david.wowStockCalculator.domain.entities.Quality;
 import com.david.wowStockCalculator.domain.entities.Resource;
 import com.david.wowStockCalculator.domain.entities.Sale;
 import com.david.wowStockCalculator.repositories.ResourceRepository;
@@ -22,7 +23,6 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public Resource createResource(Resource resource) {
-        resource.setOnStock(0);
         return resourceRepository.save(resource);
     }
 
@@ -61,5 +61,9 @@ public class ResourceServiceImpl implements ResourceService {
         resourceRepository.delete(resource);
     }
 
+    @Override
+    public Optional<Resource> find(String name, Quality quality) {
+        return resourceRepository.findByNameAndQuality(name, quality);
+    }
 
 }

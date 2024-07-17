@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "resource", uniqueConstraints = { @UniqueConstraint(columnNames = { "name", "quality" }) })
+@Table(name = "resource")
 public class Resource {
 
     @Id
@@ -17,11 +17,14 @@ public class Resource {
 
     private String name;
 
-    private Quality quality;
+    @Column(name = "onStock", columnDefinition = "integer default 0")
+    private Integer onStock = 0;
 
-    private Integer onStock;
+    @Column(name = "quality", columnDefinition = "varchar(8) default 'NONE'")
+    @Enumerated(value = EnumType.STRING)
+    private Quality quality = Quality.NONE;
 
-    public void addToStock(Integer amount){
-        onStock += amount;
+    public void addToStock(Integer amount, boolean isSold){
+        onStock += (amount * (isSold ? -1 : 1));
     };
 }

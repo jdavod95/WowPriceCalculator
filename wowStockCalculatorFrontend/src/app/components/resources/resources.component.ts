@@ -8,6 +8,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { SaleService } from 'src/app/services/sale.service';
+import { mapQuality, Quality } from 'src/app/domain/quality';
 
 @Component({
   selector: 'app-resources',
@@ -22,7 +23,7 @@ export class ResourcesComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   
-  public displayedColumns: string[] = ['name', 'onStock', 'delete']
+  public displayedColumns: string[] = ['name', 'quality', 'onStock', 'delete']
   public resourcesDataSource = new MatTableDataSource<Resource>();
   
   @Output()
@@ -49,6 +50,9 @@ export class ResourcesComponent implements OnInit {
   public getResources(): void {
     this.resourceService.getResources().subscribe(
       (response: Resource[]) => {
+        response.forEach(resource => {
+          resource.quality = mapQuality(resource.quality);          
+        })
         this.resourcesDataSource.data = response;
       },
       (error: HttpErrorResponse) => {
@@ -80,7 +84,6 @@ export class ResourcesComponent implements OnInit {
         );
       }
     });
-
   }
 
   public applyFilter(event: Event) {
