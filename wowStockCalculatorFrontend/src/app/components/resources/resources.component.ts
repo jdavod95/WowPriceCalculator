@@ -8,7 +8,9 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { SaleService } from 'src/app/services/sale.service';
-import { mapQuality, Quality } from 'src/app/domain/quality';
+import { mapQuality } from 'src/app/domain/quality';
+import { PagingToolComponent } from '../paging-tool/paging-tool.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-resources',
@@ -22,9 +24,10 @@ export class ResourcesComponent implements OnInit {
   
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
+  @ViewChild(PagingToolComponent, { static: true }) pagingTool!: PagingToolComponent;
   
   public displayedColumns: string[] = ['name', 'quality', 'onStock', 'delete']
-  public resourcesDataSource = new MatTableDataSource<Resource>();
+  public resourcesDataSource = new MatTableDataSource<Resource>;
   
   @Output()
   public resourceSelected = new EventEmitter<Resource>()
@@ -38,9 +41,19 @@ export class ResourcesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getResources();
+  }
+
+  private initTable() {
     this.sort.disableClear = true;
     this.resourcesDataSource.sort = this.sort;
+    
+    this.paginator.pageSize = environment.tablePageSize;
+    this.paginator.length = this.resourcesDataSource.data.length;
+
     this.resourcesDataSource.paginator = this.paginator;
+
+    this.pagingTool.currentPage = this.resourcesDataSource.paginator?.pageIndex;
+    this.pagingTool.pageCount = this.paginator.getNumberOfPages();
   }
 
   public onResourceCreated() {
@@ -54,6 +67,7 @@ export class ResourcesComponent implements OnInit {
           resource.quality = mapQuality(resource.quality);          
         })
         this.resourcesDataSource.data = response;
+        this.initTable();
       },
       (error: HttpErrorResponse) => {
         alert(error.message);

@@ -16,7 +16,7 @@ export class PositiveIntegerDirective {
         if (value) {
         value = value.replace(/[^0-9]/g, '');
         
-        if (parseInt(value, 10) < 1) {
+        if (parseInt(value, 10) < 0) {
             value = '';
         }
 

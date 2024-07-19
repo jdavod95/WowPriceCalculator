@@ -32,5 +32,6 @@ public class Sale {
 
     private Integer cost;
 
-    private Boolean isSold;
+    @Column(name = "isSold", columnDefinition = "boolean default false")
+    private Boolean isSold = false;
 }

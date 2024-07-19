@@ -28,17 +28,31 @@ $theme: mat.define-theme((
   margin-top: 5px;
 }
 
+.table-header {
+  font-weight: 500 !important;
+}
 
-table {
+
+.table-toolbar {
+  background-color: var(--mat-table-background-color);
+  padding: 4px 4px 4px 4px;
+  border-radius: 8px;
+  gap: 20px;
+  margin-bottom: 4px;
+  vertical-align: middle;
+}
+
+.table-toolbar-spacer {
+  flex: 1; 
+  visibility: hidden;
+}
+
+.box-border {
   border-color: var(--bs-secondary-border-subtle) !important;
   border-style: solid !important;
   border-width: 1px !important;
   border-left: 0px !important;
   border-top: 0px !important;
-}
-
-.table-header {
-  font-weight: 500 !important;
 }
 
 .form-submit {
@@ -53,11 +67,6 @@ table {
 .form-control:focus {
   border-color: var(--bs-btn-border-color) !important;
   box-shadow: none !important;
-}
-
-.search-bar {
-  margin-bottom: 5px;
-  width: 50% !important;
 }
 
 .invalid-input {
@@ -81,4 +90,8 @@ input::-webkit-inner-spin-button {
   border-radius: 4px;
   background-color: #bcbcbc !important; 
   cursor: pointer;
+}
+
+select {
+  color: #595c5f !important;
 }

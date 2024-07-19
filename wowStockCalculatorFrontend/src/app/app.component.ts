@@ -9,7 +9,6 @@ import { environment } from 'src/environments/environment';
 export class AppComponent {
 
   //TODO: 
-  // resource constraints, 
   // pagination, https policy, 
   // ip addresses to env variables or parameters
   // users & auth

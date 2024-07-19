@@ -1,11 +1,22 @@
 <div class="component-container">
     <h5 class="title-label">Sales:</h5>
-    
     <app-sale-form (saleCreated)="onSaleCreated()"/>
     <div class="form-separator"></div>
-    <input placeholder="Spacer for resource control, later date search" class="search-bar form-control" style="visibility: hidden">
- 
-    <table mat-table [dataSource]="salesDataSource" matSort matSortActive="date" matSortDirection="desc" >
+
+    <div class="d-flex flex-row table-toolbar align-items-center box-border">
+        <div class="d-flex flex-column" style="visibility: hidden;">
+            <input placeholder="Spacer for resource control, later date search" class="form-control"><!-- style="visibility: hidden">-->
+        </div>
+        <div class="d-flex flex-column table-toolbar-spacer"></div>
+        <div class="d-flex flex-column">
+            <app-paging-tool [paginator]="this.paginator"/>
+        </div>
+    </div>
+
+    <table [dataSource]="salesDataSource" class="box-border"
+        mat-table matSort matSortActive="date" matSortDirection="desc" >
+        <mat-paginator/>
+   
         <ng-container matColumnDef="resource" style="flex: 0.65">
             <th mat-header-cell *matHeaderCellDef > Resource </th>
             <td mat-cell *matCellDef="let sale" [class.clickable-cell]="selectedResource == null" 

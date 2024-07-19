@@ -8,6 +8,9 @@ import { ModalService } from 'src/app/services/modal.service';
 import { ResourceNamePipe } from 'src/app/pipes/resource-name.pipe';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
+import { PagingToolComponent } from '../paging-tool/paging-tool.component';
+import { MatPaginator } from '@angular/material/paginator';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-sales',
@@ -17,6 +20,8 @@ import { MatSort } from '@angular/material/sort';
 export class SalesComponent implements OnInit {
   
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
+  @ViewChild(PagingToolComponent, { static: true }) pagingTool!: PagingToolComponent;
   @ViewChild(SaleFormComponent) saleFormComponent!: SaleFormComponent;
 
   @Output()
@@ -26,7 +31,7 @@ export class SalesComponent implements OnInit {
 
   public selectedResource: Resource | undefined;
   public displayedColumns: string[] = ['resource', 'amount', 'cost', 'date', 'delete']
-  public salesDataSource = new MatTableDataSource<Sale>();
+  public salesDataSource = new MatTableDataSource<Sale>;
   
   constructor(
     private saleService: SaleService,
@@ -40,9 +45,19 @@ export class SalesComponent implements OnInit {
     } else {
       this.getSales();
     }
+  }
 
+  private initTable() {
     this.sort.disableClear = true;
     this.salesDataSource.sort = this.sort;
+    
+    this.paginator.pageSize = environment.tablePageSize;
+    this.paginator.length = this.salesDataSource.data.length;
+
+    this.salesDataSource.paginator = this.paginator;
+
+    this.pagingTool.currentPage = this.salesDataSource.paginator?.pageIndex;
+    this.pagingTool.pageCount = this.paginator.getNumberOfPages();
   }
 
   public onSaleCreated() {
@@ -54,7 +69,7 @@ export class SalesComponent implements OnInit {
     this.modalService.confirmationModal(
       this.resourceNamePipe.transform(sale.resource!.name) + ", " 
         + sale.amount + " pieces, " 
-        + sale.cost + "g",
+        + sale.cost + environment.currency,
       "Are you sure you want to DELETE this sale?",
       () => {
         this.saleService.deleteSale(sale.id!).subscribe((response: any) => {
@@ -69,6 +84,7 @@ export class SalesComponent implements OnInit {
     this.saleService.getSales().subscribe(
       (response: Sale[]) => {
         this.salesDataSource.data = response;
+        this.initTable();
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -80,6 +96,7 @@ export class SalesComponent implements OnInit {
     this.saleService.getSalesByresourceId(resourceId).subscribe(
       (response: Sale[]) => {
         this.salesDataSource.data = response;
+        this.initTable();
       },
       (error: HttpErrorResponse) => {
         alert(error.message);

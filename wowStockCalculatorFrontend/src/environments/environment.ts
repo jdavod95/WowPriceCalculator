@@ -7,7 +7,8 @@ export const environment = {
   production: false,
   apiBaseUrl: 'http://localhost:8080',
   currency: "g",
-  dateFormat: "yyyy.MM.dd."
+  dateFormat: "yyyy.MM.dd.",
+  tablePageSize: 8
 };
 
 /*

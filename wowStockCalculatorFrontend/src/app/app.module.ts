@@ -22,6 +22,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { DatePipe } from '@angular/common';
 import { DateTruncatePipe } from './pipes/date-truncate.pipe';
 import { PositiveIntegerDirective } from './directives/positive-integer.directive';
+import { PagingToolComponent } from './components/paging-tool/paging-tool.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { PositiveIntegerDirective } from './directives/positive-integer.directiv
     ConfirmModalComponent,
     BalanceComponent,
     NavbarComponent,
+    PagingToolComponent,
     PositiveIntegerDirective
   ],
   imports: [

@@ -6,11 +6,10 @@
                     [class.invalid-input]="resourceExists || (submitted && nameField.invalid)"
                     [placeholder]="
                         resourceExists 
-                        ? 'Resource already exists!'  
+                        ? 'Resource exists!'  
                         : (submitted && nameField.invalid 
                             ? 'Name required' 
                             : 'Name')">
-                        
             </div>
             <div class="d-flex flex-column">
                 <select class="form-control" formControlName="quality" placeholder="Quality">

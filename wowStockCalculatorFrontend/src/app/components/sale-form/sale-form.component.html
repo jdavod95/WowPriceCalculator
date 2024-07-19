@@ -1,6 +1,5 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
   <div class="d-flex flex-column">
-
     <div class="d-flex flex-row">
       <div class="d-flex flex-column">
           <input class="form-control" formControlName="amount" type="number"
@@ -14,8 +13,8 @@
             [class.invalid-input]="submitted && costField.invalid"
             [placeholder]="submitted && costField.invalid ? 'Cost required' : 'Cost' ">
       </div>
-      <div class="d-flex flex-column justify-content-start ">
-        <div class="d-flex align-items-center form-check">
+      <div class="d-flex flex-column align-items-center checkbox-center">
+        <div class="d-flex form-check">
           <input class="form-check-input checkbox-md" type="checkbox" formControlName="isSold" id="isSold"/>
           <label class="form-check-label" for="isSold">
             Is it being sold?
@@ -23,7 +22,6 @@
         </div>
       </div>
     </div>
-
     
     <div class="d-flex flex-row">
       <button *ngIf="isResourceSelected()" class="btn btn-success form-submit">Create</button>

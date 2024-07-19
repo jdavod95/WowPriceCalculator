@@ -1,5 +1,5 @@
 import { HttpResponse } from '@angular/common/http';
-import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Quality } from 'src/app/domain/quality';
 import { Resource } from 'src/app/domain/resource';
@@ -51,15 +51,14 @@ export class ResourceFormComponent implements OnInit {
 
     this.resourceService.addResource(resource)
       .subscribe((response: HttpResponse<any>) => {
-        console.log(response)
         if(response.status == 200) {
           this.resourceExists = true;
-          console.log(this.resourceExists)
         }
         this.resourceCreated.emit();
     });
 
     this.form.reset();
+    this.resourceExists = false;
     this.submitted = false;
   }
 }

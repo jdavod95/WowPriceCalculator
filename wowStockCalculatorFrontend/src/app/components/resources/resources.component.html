@@ -3,9 +3,20 @@
     <app-resource-form (resourceCreated)="onResourceCreated()"/>
     <div class="form-separator"></div>
 
-    <input (keyup)="applyFilter($event)" placeholder="Search" class="search-bar form-control">
+    <div class="d-flex flex-row table-toolbar align-items-center box-border">
+        <div class="d-flex flex-column">
+            <input (keyup)="applyFilter($event)" placeholder="Search" class="form-control">
+        </div>
+        <div class="d-flex flex-column table-toolbar-spacer"></div>
+        <div class="d-flex flex-column">
+            <app-paging-tool [paginator]="this.paginator"/>
+        </div>
+    </div>
 
-    <table mat-table [dataSource]="resourcesDataSource" matSort matSortActive="name" matSortDirection="asc" >
+    <table [dataSource]="resourcesDataSource" class="box-border"
+        mat-table matSort matSortActive="name" matSortDirection="asc" >
+        <mat-paginator/>
+        
         <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-header"> Resource </th>
             <td mat-cell *matCellDef="let resource" class="clickable-cell" 
