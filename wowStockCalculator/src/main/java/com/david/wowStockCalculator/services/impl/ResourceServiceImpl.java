@@ -7,6 +7,8 @@ import com.david.wowStockCalculator.repositories.ResourceRepository;
 import com.david.wowStockCalculator.repositories.SaleRepository;
 import com.david.wowStockCalculator.services.ResourceService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +32,11 @@ public class ResourceServiceImpl implements ResourceService {
     public List<Resource> findAll() {
         return StreamSupport.stream(resourceRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<Resource> findAll(Pageable pageable) {
+        return resourceRepository.findAll(pageable);
     }
 
     @Override

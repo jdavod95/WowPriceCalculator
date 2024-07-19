@@ -40,14 +40,10 @@ export class SalesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if(this.selectedResource != null) {
-      this.getSalesByResourceId(this.selectedResource.id!);
-    } else {
-      this.getSales();
-    }
+    this.getSales();
   }
 
-  private initTable() {
+  private initTable(totalElements: number) {
     this.sort.disableClear = true;
     this.salesDataSource.sort = this.sort;
     
@@ -57,12 +53,16 @@ export class SalesComponent implements OnInit {
     this.salesDataSource.paginator = this.paginator;
 
     this.pagingTool.currentPage = this.salesDataSource.paginator?.pageIndex;
-    this.pagingTool.pageCount = this.paginator.getNumberOfPages();
+    this.pagingTool.pageCount = Math.ceil(totalElements / environment.tablePageSize);
   }
 
   public onSaleCreated() {
     this.salesChange.emit();
     this.ngOnInit();
+  }
+
+  public onOutOfPages(pageIndex: number) {
+    this.getSales(pageIndex);
   }
 
   public deleteSale(sale: Sale) {
@@ -80,29 +80,35 @@ export class SalesComponent implements OnInit {
     );
   }
 
-  public getSales(): void {
-    this.saleService.getSales().subscribe(
-      (response: Sale[]) => {
-        this.salesDataSource.data = response;
-        this.initTable();
+  public getSales(pageIndex?: number): void {
+    let getFilteredSales;
+
+    if(this.selectedResource != null) {
+      getFilteredSales = () => this.saleService.getSalesByResourceIdPaged(
+        this.selectedResource!.id!, pageIndex || 0); 
+    } else {
+      getFilteredSales = () => this.saleService.getSalesPaged(
+        pageIndex || 0);
+    }
+
+    getFilteredSales().subscribe(
+      (response: any) => {
+        if(pageIndex == null || pageIndex == 0){
+          this.salesDataSource.data = response.content;
+          this.initTable(response.totalElements);
+          this.pagingTool.reset();
+        } else {
+          this.salesDataSource.data = [...this.salesDataSource.data, ...response.content];
+          this.initTable(response.totalElements);
+          this.pagingTool.onRight();
+        }
+
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
       }
     );
   }  
-
-  public getSalesByResourceId(resourceId: number): void {
-    this.saleService.getSalesByresourceId(resourceId).subscribe(
-      (response: Sale[]) => {
-        this.salesDataSource.data = response;
-        this.initTable();
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    );
-  }
 
   public setSelectedResource(resource: Resource) {
     this.selectedResource = resource;

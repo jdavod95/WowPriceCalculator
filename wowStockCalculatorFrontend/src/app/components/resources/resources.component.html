@@ -9,14 +9,14 @@
         </div>
         <div class="d-flex flex-column table-toolbar-spacer"></div>
         <div class="d-flex flex-column">
-            <app-paging-tool [paginator]="this.paginator"/>
+            <app-paging-tool [paginator]="this.paginator" (outOfPages)="onOutOfPages($event)"/>
         </div>
     </div>
 
     <table [dataSource]="resourcesDataSource" class="box-border"
         mat-table matSort matSortActive="name" matSortDirection="asc" >
         <mat-paginator/>
-        
+
         <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-header"> Resource </th>
             <td mat-cell *matCellDef="let resource" class="clickable-cell" 

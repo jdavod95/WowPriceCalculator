@@ -43,7 +43,7 @@ export class ResourcesComponent implements OnInit {
     this.getResources();
   }
 
-  private initTable() {
+  private initTable(totalElements: number) {
     this.sort.disableClear = true;
     this.resourcesDataSource.sort = this.sort;
     
@@ -53,21 +53,33 @@ export class ResourcesComponent implements OnInit {
     this.resourcesDataSource.paginator = this.paginator;
 
     this.pagingTool.currentPage = this.resourcesDataSource.paginator?.pageIndex;
-    this.pagingTool.pageCount = this.paginator.getNumberOfPages();
+    this.pagingTool.pageCount = Math.ceil(totalElements / environment.tablePageSize);
   }
 
   public onResourceCreated() {
     this.ngOnInit();
   }
 
-  public getResources(): void {
-    this.resourceService.getResources().subscribe(
-      (response: Resource[]) => {
-        response.forEach(resource => {
+  public onOutOfPages(pageIndex: number) {
+    this.getResources(pageIndex);
+  }
+
+  public getResources(pageIndex?: number): void {
+    this.resourceService.getResourcesPaged(pageIndex || 0).subscribe(
+      (response: any) => {
+        response.content.forEach((resource: Resource) => {
           resource.quality = mapQuality(resource.quality);          
         })
-        this.resourcesDataSource.data = response;
-        this.initTable();
+
+        if(pageIndex == null || pageIndex == 0){
+          this.resourcesDataSource.data = response.content;
+          this.initTable(response.totalElements);
+          this.pagingTool.reset();
+        } else {
+          this.resourcesDataSource.data = [...this.resourcesDataSource.data, ...response.content];
+          this.initTable(response.totalElements);
+          this.pagingTool.onRight();
+        }
       },
       (error: HttpErrorResponse) => {
         alert(error.message);

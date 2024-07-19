@@ -42,7 +42,7 @@ public class SaleController {
     public Page<SaleDto> listSalesPage(
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "20") int size){
-        Page<Sale> sales = saleService.findAll(PageRequest.of(page, size));
+        Page<Sale> sales = saleService.findAll(PageRequest.of(page, size, Sort.by("id").descending()));
         return sales.map(saleMapper::mapTo);
     }
 
@@ -51,7 +51,7 @@ public class SaleController {
             @PathVariable("resource_id") Long resourceId,
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "20") int size){
-        Page<Sale> sales = saleService.findAllByResourceId(resourceId, PageRequest.of(page, size));
+        Page<Sale> sales = saleService.findAllByResourceId(resourceId, PageRequest.of(page, size, Sort.by("id").descending()));
         return sales.map(saleMapper::mapTo);
     }
 

@@ -17,7 +17,7 @@ export class SaleService {
     return this.http.get<Sale[]>(`${this.apiServerUrl}/sales`);
   }
   
-  public getSalesByresourceId(resourceId: number): Observable<Sale[]> {
+  public getSalesByResourceId(resourceId: number): Observable<Sale[]> {
     return this.http.get<Sale[]>(`${this.apiServerUrl}/sales/${resourceId}`);
   }
 
@@ -31,5 +31,28 @@ export class SaleService {
 
   public getFirstSaleByResourceId(resourceId: number): Observable<Sale> {
     return this.http.get<Sale>(`${this.apiServerUrl}/salesPaged/${resourceId}?size=1`);
+  }
+
+  // request x times of the shown amount, get more if paged further
+  public getSalesPaged(pageIndex: number | undefined): Observable<any> {
+    if(pageIndex != null) {
+      pageIndex = Math.floor(((pageIndex + 1) / environment.tablePageBufferSize));
+    }
+
+    return this.http.get<any>(
+      `${this.apiServerUrl}/salesPaged` +
+        `?size=${environment.tablePageSize * environment.tablePageBufferSize}` +
+        `&page=${pageIndex || 0}`);
+  }
+
+  public getSalesByResourceIdPaged(resourceId: number, pageIndex: number | undefined): Observable<any> {
+    if(pageIndex != null) {
+      pageIndex = Math.floor(((pageIndex + 1) / environment.tablePageBufferSize));
+    }
+    
+    return this.http.get<any>(
+        `${this.apiServerUrl}/salesPaged/${resourceId}` +
+        `?size=${environment.tablePageSize * environment.tablePageBufferSize}` +
+        `&page=${pageIndex || 0}`);
   }
 }

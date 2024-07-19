@@ -31,4 +31,17 @@ export class ResourceService {
   public deleteResource(resourceId: number): Observable<any> {
     return this.http.delete<void>(`${this.apiServerUrl}/resources/${resourceId}`);
   }
+
+  // request x times of the shown amount, get more if paged further
+  public getResourcesPaged(pageIndex: number | undefined): Observable<any> {
+    if(pageIndex != null) {
+      pageIndex = Math.floor(((pageIndex + 1) / environment.tablePageBufferSize));
+    }
+
+    return this.http.get<any>(
+      `${this.apiServerUrl}/resourcesPaged` +
+        `?size=${environment.tablePageSize * environment.tablePageBufferSize}` +
+        `&page=${pageIndex || 0}`);
+  }
+  
 }

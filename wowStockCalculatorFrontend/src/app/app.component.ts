@@ -9,9 +9,11 @@ import { environment } from 'src/environments/environment';
 export class AppComponent {
 
   //TODO: 
-  // pagination, https policy, 
+  // https policy, 
   // ip addresses to env variables or parameters
   // users & auth
+  // excel import, recipes
+  // pagination refactor to be more reusable,
   
   constructor() { }
 
