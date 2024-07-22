@@ -13,9 +13,10 @@ export class AppComponent {
   // ip addresses to env variables or parameters
   // users & auth
   // excel import, recipes
-  // pagination refactor to be more reusable,
+  // calculations
+  // pagination/custom table refactor to be more reusable,
   
-  constructor() { }
-
   public appTitle = environment.appTitle;
+
+  constructor() { }
 }

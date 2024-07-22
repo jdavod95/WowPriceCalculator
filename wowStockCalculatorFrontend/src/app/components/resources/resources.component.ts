@@ -41,23 +41,18 @@ export class ResourcesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getResources();
+    this.initTable()
   }
 
-  private initTable(totalElements: number) {
+  private initTable() {
     this.sort.disableClear = true;
-    this.resourcesDataSource.sort = this.sort;
-    
     this.paginator.pageSize = environment.tablePageSize;
-    this.paginator.length = this.resourcesDataSource.data.length;
-
+    this.resourcesDataSource.sort = this.sort;
     this.resourcesDataSource.paginator = this.paginator;
-
-    this.pagingTool.currentPage = this.resourcesDataSource.paginator?.pageIndex;
-    this.pagingTool.pageCount = Math.ceil(totalElements / environment.tablePageSize);
   }
 
   public onResourceCreated() {
-    this.ngOnInit();
+    this.getResources();
   }
 
   public onOutOfPages(pageIndex: number) {
@@ -73,12 +68,12 @@ export class ResourcesComponent implements OnInit {
 
         if(pageIndex == null || pageIndex == 0){
           this.resourcesDataSource.data = response.content;
-          this.initTable(response.totalElements);
-          this.pagingTool.reset();
+          this.pagingTool.onDatasourceReplaced(
+            this.resourcesDataSource.data.length, 
+            response.totalElements);
         } else {
           this.resourcesDataSource.data = [...this.resourcesDataSource.data, ...response.content];
-          this.initTable(response.totalElements);
-          this.pagingTool.onRight();
+          this.pagingTool.onDatasourceExtended(this.resourcesDataSource.data.length);
         }
       },
       (error: HttpErrorResponse) => {
@@ -94,8 +89,8 @@ export class ResourcesComponent implements OnInit {
 
     let deleteResource = () => {
         this.resourceService.deleteResource(resource.id!).subscribe(() => {
-          this.ngOnInit();
           this.resourceSelected.emit(undefined);
+          this.getResources();
         })
     }
 

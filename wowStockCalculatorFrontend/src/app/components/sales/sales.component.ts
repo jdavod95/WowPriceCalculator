@@ -41,24 +41,19 @@ export class SalesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getSales();
+    this.initTable();
   }
 
-  private initTable(totalElements: number) {
+  private initTable() {
     this.sort.disableClear = true;
-    this.salesDataSource.sort = this.sort;
-    
     this.paginator.pageSize = environment.tablePageSize;
-    this.paginator.length = this.salesDataSource.data.length;
-
+    this.salesDataSource.sort = this.sort;
     this.salesDataSource.paginator = this.paginator;
-
-    this.pagingTool.currentPage = this.salesDataSource.paginator?.pageIndex;
-    this.pagingTool.pageCount = Math.ceil(totalElements / environment.tablePageSize);
   }
 
   public onSaleCreated() {
     this.salesChange.emit();
-    this.ngOnInit();
+    this.getSales();
   }
 
   public onOutOfPages(pageIndex: number) {
@@ -74,7 +69,7 @@ export class SalesComponent implements OnInit {
       () => {
         this.saleService.deleteSale(sale.id!).subscribe((response: any) => {
           this.salesChange.emit();
-          this.ngOnInit();
+          this.getSales();
         })
       }
     );
@@ -95,17 +90,13 @@ export class SalesComponent implements OnInit {
       (response: any) => {
         if(pageIndex == null || pageIndex == 0){
           this.salesDataSource.data = response.content;
-          this.initTable(response.totalElements);
-          this.pagingTool.reset();
+          this.pagingTool.onDatasourceReplaced(
+            this.salesDataSource.data.length, 
+            response.totalElements);
         } else {
           this.salesDataSource.data = [...this.salesDataSource.data, ...response.content];
-          this.initTable(response.totalElements);
-          this.pagingTool.onRight();
+          this.pagingTool.onDatasourceExtended(this.salesDataSource.data.length);
         }
-
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
       }
     );
   }  
@@ -113,7 +104,7 @@ export class SalesComponent implements OnInit {
   public setSelectedResource(resource: Resource) {
     this.selectedResource = resource;
     this.saleFormComponent.selectedResourceId = resource?.id!;
-    this.ngOnInit();
+    this.getSales();
   }
 
   public onClickResource(resource: Resource) {

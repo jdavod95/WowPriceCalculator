@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-paging-tool',
@@ -8,7 +9,7 @@ import { MatPaginator } from '@angular/material/paginator';
 })
 export class PagingToolComponent {
   
-  public currentPage: number = 0;
+  public currentPage: number = 1;
   public pageCount: number = 1;
 
   @Input()
@@ -30,8 +31,24 @@ export class PagingToolComponent {
     this.currentPage = this.paginator.pageIndex;
   }
 
-  public reset() {
+  private reset() {
     this.currentPage = 0;
     this.paginator.firstPage();
+  }
+
+  public refresh(responseDataLength: number){
+    this.paginator.length = responseDataLength;
+    this.currentPage = this.paginator?.pageIndex!;
+  }
+
+  public onDatasourceReplaced(responseDataLength: number, totalElements: number){
+    this.refresh(responseDataLength);
+    this.reset();
+    this.pageCount = Math.ceil(totalElements / environment.tablePageSize);
+  }
+
+  public onDatasourceExtended(responseDataLength: number){
+    this.refresh(responseDataLength);
+    this.onRight();
   }
 }

@@ -30,7 +30,7 @@ export class ResourceControlComponent implements OnInit {
   public onSalesChange() {
     this.generalBalance.calculateBalance();
     this.resourceBalance.calculateBalance();
-    this.resourcesComponent.ngOnInit();
+    this.resourcesComponent.getResources();
   }
   
 }
