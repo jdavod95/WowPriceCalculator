@@ -9,13 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ResourceDto {
-
+public class ReagentDto {
     private Long id;
-
-    private String name;
-
-    private Integer onStock;
-
-    private String quality;
+    private Long resourceId;
+    private Integer amount;
 }

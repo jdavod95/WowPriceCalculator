@@ -9,12 +9,13 @@ import { environment } from 'src/environments/environment';
 export class AppComponent {
 
   //TODO: 
-  // https policy, 
-  // ip addresses to env variables or parameters
-  // users & auth
-  // excel import, recipes
+  // recipes
   // calculations
+  // excel import, 
+  // ip addresses to env variables or parameters
   // pagination/custom table refactor to be more reusable,
+  // users & auth
+  // https policy, 
   
   public appTitle = environment.appTitle;
 

@@ -1,10 +1,8 @@
 package com.david.wowStockCalculator.controllers;
 
-import com.david.wowStockCalculator.domain.dto.SaleDto;
 import com.david.wowStockCalculator.domain.entities.Quality;
 import com.david.wowStockCalculator.domain.entities.Resource;
 import com.david.wowStockCalculator.domain.dto.ResourceDto;
-import com.david.wowStockCalculator.domain.entities.Sale;
 import com.david.wowStockCalculator.mappers.Mapper;
 import com.david.wowStockCalculator.services.ResourceService;
 import lombok.AllArgsConstructor;
@@ -14,7 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
