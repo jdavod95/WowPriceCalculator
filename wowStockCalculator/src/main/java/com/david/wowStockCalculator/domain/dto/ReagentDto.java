@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ReagentDto {
+public class RecipeReagentDto {
     private Long id;
     private Long resourceId;
     private Integer amount;

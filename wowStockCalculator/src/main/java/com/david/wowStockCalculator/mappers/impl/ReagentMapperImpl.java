@@ -1,29 +1,27 @@
 package com.david.wowStockCalculator.mappers.impl;
 
-import com.david.wowStockCalculator.domain.dto.ReagentDto;
+import com.david.wowStockCalculator.domain.dto.RecipeReagentDto;
 import com.david.wowStockCalculator.domain.entities.Reagent;
 import com.david.wowStockCalculator.mappers.Mapper;
-import com.david.wowStockCalculator.services.ResourceService;
-import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ReagentMapperImpl implements Mapper<Reagent, ReagentDto> {
+public class RecipeReagentMapperImpl implements Mapper<Reagent, RecipeReagentDto> {
 
     private ModelMapper modelMapper;
 
-    public ReagentMapperImpl(ModelMapper modelMapper) {
+    public RecipeReagentMapperImpl(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }
 
     @Override
-    public ReagentDto mapTo(Reagent reagent) {
-        return modelMapper.map(reagent, ReagentDto.class);
+    public RecipeReagentDto mapTo(Reagent reagent) {
+        return modelMapper.map(reagent, RecipeReagentDto.class);
     }
 
     @Override
-    public Reagent mapFrom(ReagentDto reagentDto) {
-        return modelMapper.map(reagentDto, Reagent.class);
+    public Reagent mapFrom(RecipeReagentDto recipeReagentDto) {
+        return modelMapper.map(recipeReagentDto, Reagent.class);
     }
 }
