@@ -18,11 +18,11 @@ public class RecipeDto {
 
     private String name;
 
-    private List<ReagentDto> reagents;
+    private List<ReagentDto> requiredReagents;
+
+    private List<ReagentDto> resultingReagents;
 
     private Integer difficulty;
-
-    private Integer resultAmount;
 
     private List<CraftingStat> craftingStats;
 }

@@ -19,9 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @RestController
@@ -57,16 +55,23 @@ public class RecipeController {
     @PostMapping(path = "/recipes")
     public ResponseEntity<RecipeDto> createRecipe(
             @RequestBody final RecipeDto recipe){
-        List<Reagent> reagents = recipe.getReagents().stream()
+        List<Reagent> requiredReagents = recipe.getRequiredReagents().stream()
+                .map(reagentMapper::mapFrom)
+                .collect(Collectors.toList());
+        List<Reagent> resultingReagents = recipe.getResultingReagents().stream()
                 .map(reagentMapper::mapFrom)
                 .collect(Collectors.toList());
 
-        reagents.forEach(reagent -> {
+        requiredReagents.forEach(reagent -> {
+            reagent.setResource(resourceService.findById(reagent.getResource().getId()).get());
+        });
+        resultingReagents.forEach(reagent -> {
             reagent.setResource(resourceService.findById(reagent.getResource().getId()).get());
         });
 
         Recipe recipeEntity = recipeMapper.mapFrom(recipe);
-        recipeEntity.setReagents(reagents);
+        recipeEntity.setRequiredReagents(requiredReagents);
+        recipeEntity.setResultingReagents(resultingReagents);
 
         Recipe savedRecipe = recipeService.createRecipe(recipeEntity);
         return new ResponseEntity<>(recipeMapper.mapTo(savedRecipe), HttpStatus.CREATED);

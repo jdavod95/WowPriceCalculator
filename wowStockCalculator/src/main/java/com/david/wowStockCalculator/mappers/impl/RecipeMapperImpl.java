@@ -5,9 +5,11 @@ import com.david.wowStockCalculator.domain.entities.Recipe;
 import com.david.wowStockCalculator.mappers.Mapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Component
+@Transactional
 public class RecipeMapperImpl implements Mapper<Recipe, RecipeDto> {
 
     private ModelMapper modelMapper;

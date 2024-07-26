@@ -19,18 +19,16 @@ import { environment } from 'src/environments/environment';
 })
 export class ResourcesComponent implements OnInit {
 
-  
-  public selectedResource: Resource | undefined;
+  @Output()
+  public resourceSelected = new EventEmitter<Resource>()
   
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(PagingToolComponent, { static: true }) pagingTool!: PagingToolComponent;
   
+  public selectedResource: Resource | undefined;
   public displayedColumns: string[] = ['name', 'quality', 'onStock', 'delete']
   public resourcesDataSource = new MatTableDataSource<Resource>;
-  
-  @Output()
-  public resourceSelected = new EventEmitter<Resource>()
 
   constructor(
     private resourceService: ResourceService,

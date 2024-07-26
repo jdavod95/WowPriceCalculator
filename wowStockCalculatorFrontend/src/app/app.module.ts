@@ -23,10 +23,18 @@ import { DatePipe } from '@angular/common';
 import { DateTruncatePipe } from './pipes/date-truncate.pipe';
 import { PositiveIntegerDirective } from './directives/positive-integer.directive';
 import { PagingToolComponent } from './components/paging-tool/paging-tool.component';
+import { RecipeControlComponent } from './components/recipe-control/recipe-control.component';
+import { RecipesComponent } from './components/recipes/recipes.component';
+import { RecipeFormComponent } from './components/recipe-form/recipe-form.component';
+import { RecipeService } from './services/recipe.service';
+import { ReagentService } from './services/reagent.service';
 
 @NgModule({
   declarations: [
     AppComponent,
+    RecipeControlComponent,
+    RecipesComponent,
+    RecipeFormComponent,
     ResourceControlComponent,
     ResourceFormComponent,
     ResourcesComponent,
@@ -56,7 +64,9 @@ import { PagingToolComponent } from './components/paging-tool/paging-tool.compon
     ResourceNamePipe,
     provideHttpClient(withFetch()),
     ResourceService,
-    SaleService
+    SaleService,
+    RecipeService,
+    ReagentService
   ],
   bootstrap: [AppComponent]
 })

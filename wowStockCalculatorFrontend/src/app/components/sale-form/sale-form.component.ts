@@ -12,7 +12,6 @@ export class SaleFormComponent implements OnInit {
 
   public form: FormGroup;
   public selectedResourceId!: number;
-  public pattern : string="^[1-9]+[0-9]*$"
 
   @Output()
   public saleCreated = new EventEmitter<void>()

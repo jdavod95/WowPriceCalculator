@@ -1,7 +1,7 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Quality } from 'src/app/domain/quality';
+import { getQualityKey, mapQuality, Quality } from 'src/app/domain/quality';
 import { Resource } from 'src/app/domain/resource';
 import { ResourceService } from 'src/app/services/resource.service';
 
@@ -46,7 +46,8 @@ export class ResourceFormComponent implements OnInit {
     }
 
     let resource: Resource = {
-      name: this.form.controls['name'].value
+      name: this.form.controls['name'].value,
+      quality: getQualityKey(this.form.controls['quality'].value)!.toUpperCase().replace(' ', '_')
     };
 
     this.resourceService.addResource(resource)

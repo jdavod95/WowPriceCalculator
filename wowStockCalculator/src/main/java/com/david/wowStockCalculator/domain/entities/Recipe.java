@@ -23,14 +23,23 @@ public class Recipe {
 
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "recipe_id")
-    private List<Reagent> reagents = new LinkedList<>();
+    @OneToMany(cascade = CascadeType.MERGE, orphanRemoval = true)
+    @JoinTable(
+            name = "required_reagent",
+            joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "reagent_id")
+    )
+    private List<Reagent> requiredReagents = new LinkedList<>();
+
+    @OneToMany(cascade = CascadeType.MERGE, orphanRemoval = true)
+    @JoinTable(
+            name = "resulting_reagent",
+            joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "reagent_id")
+    )
+    private List<Reagent> resultingReagents = new LinkedList<>();
 
     private Integer difficulty;
-
-    @Column(name = "result_amount", columnDefinition = "integer default 0")
-    private Integer resultAmount;
 
     @ElementCollection(targetClass = CraftingStat.class)
     @CollectionTable(name = "crafting_stat", joinColumns = @JoinColumn(name = "recipe_id"))
