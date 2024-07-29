@@ -1,6 +1,5 @@
 package com.david.wowStockCalculator.services.impl;
 
-import com.david.wowStockCalculator.domain.entities.Reagent;
 import com.david.wowStockCalculator.domain.entities.Recipe;
 import com.david.wowStockCalculator.repositories.ReagentRepository;
 import com.david.wowStockCalculator.repositories.RecipeRepository;
@@ -24,8 +23,8 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     @Transactional(rollbackFor = { Exception.class })
     public Recipe createRecipe(Recipe recipe) {
-        recipe.getRequiredReagents().forEach(reagent -> reagentRepository.save(reagent));
-        recipe.getResultingReagents().forEach(reagent -> reagentRepository.save(reagent));
+        reagentRepository.saveAll(recipe.getRequiredReagents());
+        reagentRepository.saveAll(recipe.getResultReagents());
         return recipeRepository.save(recipe);
     }
 

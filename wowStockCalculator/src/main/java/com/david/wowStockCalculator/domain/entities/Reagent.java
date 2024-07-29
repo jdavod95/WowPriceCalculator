@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
@@ -27,7 +28,7 @@ public class Reagent {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reagent_id_seq")
     private Long id;
 
-    @OneToOne(cascade = CascadeType.MERGE)
+    @ManyToOne()
     @JoinColumn(name = "resource_id")
     private Resource resource;
 

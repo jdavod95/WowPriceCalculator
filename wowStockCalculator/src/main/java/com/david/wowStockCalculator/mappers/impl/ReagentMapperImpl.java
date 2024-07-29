@@ -24,4 +24,5 @@ public class ReagentMapperImpl implements Mapper<Reagent, ReagentDto> {
     public Reagent mapFrom(ReagentDto recipeReagentDto) {
         return modelMapper.map(recipeReagentDto, Reagent.class);
     }
+
 }

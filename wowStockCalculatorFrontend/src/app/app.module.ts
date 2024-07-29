@@ -28,12 +28,14 @@ import { RecipesComponent } from './components/recipes/recipes.component';
 import { RecipeFormComponent } from './components/recipe-form/recipe-form.component';
 import { RecipeService } from './services/recipe.service';
 import { ReagentService } from './services/reagent.service';
+import { RecipesTreeComponent } from './components/recipes-tree/recipes-tree.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RecipeControlComponent,
     RecipesComponent,
+    RecipesTreeComponent,
     RecipeFormComponent,
     ResourceControlComponent,
     ResourceFormComponent,

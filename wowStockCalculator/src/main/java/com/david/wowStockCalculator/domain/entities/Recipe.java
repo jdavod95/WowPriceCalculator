@@ -33,11 +33,10 @@ public class Recipe {
 
     @OneToMany(cascade = CascadeType.MERGE, orphanRemoval = true)
     @JoinTable(
-            name = "resulting_reagent",
+            name = "result_reagent",
             joinColumns = @JoinColumn(name = "recipe_id"),
-            inverseJoinColumns = @JoinColumn(name = "reagent_id")
-    )
-    private List<Reagent> resultingReagents = new LinkedList<>();
+            inverseJoinColumns = @JoinColumn(name = "reagent_id"))
+    private List<Reagent> resultReagents = new LinkedList<>();
 
     private Integer difficulty;
 

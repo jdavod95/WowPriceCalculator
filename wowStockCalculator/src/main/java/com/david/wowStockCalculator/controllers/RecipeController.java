@@ -2,6 +2,7 @@ package com.david.wowStockCalculator.controllers;
 
 import com.david.wowStockCalculator.domain.dto.ReagentDto;
 import com.david.wowStockCalculator.domain.dto.RecipeDto;
+import com.david.wowStockCalculator.domain.dto.RecipeResponseDto;
 import com.david.wowStockCalculator.domain.entities.Reagent;
 import com.david.wowStockCalculator.domain.entities.Recipe;
 import com.david.wowStockCalculator.mappers.Mapper;
@@ -29,36 +30,37 @@ public class RecipeController {
 
     private RecipeService recipeService;
     private ResourceService resourceService;
+    private Mapper<Recipe, RecipeResponseDto> recipeResponseMapper;
     private Mapper<Recipe, RecipeDto> recipeMapper;
     private Mapper<Reagent, ReagentDto> reagentMapper;
 
     @GetMapping(path = "/recipes")
-    public List<RecipeDto> listRecipe(){
+    public List<RecipeResponseDto> listRecipe(){
         List<Recipe> recipes = recipeService.findAll();
         return recipes.stream()
-                .map(recipeMapper::mapTo)
+                .map(recipeResponseMapper::mapTo)
                 .collect(Collectors.toList());
     }
 
     @GetMapping(path = "/recipes/{recipe_id}")
-    public ResponseEntity<RecipeDto> getRecipe(
+    public ResponseEntity<RecipeResponseDto> getRecipe(
             @PathVariable("recipe_id") Long recipeId
     ){
         Optional<Recipe> foundRecipe = recipeService.findById(recipeId);
         return foundRecipe.map(
-                recipe -> new ResponseEntity<>(recipeMapper.mapTo(recipe), HttpStatus.OK)
+                recipe -> new ResponseEntity<>(recipeResponseMapper.mapTo(recipe), HttpStatus.OK)
         ).orElse(
                 new ResponseEntity<>(HttpStatus.NOT_FOUND)
         );
     }
 
     @PostMapping(path = "/recipes")
-    public ResponseEntity<RecipeDto> createRecipe(
+    public ResponseEntity<RecipeResponseDto> createRecipe(
             @RequestBody final RecipeDto recipe){
         List<Reagent> requiredReagents = recipe.getRequiredReagents().stream()
                 .map(reagentMapper::mapFrom)
                 .collect(Collectors.toList());
-        List<Reagent> resultingReagents = recipe.getResultingReagents().stream()
+        List<Reagent> resultingReagents = recipe.getResultReagents().stream()
                 .map(reagentMapper::mapFrom)
                 .collect(Collectors.toList());
 
@@ -71,10 +73,10 @@ public class RecipeController {
 
         Recipe recipeEntity = recipeMapper.mapFrom(recipe);
         recipeEntity.setRequiredReagents(requiredReagents);
-        recipeEntity.setResultingReagents(resultingReagents);
+        recipeEntity.setResultReagents(resultingReagents);
 
         Recipe savedRecipe = recipeService.createRecipe(recipeEntity);
-        return new ResponseEntity<>(recipeMapper.mapTo(savedRecipe), HttpStatus.CREATED);
+        return new ResponseEntity<>(recipeResponseMapper.mapTo(savedRecipe), HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "/recipes/{recipe_id}")

@@ -12,15 +12,15 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RecipeDto {
+public class RecipeResponseDto {
 
     private Long id;
 
     private String name;
 
-    private List<ReagentDto> requiredReagents;
+    private List<ReagentResponseDto> requiredReagents;
 
-    private List<ReagentDto> resultReagents;
+    private List<ReagentResponseDto> resultReagents;
 
     private Integer difficulty;
 
