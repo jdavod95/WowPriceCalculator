@@ -32,9 +32,14 @@ public class SaleServiceImpl implements SaleService {
         Resource resource = resourceRepository.findById(resourceId).orElseThrow();
 
         resourceRepository.save(resource);
-        stockMappingService.save(
-                resourceId, sale.getAmount(),
-                sale.getCost(), sale.getIsSold());
+
+        try {
+            stockMappingService.save(
+                    resourceId, sale.getAmount(),
+                    sale.getCost(), sale.getIsSold());
+        } catch (StockMappingServiceImpl.ZeroAmountException e) {
+            // do nothing
+        }
 
         sale.setResource(resource);
         sale.setDate(dateService.getNow());
@@ -66,9 +71,14 @@ public class SaleServiceImpl implements SaleService {
     @Override
     public void delete(Long id) {
         Sale sale = saleRepository.findById(id).get();
-        stockMappingService.save(
-                sale.getResource().getId(), sale.getAmount(),
-                sale.getCost(), !sale.getIsSold());
+
+        try {
+            stockMappingService.save(
+                    sale.getResource().getId(), sale.getAmount(),
+                    sale.getCost(), !sale.getIsSold());
+        } catch (StockMappingServiceImpl.ZeroAmountException e) {
+            // do nothing
+        }
 
         saleRepository.delete(sale);
     }

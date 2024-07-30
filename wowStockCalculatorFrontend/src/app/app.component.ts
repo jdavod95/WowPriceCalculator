@@ -10,6 +10,9 @@ export class AppComponent {
 
   //TODO: 
   // recipes
+  // when sale is sold, stock(s) can be selected to sell from, and the stock are merged
+  //  -- same when using reagents for recipes
+  
   // calculations
   // excel import, 
   // ip addresses to env variables or parameters

@@ -22,23 +22,32 @@ public class StockMappingServiceImpl implements StockMappingService {
     }
 
     @Override
-    public StockMapping save(Long resourceId, Integer amount, Long value, Boolean isSold) {
+    public StockMapping save(Long resourceId, Integer amount, Long value, Boolean isSold)
+            throws ZeroAmountException {
+        amount = amount * (isSold ? -1 : 1);
+
         StockMapping stockMapping;
         Optional<StockMapping> existingMapping =
                 stockMappingRepository.findByResourceIdAndValue(
                         resourceId,
-                        value);
-        amount = amount * (isSold ? -1 : 1);
+                        Math.abs(value / amount));
 
         if(existingMapping.isPresent()) {
+        System.out.println(existingMapping.get());
             stockMapping = existingMapping.get();
             Integer newAmount = amount + stockMapping.getAmount() ;
+
+            if(newAmount == 0){
+                delete(stockMapping.getId());
+                throw new ZeroAmountException();
+            }
+
             stockMapping.setAmount(newAmount);
         } else {
             stockMapping = StockMapping.builder()
                     .resource(resourceRepository.findById(resourceId).get())
                     .amount(amount)
-                    .value(value / amount)
+                    .value(Math.abs(value / amount))
                     .build();
         }
 
@@ -58,5 +67,11 @@ public class StockMappingServiceImpl implements StockMappingService {
     @Override
     public Optional<StockMapping> findByResourceIdAndValue(Long resourceId, Long value) {
         return stockMappingRepository.findByResourceIdAndValue(resourceId, value);
+    }
+
+    public class ZeroAmountException extends Throwable {
+        public ZeroAmountException() {
+            super("Stock amount is zero, deleting stock");
+        }
     }
 }

@@ -1,6 +1,6 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
   <div class="d-flex flex-column">
-    <div class="d-flex flex-row">
+    <div class="d-flex flex-row flex-fill">
       <div class="d-flex flex-column">
           <input class="form-control" formControlName="amount" type="number"
             positiveInteger
@@ -13,6 +13,8 @@
             [class.invalid-input]="submitted && costField.invalid"
             [placeholder]="submitted && costField.invalid ? 'Cost required' : 'Cost' ">
       </div>
+    </div>
+    <div class="d-flex flex-row">
       <div class="d-flex flex-column align-items-center checkbox-center">
         <div class="d-flex form-check">
           <input class="form-check-input checkbox-md" type="checkbox" formControlName="isSold" id="isSold"/>
@@ -21,8 +23,15 @@
           </label>
         </div>
       </div>
+      <div class="d-flex flex-column">
+        <select class="form-control" formControlName="stock">
+          <option value="" disabled selected>Select stock</option>
+          <option [value]="stock.id" *ngFor="let stock of stockMappings"> 
+              {{ stock.amount }} / {{ stock.value | currencyPostfix}}
+          </option>
+      </select>
+      </div>
     </div>
-    
     <div class="d-flex flex-row">
       <button *ngIf="isResourceSelected()" class="btn btn-success form-submit">Create</button>
       <button disabled=true *ngIf="!isResourceSelected()" class="btn btn-secondary form-submit">Select Resource</button>

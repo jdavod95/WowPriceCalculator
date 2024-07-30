@@ -103,7 +103,7 @@ export class SalesComponent implements OnInit {
 
   public setSelectedResource(resource: Resource) {
     this.selectedResource = resource;
-    this.saleFormComponent.selectedResourceId = resource?.id!;
+    this.saleFormComponent.setSelectedResource(resource?.id!);
     this.getSales();
   }
 
