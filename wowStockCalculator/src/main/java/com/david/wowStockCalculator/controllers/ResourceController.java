@@ -1,10 +1,14 @@
 package com.david.wowStockCalculator.controllers;
 
+import com.david.wowStockCalculator.domain.dto.ResourceStockDto;
+import com.david.wowStockCalculator.domain.dto.StockMappingDto;
 import com.david.wowStockCalculator.domain.entities.Quality;
 import com.david.wowStockCalculator.domain.entities.Resource;
 import com.david.wowStockCalculator.domain.dto.ResourceDto;
+import com.david.wowStockCalculator.domain.entities.StockMapping;
 import com.david.wowStockCalculator.mappers.Mapper;
 import com.david.wowStockCalculator.services.ResourceService;
+import com.david.wowStockCalculator.services.StockMappingService;
 import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.data.domain.Page;
@@ -24,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @RestController
 @Log
@@ -31,7 +36,9 @@ import java.util.stream.Collectors;
 public class ResourceController {
 
     private ResourceService resourceService;
+    private StockMappingService stockMappingService;
     private Mapper<Resource, ResourceDto> resourceMapper;
+    private Mapper<Resource, ResourceStockDto> resourceStockMapper;
 
     @GetMapping(path = "/resources")
     public List<ResourceDto> listResources(){
@@ -42,11 +49,31 @@ public class ResourceController {
     }
 
     @GetMapping(path = "/resourcesPaged")
-    public Page<ResourceDto> listResourcesPage(
+    public Page<ResourceStockDto> listResourcesPage(
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "20") int size){
         Page<Resource> resources = resourceService.findAll(PageRequest.of(page, size, Sort.by("name").ascending()));
-        return resources.map(resourceMapper::mapTo);
+        Page<ResourceStockDto> resourceStockDtos = resources.map(resourceStockMapper::mapTo);
+        resourceStockDtos.forEach(resourceStockDto -> {
+            Iterable<StockMapping> stocks = stockMappingService.findAllByResourceId(resourceStockDto.getId());
+
+            resourceStockDto.setAmount(
+                    StreamSupport.stream(stocks.spliterator(), false)
+                            .collect(Collectors.summingInt(StockMapping::getAmount))
+            );
+
+            long top = 0;
+            long bottom = 0;
+
+            for (StockMapping stockMapping : stocks) {
+                top += (stockMapping.getValue() * stockMapping.getAmount());
+                bottom += stockMapping.getAmount();
+            }
+
+            resourceStockDto.setValue(top/ bottom);
+        });
+
+        return resourceStockDtos;
     }
 
     @GetMapping(path = "/resources/{resource_id}")

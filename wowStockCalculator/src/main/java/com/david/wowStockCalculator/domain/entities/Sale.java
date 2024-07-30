@@ -30,7 +30,7 @@ public class Sale {
 
     private Integer amount;
 
-    private Integer cost;
+    private Long cost;
 
     @Column(name = "isSold", columnDefinition = "boolean default false")
     private Boolean isSold = false;

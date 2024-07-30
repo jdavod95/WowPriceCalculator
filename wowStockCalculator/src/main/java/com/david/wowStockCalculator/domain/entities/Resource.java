@@ -17,14 +17,8 @@ public class Resource {
 
     private String name;
 
-    @Column(name = "onStock", columnDefinition = "integer default 0")
-    private Integer onStock = 0;
-
     @Column(name = "quality", columnDefinition = "varchar(8) default 'NONE'")
     @Enumerated(value = EnumType.STRING)
     private Quality quality = Quality.NONE;
 
-    public void addToStock(Integer amount, boolean isSold){
-        onStock += (amount * (isSold ? -1 : 1));
-    };
 }

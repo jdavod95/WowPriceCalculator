@@ -15,7 +15,5 @@ public class ResourceDto {
 
     private String name;
 
-    private Integer onStock;
-
     private String quality;
 }

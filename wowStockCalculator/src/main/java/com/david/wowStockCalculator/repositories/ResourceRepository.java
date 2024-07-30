@@ -13,7 +13,5 @@ import java.util.Optional;
 public interface ResourceRepository extends CrudRepository<Resource, Long>,
         PagingAndSortingRepository<Resource, Long> {
 
-    Iterable<Resource> onStockGreaterThan(int onStock);
-
     Optional<Resource> findByNameAndQuality(String name, Quality quality);
 }

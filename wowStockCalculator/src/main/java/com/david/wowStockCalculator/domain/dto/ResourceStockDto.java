@@ -9,17 +9,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SaleDto {
+public class ResourceStockDto {
 
     private Long id;
 
-    private ResourceDto resource;
+    private String name;
 
-    private String date;
+    private String quality;
 
     private Integer amount;
 
-    private Long cost;
-
-    private Boolean isSold;
+    private Long value;
 }

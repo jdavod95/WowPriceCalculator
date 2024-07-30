@@ -54,7 +54,6 @@ public class ResourceRepositoryIntegrationTests {
         Resource resourceA = TestDataUtil.createTestResourceA();
         underTest.save(resourceA);
 
-        resourceA.setOnStock(2);
         underTest.save(resourceA);
         Optional<Resource> result = underTest.findById(resourceA.getId());
 
@@ -73,17 +72,4 @@ public class ResourceRepositoryIntegrationTests {
         Assertions.assertThat(result).isEmpty();
     }
 
-    @Test
-    public void testThatGetResourcesWithOnStockGreaterThan(){
-        Resource resourceA = TestDataUtil.createTestResourceA();
-        Resource resourceB = TestDataUtil.createTestResourceB();
-        Resource resourceC = TestDataUtil.createTestResourceC();
-
-        underTest.save(resourceA);
-        underTest.save(resourceB);
-        underTest.save(resourceC);
-
-        Iterable<Resource> result = underTest.onStockGreaterThan(0);
-        Assertions.assertThat(result).containsExactly(resourceA, resourceB);
-    }
 }

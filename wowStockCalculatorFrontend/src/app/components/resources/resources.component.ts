@@ -27,7 +27,7 @@ export class ResourcesComponent implements OnInit {
   @ViewChild(PagingToolComponent, { static: true }) pagingTool!: PagingToolComponent;
   
   public selectedResource: Resource | undefined;
-  public displayedColumns: string[] = ['name', 'quality', 'onStock', 'delete']
+  public displayedColumns: string[] = ['name', 'quality', 'amount', 'value', 'delete']
   public resourcesDataSource = new MatTableDataSource<Resource>;
 
   constructor(

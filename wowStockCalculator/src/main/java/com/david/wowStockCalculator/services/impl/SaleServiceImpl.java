@@ -5,6 +5,7 @@ import com.david.wowStockCalculator.domain.entities.Sale;
 import com.david.wowStockCalculator.repositories.ResourceRepository;
 import com.david.wowStockCalculator.repositories.SaleRepository;
 import com.david.wowStockCalculator.services.SaleService;
+import com.david.wowStockCalculator.services.StockMappingService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +22,7 @@ import java.util.stream.StreamSupport;
 @AllArgsConstructor
 public class SaleServiceImpl implements SaleService {
 
+    private StockMappingService stockMappingService;
     private SaleRepository saleRepository;
     private ResourceRepository resourceRepository;
     private DateServiceImpl dateService;
@@ -29,8 +31,10 @@ public class SaleServiceImpl implements SaleService {
     public Sale createSale(Long resourceId, Sale sale) {
         Resource resource = resourceRepository.findById(resourceId).orElseThrow();
 
-        resource.addToStock(sale.getAmount(), sale.getIsSold());
         resourceRepository.save(resource);
+        stockMappingService.save(
+                resourceId, sale.getAmount(),
+                sale.getCost(), sale.getIsSold());
 
         sale.setResource(resource);
         sale.setDate(dateService.getNow());
@@ -62,10 +66,9 @@ public class SaleServiceImpl implements SaleService {
     @Override
     public void delete(Long id) {
         Sale sale = saleRepository.findById(id).get();
-
-        Resource resource = sale.getResource();
-        resource.addToStock(sale.getAmount(), !sale.getIsSold());
-        resourceRepository.save(resource);
+        stockMappingService.save(
+                sale.getResource().getId(), sale.getAmount(),
+                sale.getCost(), !sale.getIsSold());
 
         saleRepository.delete(sale);
     }

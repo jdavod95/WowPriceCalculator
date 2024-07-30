@@ -55,7 +55,6 @@ public class ResourceServiceImpl implements ResourceService {
 
         return resourceRepository.findById(id).map(existingResource -> {
             Optional.ofNullable(resourceEntity.getName()).ifPresent(existingResource::setName);
-            Optional.ofNullable(resourceEntity.getOnStock()).ifPresent(existingResource::setOnStock);
             return resourceRepository.save(existingResource);
         }).orElseThrow(() -> new RuntimeException("Resource does not exists"));
     }
