@@ -1,0 +1,38 @@
+    <div class="d-flex flex-row table-toolbar align-items-center box-border">
+        <div class="d-flex flex-column">
+            <input (keyup)="applyFilter($event)" placeholder="Search" class="form-control">
+        </div>
+        <div class="d-flex flex-column table-toolbar-spacer"></div>
+        <div class="d-flex flex-column">
+            <app-paging-tool [paginator]="this.paginator" (outOfPages)="onOutOfPages($event)"/>
+        </div>
+    </div>
+
+    <table [dataSource]="recipesDataSource" class="box-border"
+        mat-table matSort matSortActive="name" matSortDirection="asc" >
+        <mat-paginator/>
+
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-header"> Recipe </th>
+            <td mat-cell *matCellDef="let recipe" class="clickable-cell" 
+                (click)="onClickRecipe(recipe)"> 
+                    {{ recipe.name | resourceName }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="difficulty">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-header"> Difficulty </th>
+            <td mat-cell *matCellDef="let recipe"> {{ recipe.difficulty }} </td>
+        </ng-container>   
+
+        <ng-container matColumnDef="delete">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let recipe"> 
+                <button mat-icon-button (click)="deleteRecipe(recipe)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+        
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns; "></tr>
+    </table>

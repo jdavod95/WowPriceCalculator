@@ -1,0 +1,20 @@
+.flex-row {
+    gap: 5px;
+}
+
+.flex-column {
+    gap: 4px;
+}
+
+.left-container {
+    flex: 0.55;
+}
+
+.right-container {
+    flex: 0.45;
+}
+
+.hidden{
+    flex: 0;
+    visibility: hidden;
+}
