@@ -1,7 +1,7 @@
 package com.david.wowStockCalculator;
 
 import com.david.wowStockCalculator.domain.dto.ResourceDto;
-import com.david.wowStockCalculator.domain.dto.SaleDto;
+import com.david.wowStockCalculator.domain.dto.SaleResponseDto;
 import com.david.wowStockCalculator.domain.entities.Resource;
 import com.david.wowStockCalculator.domain.entities.Sale;
 
@@ -60,8 +60,8 @@ public final class TestDataUtil {
                 .build();
     }
 
-    public static SaleDto createTestSaleDtoA(final ResourceDto resourceDto) {
-        return SaleDto.builder()
+    public static SaleResponseDto createTestSaleDtoA(final ResourceDto resourceDto) {
+        return SaleResponseDto.builder()
                 .id(1L)
                 .date(getNow())
                 .resource(resourceDto)

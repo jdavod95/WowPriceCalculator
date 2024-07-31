@@ -17,7 +17,7 @@ public class ResourceStockDto {
 
     private String quality;
 
-    private Integer amount;
+    private Long amount;
 
     private Long value;
 }

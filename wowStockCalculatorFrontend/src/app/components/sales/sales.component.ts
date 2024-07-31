@@ -69,6 +69,7 @@ export class SalesComponent implements OnInit {
       () => {
         this.saleService.deleteSale(sale.id!).subscribe((response: any) => {
           this.salesChange.emit();
+          this.saleFormComponent.getStockMappings();
           this.getSales();
         })
       }

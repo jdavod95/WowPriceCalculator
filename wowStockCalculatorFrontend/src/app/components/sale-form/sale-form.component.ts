@@ -50,12 +50,12 @@ export class SaleFormComponent implements OnInit {
     if(this.form.invalid) {
       return;
     }
-
+    let stockMappingIds = this.form.controls['stock'].value == null ? null : [this.form.controls['stock'].value]
     let sale: Sale = {
       amount: parseInt(this.form.controls['amount'].value),
       cost: parseInt(this.form.controls['cost'].value),
       isSold: this.form.controls['isSold'].value,
-      stock: [this.form.controls['stock'].value]
+      stockMappingIds: stockMappingIds
     };
 
     this.saleService.addSale(sale, this.selectedResourceId)

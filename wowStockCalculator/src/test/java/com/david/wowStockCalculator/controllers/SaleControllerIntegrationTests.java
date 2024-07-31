@@ -2,7 +2,7 @@ package com.david.wowStockCalculator.controllers;
 
 import com.david.wowStockCalculator.TestDataUtil;
 import com.david.wowStockCalculator.domain.dto.ResourceDto;
-import com.david.wowStockCalculator.domain.dto.SaleDto;
+import com.david.wowStockCalculator.domain.dto.SaleResponseDto;
 import com.david.wowStockCalculator.domain.entities.Resource;
 import com.david.wowStockCalculator.domain.entities.Sale;
 import com.david.wowStockCalculator.services.ResourceService;
@@ -41,7 +41,7 @@ public class SaleControllerIntegrationTests {
 
     @Test
     public void testThatCreateSaleReturnsHttpStatus201Created() throws Exception {
-        SaleDto saleDto = TestDataUtil.createTestSaleDtoA(null);
+        SaleResponseDto saleResponseDto = TestDataUtil.createTestSaleDtoA(null);
         ResourceDto resourceDto = TestDataUtil.createTestResourceDtoA();
 
         mockMvc.perform(
@@ -55,7 +55,7 @@ public class SaleControllerIntegrationTests {
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/sales/" + resourceDto.getId())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(saleDto))
+                        .content(objectMapper.writeValueAsString(saleResponseDto))
         ).andExpect(
                 MockMvcResultMatchers.status().isCreated()
         );
@@ -63,7 +63,7 @@ public class SaleControllerIntegrationTests {
 
     @Test
     public void testThatCreateSaleReturnsCreatedSale() throws Exception {
-        SaleDto saleDto = TestDataUtil.createTestSaleDtoA(null);
+        SaleResponseDto saleResponseDto = TestDataUtil.createTestSaleDtoA(null);
         ResourceDto resourceDto = TestDataUtil.createTestResourceDtoA();
 
         mockMvc.perform(
@@ -77,11 +77,11 @@ public class SaleControllerIntegrationTests {
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/sales/" + resourceDto.getId())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(saleDto))
+                        .content(objectMapper.writeValueAsString(saleResponseDto))
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.id").value(saleDto.getId())
+                MockMvcResultMatchers.jsonPath("$.id").value(saleResponseDto.getId())
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.amount").value(saleDto.getAmount())
+                MockMvcResultMatchers.jsonPath("$.amount").value(saleResponseDto.getAmount())
         );
     }
 

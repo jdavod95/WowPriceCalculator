@@ -8,5 +8,5 @@ export interface Sale {
     amount: number;
     cost: number;
     isSold: boolean;
-    stock?: StockMapping[];
+    stockMappingIds?: StockMapping[] | null;
 }

@@ -1,7 +1,6 @@
 package com.david.wowStockCalculator.controllers;
 
 import com.david.wowStockCalculator.TestDataUtil;
-import com.david.wowStockCalculator.domain.dto.ResourceDto;
 import com.david.wowStockCalculator.domain.entities.Resource;
 import com.david.wowStockCalculator.domain.entities.Sale;
 import com.david.wowStockCalculator.services.ResourceService;

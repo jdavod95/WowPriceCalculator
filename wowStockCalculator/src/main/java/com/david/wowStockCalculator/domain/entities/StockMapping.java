@@ -28,7 +28,7 @@ public class StockMapping {
     @JoinColumn(name = "resource_id")
     private Resource resource;
 
-    private Integer amount;
+    private Long amount;
 
     private Long value;
 }

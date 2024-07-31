@@ -2,6 +2,7 @@ package com.david.wowStockCalculator.services.impl;
 
 import com.david.wowStockCalculator.domain.entities.Resource;
 import com.david.wowStockCalculator.domain.entities.Sale;
+import com.david.wowStockCalculator.domain.entities.StockMapping;
 import com.david.wowStockCalculator.repositories.ResourceRepository;
 import com.david.wowStockCalculator.repositories.SaleRepository;
 import com.david.wowStockCalculator.services.SaleService;
@@ -11,8 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,14 +28,25 @@ public class SaleServiceImpl implements SaleService {
 
     @Override
     public Sale createSale(Long resourceId, Sale sale) {
+        return createSale(resourceId, sale, null);
+    }
+
+    @Override
+    public Sale createSale(Long resourceId, Sale sale, List<Long> stockMappingIds) {
         Resource resource = resourceRepository.findById(resourceId).orElseThrow();
-
         resourceRepository.save(resource);
-
         try {
-            stockMappingService.save(
-                    resourceId, sale.getAmount(),
+            if(stockMappingIds == null || stockMappingIds.isEmpty()) {
+                stockMappingService.save(
+                    resourceId, sale.getAmount().longValue(),
                     sale.getCost(), sale.getIsSold());
+            } else {
+                StockMapping stock = stockMappingService.getStockMapping(resourceId,
+                        sale.getAmount().longValue(), sale.getCost());
+                stockMappingService.merge(
+                        stock,
+                        stockMappingService.findByIdIn(stockMappingIds));
+            }
         } catch (StockMappingServiceImpl.ZeroAmountException e) {
             // do nothing
         }
@@ -74,7 +84,7 @@ public class SaleServiceImpl implements SaleService {
 
         try {
             stockMappingService.save(
-                    sale.getResource().getId(), sale.getAmount(),
+                    sale.getResource().getId(), sale.getAmount().longValue(),
                     sale.getCost(), !sale.getIsSold());
         } catch (StockMappingServiceImpl.ZeroAmountException e) {
             // do nothing

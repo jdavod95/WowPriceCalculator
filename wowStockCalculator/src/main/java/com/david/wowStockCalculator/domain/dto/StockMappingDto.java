@@ -14,7 +14,7 @@ public class StockMappingDto {
 
     private ResourceDto resource;
 
-    private Integer amount;
+    private Long amount;
 
     private Long value;
 }

@@ -59,7 +59,7 @@ public class ResourceController {
 
             resourceStockDto.setAmount(
                     StreamSupport.stream(stocks.spliterator(), false)
-                            .collect(Collectors.summingInt(StockMapping::getAmount))
+                            .collect(Collectors.summingLong(StockMapping::getAmount))
             );
 
             long top = 0;
@@ -69,8 +69,11 @@ public class ResourceController {
                 top += (stockMapping.getValue() * stockMapping.getAmount());
                 bottom += stockMapping.getAmount();
             }
-
-            resourceStockDto.setValue(top/ bottom);
+            if(top != 0 && bottom != 0) {
+                resourceStockDto.setValue(top / bottom);
+            } else {
+                resourceStockDto.setValue(0L);
+            }
         });
 
         return resourceStockDtos;

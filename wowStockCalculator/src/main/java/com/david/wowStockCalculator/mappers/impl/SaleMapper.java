@@ -1,17 +1,18 @@
 package com.david.wowStockCalculator.mappers.impl;
 
 import com.david.wowStockCalculator.domain.dto.SaleDto;
+import com.david.wowStockCalculator.domain.dto.SaleResponseDto;
 import com.david.wowStockCalculator.domain.entities.Sale;
 import com.david.wowStockCalculator.mappers.Mapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SaleMapperImpl implements Mapper<Sale, SaleDto> {
+public class SaleMapper implements Mapper<Sale, SaleDto> {
 
     private ModelMapper modelMapper;
 
-    public SaleMapperImpl(ModelMapper modelMapper) {
+    public SaleMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }
 
