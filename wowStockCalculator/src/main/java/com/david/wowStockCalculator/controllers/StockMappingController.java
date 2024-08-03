@@ -1,5 +1,6 @@
 package com.david.wowStockCalculator.controllers;
 
+import com.david.wowStockCalculator.domain.dto.ResourceStockDto;
 import com.david.wowStockCalculator.domain.dto.StockMappingDto;
 import com.david.wowStockCalculator.domain.entities.StockMapping;
 import com.david.wowStockCalculator.mappers.Mapper;
@@ -8,8 +9,10 @@ import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -29,5 +32,4 @@ public class StockMappingController {
                 .map(stockMappingMapper::mapTo)
                 .collect(Collectors.toList());
     }
-
 }

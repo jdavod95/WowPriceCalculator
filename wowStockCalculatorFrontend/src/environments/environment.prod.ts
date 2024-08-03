@@ -4,6 +4,6 @@ export const environment = {
   apiBaseUrl: 'http://188.156.195.88:8081',
   currency: "g",
   dateFormat: "yyyy.MM.dd.",
-  tablePageElements: 8,
+  tablePageSize: 8,
   tablePageBufferSize: 3,
 };

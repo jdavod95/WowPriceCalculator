@@ -52,9 +52,7 @@ export class RecipeFormComponent implements OnInit {
   
   public ngOnInit(): void {
     this.getResources();
-    this.addRequiredReagentRow();
-    this.addRequiredReagentRow();
-    this.addResultReagentRow();
+    this.initReagentRows();
   }
 
   private initCraftingStats(){
@@ -107,7 +105,28 @@ export class RecipeFormComponent implements OnInit {
     this.recipeService.addRecipe(recipe).subscribe(response => {
       this.recipeCreated.emit()
     });
-    console.log(recipe);
+
+    this.form.reset();
+    this.resetReagentRows();
+    this.initReagentRows();
+  }
+
+  private resetReagentRows(){
+    let length = this.requiredReagentList.length
+    for(let i = 0; i < length; i++){
+      this.removeRequiredReagentRow(0);
+    }
+    
+    length = this.resultReagentList.length
+    for(let i = 0; i < length; i++){
+      this.removeResultReagentRow(0);
+    }
+  }
+
+  private initReagentRows() {
+    this.addRequiredReagentRow();
+    this.addRequiredReagentRow();
+    this.addResultReagentRow();
   }
 
   public addResultReagentRow(): void {
@@ -116,7 +135,7 @@ export class RecipeFormComponent implements OnInit {
 
     group.addControl("resultReagent-" + length, this.formBuilder.control(''))
     group.addControl("resultReagentAmount-" + length, this.formBuilder.control(''))
-    
+
     this.resultReagentList.push(group)
   }
 

@@ -17,6 +17,10 @@ export class ResourceService {
     return this.http.get<Resource[]>(`${this.apiServerUrl}/resources`);
   }
 
+  public getResourceStocks(resourceIds: number[]): Observable<Resource[]> {
+    return this.http.post<Resource[]>(`${this.apiServerUrl}/resourceStocks`, resourceIds);
+  }
+
   public getResource(resourceId: number): Observable<Resource> {
     return this.http.get<Resource>(`${this.apiServerUrl}/resources/${resourceId}`);
   }

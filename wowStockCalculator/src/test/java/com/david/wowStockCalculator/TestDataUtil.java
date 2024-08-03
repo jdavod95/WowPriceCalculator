@@ -45,7 +45,7 @@ public final class TestDataUtil {
                 .date(getNow())
                 .resource(resource)
                 .amount(1)
-                .cost(1)
+                .cost(1L)
                 .build();
     }
 
@@ -56,7 +56,7 @@ public final class TestDataUtil {
                 .date(getNow())
                 .resource(resource)
                 .amount(300)
-                .cost(2)
+                .cost(2L)
                 .build();
     }
 
@@ -66,7 +66,7 @@ public final class TestDataUtil {
                 .date(getNow())
                 .resource(resourceDto)
                 .amount(1)
-                .cost(1)
+                .cost(1L)
                 .build();
     }
 

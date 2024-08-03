@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { PagingToolComponent } from '../paging-tool/paging-tool.component';
+import { PagingToolComponent } from '../../paging-tool/paging-tool.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { Recipe } from 'src/app/domain/recipe';
 import { environment } from 'src/environments/environment';
@@ -9,8 +9,8 @@ import { RecipeService } from 'src/app/services/recipe.service';
 
 @Component({
   selector: 'app-recipes',
-  templateUrl: './recipes.component.html',
-  styleUrl: './recipes.component.scss'
+  templateUrl: './recipes-list.component.html',
+  styleUrl: './recipes-list.component.scss'
 })
 export class RecipesComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
@@ -47,10 +47,14 @@ export class RecipesComponent implements OnInit {
   public onClickRecipe(recipe: Recipe) {
     if(this.selectedRecipe?.id == recipe.id) {
       this.selectedRecipe = undefined;
+      this.recipeSelected.emit(this.selectedRecipe);
     } else {
-      this.selectedRecipe = recipe;
+      this.recipeService.getRecipe(recipe.id!).subscribe(
+        (response: Recipe) => {
+          this.selectedRecipe = response;
+          this.recipeSelected.emit(this.selectedRecipe);
+      });
     }
-    this.recipeSelected.emit(this.selectedRecipe);
   }
 
   public deleteRecipe(recipe: Recipe) {
@@ -73,5 +77,9 @@ export class RecipesComponent implements OnInit {
         this.recipesDataSource.data = response;
       }
     );
+  }
+
+  public setSelectedRecipe(recipe: Recipe | undefined){
+    this.selectedRecipe = recipe;
   }
 }

@@ -3,11 +3,12 @@ package com.david.wowStockCalculator.mappers.impl;
 import com.david.wowStockCalculator.domain.dto.ResourceStockDto;
 import com.david.wowStockCalculator.domain.entities.Resource;
 import com.david.wowStockCalculator.mappers.Mapper;
+import com.david.wowStockCalculator.mappers.ResourceStockMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ResourceStockMapperImpl implements Mapper<Resource, ResourceStockDto> {
+public class ResourceStockMapperImpl extends ResourceStockMapper implements Mapper<Resource, ResourceStockDto> {
 
     private ModelMapper modelMapper;
 
@@ -17,7 +18,8 @@ public class ResourceStockMapperImpl implements Mapper<Resource, ResourceStockDt
 
     @Override
     public ResourceStockDto mapTo(Resource resource) {
-        return modelMapper.map(resource, ResourceStockDto.class);
+        ResourceStockDto dto = modelMapper.map(resource, ResourceStockDto.class);
+        return mapStock(dto);
     }
 
     @Override

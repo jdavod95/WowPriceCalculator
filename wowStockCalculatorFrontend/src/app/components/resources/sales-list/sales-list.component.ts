@@ -1,4 +1,3 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { Sale } from 'src/app/domain/sale';
 import { SaleService } from 'src/app/services/sale.service';
@@ -8,14 +7,14 @@ import { ModalService } from 'src/app/services/modal.service';
 import { ResourceNamePipe } from 'src/app/pipes/resource-name.pipe';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-import { PagingToolComponent } from '../paging-tool/paging-tool.component';
+import { PagingToolComponent } from '../../paging-tool/paging-tool.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-sales',
-  templateUrl: './sales.component.html',
-  styleUrls: ['./sales.component.scss']
+  templateUrl: './sales-list.component.html',
+  styleUrls: ['./sales-list.component.scss']
 })
 export class SalesComponent implements OnInit {
   

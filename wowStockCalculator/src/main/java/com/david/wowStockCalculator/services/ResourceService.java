@@ -26,4 +26,6 @@ public interface ResourceService {
     Optional<Resource> find(String name, Quality quality);
 
     Page<Resource> findAll(Pageable pageable);
+
+    List<Resource> findByIdIn(List<Long> resourceIds);
 }

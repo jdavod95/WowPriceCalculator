@@ -65,7 +65,7 @@ public class SaleRepositoryIntegrationTest {
         Sale sale = TestDataUtil.createTestSaleA(resourceA);
         underTest.save(sale);
 
-        sale.setCost(10);
+        sale.setCost(10L);
         underTest.save(sale);
         Optional<Sale> result = underTest.findById(sale.getId());
 

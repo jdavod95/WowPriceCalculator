@@ -47,7 +47,7 @@ export class ResourceFormComponent implements OnInit {
 
     let resource: Resource = {
       name: this.form.controls['name'].value,
-      quality: (getQualityKey(this.form.controls['quality'].value))!.toUpperCase().replace(' ', '_')
+      quality: (getQualityKey(this.form.controls['quality'].value))?.toUpperCase().replace(' ', '_')
     };
 
     this.resourceService.addResource(resource)

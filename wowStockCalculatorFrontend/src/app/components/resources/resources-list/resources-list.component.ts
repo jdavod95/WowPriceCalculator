@@ -9,13 +9,13 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { SaleService } from 'src/app/services/sale.service';
 import { mapQuality } from 'src/app/domain/quality';
-import { PagingToolComponent } from '../paging-tool/paging-tool.component';
+import { PagingToolComponent } from '../../paging-tool/paging-tool.component';
 import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-resources',
-  templateUrl: './resources.component.html',
-  styleUrls: ['./resources.component.scss']
+  templateUrl: './resources-list.component.html',
+  styleUrls: ['./resources-list.component.scss']
 })
 export class ResourcesComponent implements OnInit {
 

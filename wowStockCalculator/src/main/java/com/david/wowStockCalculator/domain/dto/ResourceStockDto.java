@@ -8,14 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class ResourceStockDto {
-
-    private Long id;
-
-    private String name;
-
-    private String quality;
+public class ResourceStockDto extends ResourceDto {
 
     private Long amount;
 

@@ -17,7 +17,7 @@ export class RecipesTreeComponent implements OnInit {
   @Input()
   public selectedRecipe: Recipe | undefined;
   public recipesDataSource = new MatTableDataSource<Recipe | Reagent>;
-  public displayedColumns: string[] = ['name', 'amount', 'onStock'];
+  public displayedColumns: string[] = ['name', 'amount', 'onStock', 'value'];
   
   constructor(
     private recipeService: RecipeService
@@ -27,14 +27,10 @@ export class RecipesTreeComponent implements OnInit {
     this.getRecipe();
   }
 
-  
   public getRecipe(): void {
     this.recipeService.getRecipe(this.selectedRecipe?.id!).subscribe(
       (response: Recipe) => {
-        console.log(response)
-        this.recipesDataSource.data = [response, ...response.requiredReagents!, ...response.resultReagents! ];
-        console.log(this.recipesDataSource)
-        console.log(this.recipesDataSource.data)
+        this.recipesDataSource.data = [response, ...response.requiredReagents!];
       }
     );
   }
@@ -42,4 +38,5 @@ export class RecipesTreeComponent implements OnInit {
   public onRecipeUnSelected() {
     this.recipeUnSelected.emit();
   }
+
 }

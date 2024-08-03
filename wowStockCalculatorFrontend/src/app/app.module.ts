@@ -9,11 +9,9 @@ import { provideHttpClient, withFetch} from '@angular/common/http'
 import { MaterialsModule } from './materials.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ResourceControlComponent } from './components/resource-control/resource-control.component';
-import { ResourceFormComponent } from './components/resource-form/resource-form.component';
-import { ResourcesComponent } from './components/resources/resources.component';
-import { SaleFormComponent } from './components/sale-form/sale-form.component';
-import { SalesComponent } from './components/sales/sales.component';
+import { ResourcesComponent } from './components/resources/resources-list/resources-list.component';
+import { SaleFormComponent } from './components/resources/sale-form/sale-form.component';
+import { SalesComponent } from './components/resources/sales-list/sales-list.component';
 import { ResourceNamePipe } from './pipes/resource-name.pipe';
 import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
 import { CurrencyPostfixPipe } from './pipes/currency-postfix.pipe';
@@ -23,12 +21,15 @@ import { DatePipe } from '@angular/common';
 import { DateTruncatePipe } from './pipes/date-truncate.pipe';
 import { PositiveIntegerDirective } from './directives/positive-integer.directive';
 import { PagingToolComponent } from './components/paging-tool/paging-tool.component';
-import { RecipeControlComponent } from './components/recipe-control/recipe-control.component';
-import { RecipesComponent } from './components/recipes/recipes.component';
-import { RecipeFormComponent } from './components/recipe-form/recipe-form.component';
+import { RecipeControlComponent } from './components/recipes/recipe-control/recipe-control.component';
+import { RecipesComponent } from './components/recipes/recipes-list/recipes-list.component';
+import { RecipeFormComponent } from './components/recipes/recipe-form/recipe-form.component';
 import { RecipeService } from './services/recipe.service';
 import { ReagentService } from './services/reagent.service';
-import { RecipesTreeComponent } from './components/recipes-tree/recipes-tree.component';
+import { RecipesTreeComponent } from './components/recipes/recipes-tree/recipes-tree.component';
+import { ResourceControlComponent } from './components/resources/resource-control/resource-control.component';
+import { ResourceFormComponent } from './components/resources/resource-form/resource-form.component';
+import { RecipeResultsComponent } from './components/recipes/recipe-results/recipe-results.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { RecipesTreeComponent } from './components/recipes-tree/recipes-tree.com
     RecipesComponent,
     RecipesTreeComponent,
     RecipeFormComponent,
+    RecipeResultsComponent,
     ResourceControlComponent,
     ResourceFormComponent,
     ResourcesComponent,

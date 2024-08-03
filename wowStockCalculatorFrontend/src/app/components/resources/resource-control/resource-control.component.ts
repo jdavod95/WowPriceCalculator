@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { SalesComponent } from '../sales/sales.component';
 import { Resource } from 'src/app/domain/resource';
-import { ResourcesComponent } from '../resources/resources.component';
-import { BalanceComponent } from '../balance/balance.component';
+import { SalesComponent } from '../sales-list/sales-list.component';
+import { ResourcesComponent } from '../resources-list/resources-list.component';
+import { BalanceComponent } from '../../balance/balance.component';
 
 @Component({
   selector: 'app-resource-control',
@@ -10,6 +10,7 @@ import { BalanceComponent } from '../balance/balance.component';
   styleUrl: './resource-control.component.scss'
 })
 export class ResourceControlComponent implements OnInit {
+  
   @ViewChild(SalesComponent) salesComponent!: SalesComponent;
   @ViewChild(ResourcesComponent) resourcesComponent!: ResourcesComponent;
   @ViewChild('generalBalance') generalBalance!: BalanceComponent;

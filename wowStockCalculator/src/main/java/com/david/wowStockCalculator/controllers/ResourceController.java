@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,7 +29,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @RestController
 @Log
@@ -53,35 +53,12 @@ public class ResourceController {
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "20") int size){
         Page<Resource> resources = resourceService.findAll(PageRequest.of(page, size, Sort.by("name").ascending()));
-        Page<ResourceStockDto> resourceStockDtos = resources.map(resourceStockMapper::mapTo);
-        resourceStockDtos.forEach(resourceStockDto -> {
-            Iterable<StockMapping> stocks = stockMappingService.findAllByResourceId(resourceStockDto.getId());
-
-            resourceStockDto.setAmount(
-                    StreamSupport.stream(stocks.spliterator(), false)
-                            .collect(Collectors.summingLong(StockMapping::getAmount))
-            );
-
-            long top = 0;
-            long bottom = 0;
-
-            for (StockMapping stockMapping : stocks) {
-                top += (stockMapping.getValue() * stockMapping.getAmount());
-                bottom += stockMapping.getAmount();
-            }
-            if(top != 0 && bottom != 0) {
-                resourceStockDto.setValue(top / bottom);
-            } else {
-                resourceStockDto.setValue(0L);
-            }
-        });
-
-        return resourceStockDtos;
+        return resources.map(resourceStockMapper::mapTo);
     }
 
     @GetMapping(path = "/resources/{resource_id}")
     public ResponseEntity<ResourceDto> getResource(
-            @PathVariable("resource_id") Long resourceId
+        @PathVariable("resource_id") Long resourceId
     ){
         Optional<Resource> foundResource = resourceService.findById(resourceId);
         return foundResource.map(

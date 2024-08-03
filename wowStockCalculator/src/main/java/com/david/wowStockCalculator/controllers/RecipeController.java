@@ -3,8 +3,11 @@ package com.david.wowStockCalculator.controllers;
 import com.david.wowStockCalculator.domain.dto.ReagentDto;
 import com.david.wowStockCalculator.domain.dto.RecipeDto;
 import com.david.wowStockCalculator.domain.dto.RecipeResponseDto;
+import com.david.wowStockCalculator.domain.dto.ResourceDto;
+import com.david.wowStockCalculator.domain.dto.ResourceStockDto;
 import com.david.wowStockCalculator.domain.entities.Reagent;
 import com.david.wowStockCalculator.domain.entities.Recipe;
+import com.david.wowStockCalculator.domain.entities.Resource;
 import com.david.wowStockCalculator.mappers.Mapper;
 import com.david.wowStockCalculator.services.RecipeService;
 import com.david.wowStockCalculator.services.ResourceService;
@@ -33,6 +36,7 @@ public class RecipeController {
     private Mapper<Recipe, RecipeResponseDto> recipeResponseMapper;
     private Mapper<Recipe, RecipeDto> recipeMapper;
     private Mapper<Reagent, ReagentDto> reagentMapper;
+    private Mapper<ResourceDto, ResourceStockDto> resourceStockDtoMapper;
 
     @GetMapping(path = "/recipes")
     public List<RecipeResponseDto> listRecipe(){
@@ -47,11 +51,19 @@ public class RecipeController {
             @PathVariable("recipe_id") Long recipeId
     ){
         Optional<Recipe> foundRecipe = recipeService.findById(recipeId);
-        return foundRecipe.map(
-                recipe -> new ResponseEntity<>(recipeResponseMapper.mapTo(recipe), HttpStatus.OK)
-        ).orElse(
-                new ResponseEntity<>(HttpStatus.NOT_FOUND)
-        );
+
+        if(foundRecipe.isPresent()){
+            RecipeResponseDto recipeDto = recipeResponseMapper.mapTo(foundRecipe.get());
+            recipeDto.getRequiredReagents().forEach(
+                    reagent -> reagent.setResource(resourceStockDtoMapper.mapTo(reagent.getResource()))
+            );
+            recipeDto.getResultReagents().forEach(
+                    reagent -> reagent.setResource(resourceStockDtoMapper.mapTo(reagent.getResource()))
+            );
+
+            return new ResponseEntity<>(recipeDto, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping(path = "/recipes")

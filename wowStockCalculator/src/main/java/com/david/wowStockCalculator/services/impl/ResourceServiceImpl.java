@@ -72,4 +72,8 @@ public class ResourceServiceImpl implements ResourceService {
         return resourceRepository.findByNameAndQuality(name, quality);
     }
 
+    @Override
+    public List<Resource> findByIdIn(List<Long> resourceIds){
+        return resourceRepository.findByIdIn(resourceIds);
+    }
 }
