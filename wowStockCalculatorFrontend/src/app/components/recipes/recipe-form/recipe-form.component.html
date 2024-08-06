@@ -1,0 +1,123 @@
+<div class="table-toolbar box-border">
+    <form [formGroup]="form" (ngSubmit)="submit()" >
+        <div class="d-flex flex-column">
+            <div class="d-flex flex-row align-items-center ">
+                <button type="submit" class="btn btn-success form-submit">Create</button>
+            </div>
+            <div class="d-flex flex-row">
+                <div class="d-flex flex-column" style="flex: 0.7">
+                    <input id="name" placeholder="Name" 
+                        type="text" class="form-control" formControlName="name">
+                </div>
+                <div class="d-flex flex-column" style="flex: 0.3">
+                    <input id="difficulty" positiveInteger placeholder="Difficulty" 
+                        type="number" class="form-control" formControlName="difficulty">
+                </div> 
+            </div>
+
+            <div class="d-flex flex-row form-multi-input">
+                <div class="d-flex flex-column">
+                    <div class="d-flex flex-row" >
+                        <h6 class="title-label">Available crafting stats:</h6>
+                    </div>
+                    <div formArrayName="craftingStatList" class="d-flex flex-row" style="flex-wrap: wrap;">
+                        <div formGroupName="0" *ngFor="let stat of craftingStats" class="d-flex flex-column checkbox-center">
+                            <div class="d-flex form-check">
+                                <input class="form-check-input checkbox-md" type="checkbox" [formControlName]="stat" [id]="stat"/>
+                                <label class="form-check-label" [for]="stat">
+                                    {{stat}}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex flex-row form-multi-input align-items-center">
+                <div class="d-flex flex-column">
+                    <div class="d-flex flex-row">
+                        <h6 class="title-label">Required Reagents:</h6>
+                    </div>
+                    <div class="d-flex flex-row">
+                        <div class="d-flex flex-column">
+                            <button type="button" mat-icon-button class="icon-center" (click)="addRequiredReagentRow()">
+                                <mat-icon>add</mat-icon>
+                            </button>
+                        </div> 
+                        <div class="d-flex flex-column flex-fill">
+                            <input (keyup)="applyRequiredReagentFilter($event)" placeholder="FilterWIP" class="form-control">
+                        </div> 
+                    </div>
+                    <div formArrayName="requiredReagentList">
+                        <div [formGroupName]="i" *ngFor="let requiredReagentGroups of requiredReagentList.controls; let i = index">
+                            <div class="d-flex flex-row">
+                                <div class="d-flex flex-column">
+                                    <button type="button" mat-icon-button class="icon-center" (click)="removeRequiredReagentRow(i)">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <select class="form-control"
+                                    [formControlName]="'requiredReagent-'+i">
+                                    <option value="" disabled selected>Required reagent</option>
+                                    <option [value]="resource.id" *ngFor="let resource of requiredResources"> 
+                                        {{ resource.name }} {{ resource.quality }}
+                                    </option>
+                                </select>
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <input positiveInteger 
+                                        placeholder="Amount" type="number" 
+                                        class="form-control" [formControlName]="'requiredReagentAmount-'+i">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex flex-row form-multi-input align-items-center">
+                <div class="d-flex flex-column">
+                    <div class="d-flex flex-row" >
+                        <h6 class="title-label">Result Reagents:</h6>
+                    </div>
+                    <div class="d-flex flex-row">
+                        <div class="d-flex flex-column">
+                            <button type="button" mat-icon-button class="icon-center" (click)="addResultReagentRow()">
+                                <mat-icon>add</mat-icon>
+                            </button>
+                        </div> 
+                        <div class="d-flex flex-column flex-fill">
+                            <input (keyup)="applyResultReagentFilter($event)" placeholder="FilterWIP" class="form-control">
+                        </div> 
+                    </div>
+                    <div formArrayName="resultReagentList">
+                        <div [formGroupName]="i" *ngFor="let resultReagentGroups of resultReagentList.controls; let i = index">
+                            <div class="d-flex flex-row">
+                                <div class="d-flex flex-column">
+                                    <button type="button" mat-icon-button class="icon-center" (click)="removeResultReagentRow(i)">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <select class="form-control"
+                                    [formControlName]="'resultReagent-'+i">
+                                    <option value="" disabled selected>Result reagent</option>
+                                    <option [value]="resource.id" *ngFor="let resource of resultingResources"> 
+                                        {{ resource.name }} {{ resource.quality }}
+                                    </option>
+                                </select>
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <input positiveInteger 
+                                        placeholder="Amount" type="number" 
+                                        class="form-control" [formControlName]="'resultReagentAmount-'+i">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

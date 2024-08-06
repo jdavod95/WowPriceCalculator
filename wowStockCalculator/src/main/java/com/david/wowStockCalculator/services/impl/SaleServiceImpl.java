@@ -2,16 +2,16 @@ package com.david.wowStockCalculator.services.impl;
 
 import com.david.wowStockCalculator.domain.entities.Resource;
 import com.david.wowStockCalculator.domain.entities.Sale;
+import com.david.wowStockCalculator.domain.entities.StockMapping;
 import com.david.wowStockCalculator.repositories.ResourceRepository;
 import com.david.wowStockCalculator.repositories.SaleRepository;
 import com.david.wowStockCalculator.services.SaleService;
+import com.david.wowStockCalculator.services.StockMappingService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,22 +21,38 @@ import java.util.stream.StreamSupport;
 @AllArgsConstructor
 public class SaleServiceImpl implements SaleService {
 
+    private StockMappingService stockMappingService;
     private SaleRepository saleRepository;
     private ResourceRepository resourceRepository;
-
-    public static String getNow() {
-        return LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME);
-    }
+    private DateServiceImpl dateService;
 
     @Override
     public Sale createSale(Long resourceId, Sale sale) {
-        Resource resource = resourceRepository.findById(resourceId).orElseThrow();
+        return createSale(resourceId, sale, null);
+    }
 
-        resource.addToStock(sale.getAmount());
+    @Override
+    public Sale createSale(Long resourceId, Sale sale, List<Long> stockMappingIds) {
+        Resource resource = resourceRepository.findById(resourceId).orElseThrow();
         resourceRepository.save(resource);
+        try {
+            if(stockMappingIds == null || stockMappingIds.isEmpty()) {
+                stockMappingService.save(
+                    resourceId, sale.getAmount().longValue(),
+                    sale.getCost(), sale.getIsSold());
+            } else {
+                StockMapping stock = stockMappingService.getStockMapping(resourceId,
+                        sale.getAmount().longValue(), sale.getCost());
+                stockMappingService.merge(
+                        stock,
+                        stockMappingService.findByIdIn(stockMappingIds));
+            }
+        } catch (StockMappingServiceImpl.ZeroAmountException e) {
+            // do nothing
+        }
 
         sale.setResource(resource);
-        sale.setDate(getNow());
+        sale.setDate(dateService.getNow());
 
         return saleRepository.save(sale);
     }
@@ -66,9 +82,13 @@ public class SaleServiceImpl implements SaleService {
     public void delete(Long id) {
         Sale sale = saleRepository.findById(id).get();
 
-        Resource resource = sale.getResource();
-        resource.addToStock(sale.getAmount() * -1);
-        resourceRepository.save(resource);
+        try {
+            stockMappingService.save(
+                    sale.getResource().getId(), sale.getAmount().longValue(),
+                    sale.getCost(), !sale.getIsSold());
+        } catch (StockMappingServiceImpl.ZeroAmountException e) {
+            // do nothing
+        }
 
         saleRepository.delete(sale);
     }
@@ -76,5 +96,10 @@ public class SaleServiceImpl implements SaleService {
     @Override
     public Iterable<Sale> findAllByResourceId(Long resourceId) {
         return saleRepository.findAllByResourceId(resourceId);
+    }
+
+    @Override
+    public Page<Sale> findAllByResourceId(Long resourceId, Pageable pageable) {
+        return saleRepository.findAllByResourceId(resourceId, pageable);
     }
 }

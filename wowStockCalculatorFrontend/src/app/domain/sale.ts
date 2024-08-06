@@ -1,4 +1,5 @@
 import { Resource } from "./resource";
+import { StockMapping } from "./stock-mapping";
 
 export interface Sale {
     id?: number;
@@ -7,4 +8,5 @@ export interface Sale {
     amount: number;
     cost: number;
     isSold: boolean;
+    stockMappingIds?: StockMapping[] | null;
 }

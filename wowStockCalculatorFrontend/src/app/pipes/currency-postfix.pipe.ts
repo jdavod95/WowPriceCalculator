@@ -8,7 +8,9 @@ import { environment } from 'src/environments/environment';
 export class CurrencyPostfixPipe implements PipeTransform {
 
   transform(number: number | undefined): string {
-    return number == null ? '' : `${number} ${environment.currency}` ;
+    return number == null 
+      ? '' 
+      : `${number} ${environment.currency}` ;
   }
 
 }

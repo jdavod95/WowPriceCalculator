@@ -1,7 +1,7 @@
 package com.david.wowStockCalculator;
 
 import com.david.wowStockCalculator.domain.dto.ResourceDto;
-import com.david.wowStockCalculator.domain.dto.SaleDto;
+import com.david.wowStockCalculator.domain.dto.SaleResponseDto;
 import com.david.wowStockCalculator.domain.entities.Resource;
 import com.david.wowStockCalculator.domain.entities.Sale;
 
@@ -18,7 +18,6 @@ public final class TestDataUtil {
         return Resource.builder()
                 .id(1L)
                 .name("Dracothyst")
-                .onStock(1)
                 .build();
     }
 
@@ -26,7 +25,6 @@ public final class TestDataUtil {
         return Resource.builder()
                 .id(2L)
                 .name("Zaralek Glowspore")
-                .onStock(300)
                 .build();
     }
 
@@ -34,7 +32,6 @@ public final class TestDataUtil {
         return Resource.builder()
                 .id(3L)
                 .name("Sliken Gemdust")
-                .onStock(0)
                 .build();
     }
 
@@ -48,7 +45,7 @@ public final class TestDataUtil {
                 .date(getNow())
                 .resource(resource)
                 .amount(1)
-                .cost(1)
+                .cost(1L)
                 .build();
     }
 
@@ -59,17 +56,17 @@ public final class TestDataUtil {
                 .date(getNow())
                 .resource(resource)
                 .amount(300)
-                .cost(2)
+                .cost(2L)
                 .build();
     }
 
-    public static SaleDto createTestSaleDtoA(final ResourceDto resourceDto) {
-        return SaleDto.builder()
+    public static SaleResponseDto createTestSaleDtoA(final ResourceDto resourceDto) {
+        return SaleResponseDto.builder()
                 .id(1L)
                 .date(getNow())
                 .resource(resourceDto)
                 .amount(1)
-                .cost(1)
+                .cost(1L)
                 .build();
     }
 
@@ -77,7 +74,6 @@ public final class TestDataUtil {
         return ResourceDto.builder()
                 .id(1L)
                 .name("Dracothyst")
-                .onStock(1)
                 .build();
     }
 

@@ -39,7 +39,7 @@ export class BalanceComponent implements OnInit{
         this.setBalanceValues(sales);
       });
     } else if(this.selectedResource != null) {
-      this.saleService.getSalesByresourceId(this.selectedResource.id!).subscribe((sales: Sale[]) => {
+      this.saleService.getSalesByResourceId(this.selectedResource.id!).subscribe((sales: Sale[]) => {
         this.setBalanceValues(sales);
       });
     } else {

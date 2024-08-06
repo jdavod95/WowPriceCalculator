@@ -1,7 +1,6 @@
 package com.david.wowStockCalculator.controllers;
 
 import com.david.wowStockCalculator.TestDataUtil;
-import com.david.wowStockCalculator.domain.dto.ResourceDto;
 import com.david.wowStockCalculator.domain.entities.Resource;
 import com.david.wowStockCalculator.domain.entities.Sale;
 import com.david.wowStockCalculator.services.ResourceService;
@@ -67,8 +66,6 @@ public class ResourceControllerIntegrationTest {
                 MockMvcResultMatchers.jsonPath("$.id").isNumber()
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.name").value(resource.getName())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.onStock").value(0)
         );
     }
 
@@ -94,8 +91,6 @@ public class ResourceControllerIntegrationTest {
                 MockMvcResultMatchers.jsonPath("$[0].id").isNumber()
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[0].name").value(resource.getName())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$[0].onStock").value(resource.getOnStock())
         );
     }
 
@@ -131,8 +126,6 @@ public class ResourceControllerIntegrationTest {
                 MockMvcResultMatchers.jsonPath("$.id").isNumber()
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.name").value(resource.getName())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.onStock").value(resource.getOnStock())
         );
     }
 

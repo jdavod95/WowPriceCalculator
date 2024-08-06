@@ -1,0 +1,24 @@
+<div class="page-body">
+    <div class="component-container">
+        <h5 class="title-label">Recipes:</h5>
+    </div>
+    <div class="d-flex flex-row">
+        <div class="d-flex flex-column component-container left-container" 
+            *ngIf="selectedRecipe == null">
+            <app-recipes (recipeSelected)="onRecipeSelected($event)"/>
+        </div>
+        <div class="d-flex flex-column component-container left-container" 
+            *ngIf="selectedRecipe != null">
+            <app-recipes-tree [selectedRecipe]="selectedRecipe"
+                (recipeUnSelected)="onRecipeUnSelected()"/>
+        </div>
+        <div class="d-flex flex-column component-container right-container"
+            *ngIf="selectedRecipe == null">
+            <app-recipe-form (recipeCreated)="onRecipeCreated()"/>
+        </div>
+        <div class="d-flex flex-column component-container right-container"
+            *ngIf="selectedRecipe != null">
+            <app-recipe-results [selectedRecipe]="selectedRecipe"/>
+        </div>
+    </div>
+</div>

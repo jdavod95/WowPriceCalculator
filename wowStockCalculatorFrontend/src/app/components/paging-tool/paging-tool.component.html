@@ -1,0 +1,17 @@
+<div class="d-flex flex-row align-items-center">
+    <div class="d-flex flex-column">
+        <button mat-icon-button class="icon-center"
+            (click)="onLeft()">
+            <mat-icon>keyboard_arrow_left</mat-icon>
+        </button>
+    </div>
+    <div class="d-flex flex-column">
+        {{ currentPage + 1 }}/{{ pageCount }}
+    </div>
+    <div class="d-flex flex-column" >
+        <button mat-icon-button class="icon-center"
+            (click)="onRight()">
+            <mat-icon>keyboard_arrow_right</mat-icon>
+        </button>
+    </div>
+</div>

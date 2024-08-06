@@ -2,9 +2,6 @@ package com.david.wowStockCalculator.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -20,9 +17,8 @@ public class Resource {
 
     private String name;
 
-    private Integer onStock;
+    @Column(name = "quality", columnDefinition = "varchar(8) default 'NONE'")
+    @Enumerated(value = EnumType.STRING)
+    private Quality quality = Quality.NONE;
 
-    public void addToStock(Integer amount){
-        onStock += amount;
-    };
 }

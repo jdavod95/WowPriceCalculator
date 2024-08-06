@@ -13,6 +13,12 @@ import java.util.Arrays;
 @SpringBootApplication
 @Log
 public class WowStockCalculatorApplication {
+	private static String[] allowedOrigins = {
+			"http://localhost:4200",
+			"http://localhost:81",
+			"http://192.168.0.218:81",
+			"http://188.156.195.88:81"
+	};
 
 	public static void main(String[] args) {
 		SpringApplication.run(WowStockCalculatorApplication.class, args);
@@ -22,7 +28,8 @@ public class WowStockCalculatorApplication {
 	public CorsFilter corsFilter() {
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
 		corsConfiguration.setAllowCredentials(true);
-		corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+		corsConfiguration.setAllowedOrigins(Arrays.asList(
+				allowedOrigins));
 		corsConfiguration.setAllowedHeaders(Arrays.asList("Origin", "Access-Control-Allow-Origin", "Content-Type",
 				"Accept", "Authorization", "Origin, Accept", "X-Requested-With",
 				"Access-Control-Request-Method", "Access-Control-Request-Headers"));

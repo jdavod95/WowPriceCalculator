@@ -1,19 +1,29 @@
 package com.david.wowStockCalculator.controllers;
 
+import com.david.wowStockCalculator.domain.dto.ResourceStockDto;
+import com.david.wowStockCalculator.domain.dto.StockMappingDto;
+import com.david.wowStockCalculator.domain.entities.Quality;
 import com.david.wowStockCalculator.domain.entities.Resource;
 import com.david.wowStockCalculator.domain.dto.ResourceDto;
+import com.david.wowStockCalculator.domain.entities.StockMapping;
 import com.david.wowStockCalculator.mappers.Mapper;
 import com.david.wowStockCalculator.services.ResourceService;
+import com.david.wowStockCalculator.services.StockMappingService;
 import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -26,7 +36,9 @@ import java.util.stream.Collectors;
 public class ResourceController {
 
     private ResourceService resourceService;
+    private StockMappingService stockMappingService;
     private Mapper<Resource, ResourceDto> resourceMapper;
+    private Mapper<Resource, ResourceStockDto> resourceStockMapper;
 
     @GetMapping(path = "/resources")
     public List<ResourceDto> listResources(){
@@ -36,9 +48,17 @@ public class ResourceController {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping(path = "/resourcesPaged")
+    public Page<ResourceStockDto> listResourcesPage(
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "20") int size){
+        Page<Resource> resources = resourceService.findAll(PageRequest.of(page, size, Sort.by("name").ascending()));
+        return resources.map(resourceStockMapper::mapTo);
+    }
+
     @GetMapping(path = "/resources/{resource_id}")
     public ResponseEntity<ResourceDto> getResource(
-            @PathVariable("resource_id") Long resourceId
+        @PathVariable("resource_id") Long resourceId
     ){
         Optional<Resource> foundResource = resourceService.findById(resourceId);
         return foundResource.map(
@@ -51,6 +71,14 @@ public class ResourceController {
     @PutMapping(path = "/resources")
     public ResponseEntity<ResourceDto> createResource(@RequestBody final ResourceDto resource){
         Resource resourceEntity = resourceMapper.mapFrom(resource);
+        Optional<Resource> existingResource = resourceService.find(
+                resourceEntity.getName(),
+                Optional.ofNullable(resourceEntity.getQuality()).orElse(Quality.NONE));
+
+        if(existingResource.isPresent()) {
+            return new ResponseEntity<>(resourceMapper.mapTo(existingResource.get()), HttpStatus.OK);
+        }
+
         Resource savedResource = resourceService.createResource(resourceEntity);
 
         return new ResponseEntity<>(resourceMapper.mapTo(savedResource), HttpStatus.CREATED);

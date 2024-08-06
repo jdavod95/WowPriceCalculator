@@ -27,3 +27,10 @@
 .row-header {
     font-weight: 500;
 }
+
+#resourceColumn {
+    max-width: 164px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

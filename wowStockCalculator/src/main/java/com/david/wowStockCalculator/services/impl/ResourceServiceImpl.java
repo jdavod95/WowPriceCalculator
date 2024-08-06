@@ -1,11 +1,14 @@
 package com.david.wowStockCalculator.services.impl;
 
+import com.david.wowStockCalculator.domain.entities.Quality;
 import com.david.wowStockCalculator.domain.entities.Resource;
 import com.david.wowStockCalculator.domain.entities.Sale;
 import com.david.wowStockCalculator.repositories.ResourceRepository;
 import com.david.wowStockCalculator.repositories.SaleRepository;
 import com.david.wowStockCalculator.services.ResourceService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +25,6 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public Resource createResource(Resource resource) {
-        resource.setOnStock(0);
         return resourceRepository.save(resource);
     }
 
@@ -30,6 +32,11 @@ public class ResourceServiceImpl implements ResourceService {
     public List<Resource> findAll() {
         return StreamSupport.stream(resourceRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<Resource> findAll(Pageable pageable) {
+        return resourceRepository.findAll(pageable);
     }
 
     @Override
@@ -48,7 +55,6 @@ public class ResourceServiceImpl implements ResourceService {
 
         return resourceRepository.findById(id).map(existingResource -> {
             Optional.ofNullable(resourceEntity.getName()).ifPresent(existingResource::setName);
-            Optional.ofNullable(resourceEntity.getOnStock()).ifPresent(existingResource::setOnStock);
             return resourceRepository.save(existingResource);
         }).orElseThrow(() -> new RuntimeException("Resource does not exists"));
     }
@@ -61,5 +67,13 @@ public class ResourceServiceImpl implements ResourceService {
         resourceRepository.delete(resource);
     }
 
+    @Override
+    public Optional<Resource> find(String name, Quality quality) {
+        return resourceRepository.findByNameAndQuality(name, quality);
+    }
 
+    @Override
+    public List<Resource> findByIdIn(List<Long> resourceIds){
+        return resourceRepository.findByIdIn(resourceIds);
+    }
 }
